@@ -1,18 +1,37 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { nav } from "@/lib/aqv";
+import { nav, org } from "@/lib/aqv";
 import { Arrow, cx } from "./ui/kit";
+import { NavIcon } from "./ui/nav-icon";
 import { ThemeToggle } from "./ui/theme-toggle";
 
+/**
+ * The Government of Andhra Pradesh state seal. The supplied PNG shipped as
+ * opaque RGB, so a keyed-alpha copy (ap-seal.png) is used — it sits on a
+ * white chip, which is how a state emblem is conventionally shown and the
+ * only way its green line art reads against the forest bar.
+ */
 export function Mark({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 28 28" fill="none" aria-hidden className={className}>
-      <path d="M14 2.5 25 22.5H3L14 2.5Z" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" />
-      <circle cx="14" cy="17.2" r="2.9" stroke="currentColor" strokeWidth="1.5" />
-    </svg>
+    <span
+      className={cx(
+        "grid shrink-0 place-items-center overflow-hidden ",
+        className,
+      )}
+    >
+      <Image
+        src="/source-assets/assets/logos/seal.png"
+        alt=""
+        width={319}
+        height={360}
+        className="h-[86%] w-auto"
+        priority
+      />
+    </span>
   );
 }
 
@@ -77,11 +96,19 @@ export function SiteNav() {
         )}
       >
         <div className="mx-auto flex h-[68px] w-[96%] items-center gap-4">
-          <Link href="/" aria-label="AQV — home" className="flex shrink-0 items-center gap-2.5 text-chalk">
-            <Mark className="size-7" />
+          <Link
+            href="/"
+            aria-label={`${org.name} — home`}
+            className="flex shrink-0 items-center gap-3 text-chalk"
+          >
+            <Mark className="size-9" />
             <span className="flex flex-col leading-none">
-              <span className="text-[17px] font-semibold tracking-[-0.03em]">AQV</span>
-              <span className="micro mt-1 opacity-55">Amaravati Quantum Valley</span>
+              <span className="text-[13.5px] font-semibold tracking-[0.055em] uppercase">
+                Amaravati Quantum Valley
+              </span>
+              <span className="mt-1.5 text-[11.5px] leading-none tracking-[0.01em] text-chalk/50">
+                {org.owner}
+              </span>
             </span>
           </Link>
 
@@ -159,16 +186,23 @@ export function SiteNav() {
                 <li key={c.label}>
                   <Link
                     href={c.href}
-                    className="group/i flex flex-col gap-1 rounded-[16px] px-4 py-3.5 transition-colors duration-200 hover:bg-bone"
+                    className="group/i flex items-center gap-3.5 rounded-[16px] px-3.5 py-3 transition-colors duration-200 hover:bg-bone"
                   >
-                    <span className="flex items-center gap-2 text-[14.5px] font-medium text-ink">
-                      {c.label}
-                      {c.soon ? (
-                        <span className="micro rounded-full bg-bone-deep px-2 py-1 text-faint">Soon</span>
-                      ) : null}
-                      <Arrow className="size-3 -translate-x-1 text-sage-deep opacity-0 transition-all duration-300 group-hover/i:translate-x-0 group-hover/i:opacity-100" />
+                    <span className="grid size-10 shrink-0 place-items-center rounded-[12px] bg-bone text-sage-deep transition-colors duration-200 group-hover/i:bg-sage-wash">
+                      <NavIcon kind={c.icon} className="size-5" />
                     </span>
-                    {c.blurb ? <span className="text-[12.5px] leading-snug text-muted">{c.blurb}</span> : null}
+                    <span className="flex min-w-0 flex-col gap-1">
+                      <span className="flex items-center gap-2 text-[14.5px] leading-none font-medium text-ink">
+                        <span className="truncate">{c.label}</span>
+                        {c.soon ? (
+                          <span className="micro shrink-0 rounded-full bg-bone-deep px-2 py-1 text-faint">
+                            Soon
+                          </span>
+                        ) : null}
+                        <Arrow className="size-3 shrink-0 -translate-x-1 text-sage-deep opacity-0 transition-all duration-300 group-hover/i:translate-x-0 group-hover/i:opacity-100" />
+                      </span>
+                      <span className="truncate text-[12.5px] leading-none text-muted">{c.blurb}</span>
+                    </span>
                   </Link>
                 </li>
               ))}
@@ -197,10 +231,18 @@ export function SiteNav() {
                   <li key={c.label}>
                     <Link
                       href={c.href}
-                      className="flex items-center justify-between rounded-[14px] px-3 py-3 text-[14.5px] font-medium text-ink hover:bg-bone"
+                      className="flex items-center gap-3 rounded-[14px] px-3 py-2.5 hover:bg-bone"
                     >
-                      {c.label}
-                      <Arrow className="size-3 text-sage-deep" />
+                      <span className="grid size-9 shrink-0 place-items-center rounded-[11px] bg-bone text-sage-deep">
+                        <NavIcon kind={c.icon} className="size-4.5" />
+                      </span>
+                      <span className="flex min-w-0 flex-col gap-0.5">
+                        <span className="truncate text-[14.5px] leading-none font-medium text-ink">
+                          {c.label}
+                        </span>
+                        <span className="truncate text-[12px] leading-none text-muted">{c.blurb}</span>
+                      </span>
+                      <Arrow className="ml-auto size-3 shrink-0 text-sage-deep" />
                     </Link>
                   </li>
                 ))}

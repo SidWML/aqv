@@ -12,11 +12,13 @@ export function SiteFooter() {
       <div className="mx-auto w-[96%]">
         <div className="grid gap-10 pt-16 md:grid-cols-[1.4fr_repeat(4,1fr)] md:gap-8 md:pt-20">
           <div className="max-w-xs">
-            <div className="flex items-center gap-2.5">
-              <Mark className="size-7" />
+            <div className="flex items-center gap-3">
+              <Mark className="size-10" />
               <span className="flex flex-col leading-none">
-                <span className="text-[17px] font-semibold tracking-[-0.03em]">AQV</span>
-                <span className="micro mt-1 opacity-55">Amaravati Quantum Valley</span>
+                <span className="text-[13.5px] font-semibold tracking-[0.055em] uppercase">
+                  Amaravati Quantum Valley
+                </span>
+                <span className="mt-1.5 text-[11.5px] leading-none text-chalk/50">{org.owner}</span>
               </span>
             </div>
             <p className="mt-5 text-[14px] leading-[1.7] text-chalk/55">
