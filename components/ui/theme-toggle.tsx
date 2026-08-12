@@ -51,7 +51,7 @@ export function ThemeToggle({ className }: { className?: string }) {
       <span
         aria-hidden
         className={cx(
-          "absolute top-0.5 bottom-0.5 w-[calc(50%-2px)] rounded-full bg-white/85 transition-transform duration-400 ease-[var(--ease-out-soft)]",
+          "absolute top-0.5 bottom-0.5 w-[calc(50%-2px)] rounded-full bg-white transition-transform duration-400 ease-[var(--ease-out-soft)]",
           !ready && "opacity-0",
           theme === "dark" ? "translate-x-[calc(100%+2px)]" : "translate-x-0",
         )}
@@ -70,7 +70,9 @@ export function ThemeToggle({ className }: { className?: string }) {
           title={label}
           className={cx(
             "relative grid size-7 place-items-center rounded-full transition-colors duration-300",
-            theme === value ? "text-ink" : "text-white/55 hover:text-white",
+            /* the selected icon sits on the white travelling pill, so it needs
+               a literal dark — `ink` inverts in dark mode and would vanish */
+            theme === value ? "text-[#0a1410]" : "text-white/55 hover:text-white",
           )}
         >
           <Icon />

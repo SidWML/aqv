@@ -26,7 +26,7 @@ export function Proof() {
               <article
                 key={m.label}
                 className={cx(
-                  "group relative flex flex-col gap-5 p-8 transition-colors duration-500 hover:bg-chalk/70",
+                  "hover-surface group relative flex flex-col gap-5 p-8",
                   "border-line/70",
                   i % 3 !== 2 && "lg:border-r",
                   i % 2 !== 1 && "sm:max-lg:border-r",

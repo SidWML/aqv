@@ -609,7 +609,7 @@ export function LinkRows({
             href={r.href}
             className={cx(
               "group flex items-center justify-between gap-6 border-b py-6 transition-colors duration-300",
-              dark ? "border-white/10 hover:bg-white/5" : "border-line hover:bg-chalk",
+              dark ? "border-white/10 hover:bg-white/5" : "hover-surface border-line",
             )}
           >
             <span className="flex flex-col gap-1.5">

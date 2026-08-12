@@ -547,3 +547,20 @@ h4 {
 :root[data-theme="dark"] .bg-chalk\/85 {
   background-color: rgb(10 22 40 / 0.82);
 }
+
+/* ── hover surface ─────────────────────────────────────────────────────
+   A cell that lifts on hover. `hover:bg-chalk` cannot do this job: chalk
+   is pinned light for dark mode, and Tailwind emits `.hover\:bg-chalk`,
+   which the `.bg-chalk` override above never matches — so the cell floods
+   white under light text. This lift is a translucent white in light mode
+   and a much fainter one in dark, so it follows the ground either way.
+──────────────────────────────────────────────────────────────────── */
+.hover-surface {
+  transition: background-color 0.5s var(--ease-out-soft);
+}
+.hover-surface:hover {
+  background-color: rgb(255 255 255 / 0.5);
+}
+:root[data-theme="dark"] .hover-surface:hover {
+  background-color: rgb(255 255 255 / 0.05);
+}
