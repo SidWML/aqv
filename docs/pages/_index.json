@@ -1,0 +1,205 @@
+[
+  {
+    "route": "/",
+    "slug": "home",
+    "title": "Amaravati Quantum Valley — Research, Hardware, Talent & Government Demand",
+    "blocks": 133,
+    "chars": 8004
+  },
+  {
+    "route": "/why-amaravati",
+    "slug": "why-amaravati",
+    "title": "Why Amaravati | Amaravati Quantum Valley",
+    "blocks": 35,
+    "chars": 2614
+  },
+  {
+    "route": "/why-amaravati/track-record",
+    "slug": "why-amaravati-track-record",
+    "title": "Declaration Progress | Amaravati Quantum Valley",
+    "blocks": 52,
+    "chars": 2204
+  },
+  {
+    "route": "/why-amaravati/global-comparison",
+    "slug": "why-amaravati-global-comparison",
+    "title": "What AQV Offers | Amaravati Quantum Valley",
+    "blocks": 29,
+    "chars": 2690
+  },
+  {
+    "route": "/about",
+    "slug": "about",
+    "title": "About, Mission & Governance | Amaravati Quantum Valley",
+    "blocks": 56,
+    "chars": 3747
+  },
+  {
+    "route": "/technology/quantum-computing",
+    "slug": "technology-quantum-computing",
+    "title": "Quantum Computing | Amaravati Quantum Valley",
+    "blocks": 45,
+    "chars": 3323
+  },
+  {
+    "route": "/technology/indigenous-hardware",
+    "slug": "technology-indigenous-hardware",
+    "title": "Made in Amaravati — Indigenous Hardware | Amaravati Quantum Valley",
+    "blocks": 46,
+    "chars": 4037
+  },
+  {
+    "route": "/infrastructure",
+    "slug": "infrastructure",
+    "title": "Campus, Towers & Hardware Park | Amaravati Quantum Valley",
+    "blocks": 57,
+    "chars": 3717
+  },
+  {
+    "route": "/infrastructure/facilities",
+    "slug": "infrastructure-facilities",
+    "title": "QChipIN Testbed & Facilities | Amaravati Quantum Valley",
+    "blocks": 41,
+    "chars": 2884
+  },
+  {
+    "route": "/missions",
+    "slug": "missions",
+    "title": "Missions | Amaravati Quantum Valley",
+    "blocks": 39,
+    "chars": 1688
+  },
+  {
+    "route": "/missions/governance",
+    "slug": "missions-governance",
+    "title": "Quantum-for-Governance | Amaravati Quantum Valley",
+    "blocks": 81,
+    "chars": 4560
+  },
+  {
+    "route": "/missions/bio-foundry",
+    "slug": "missions-bio-foundry",
+    "title": "Quantum Bio Foundry | Amaravati Quantum Valley",
+    "blocks": 45,
+    "chars": 3037
+  },
+  {
+    "route": "/missions/quantum-os",
+    "slug": "missions-quantum-os",
+    "title": "Quantum OS | Amaravati Quantum Valley",
+    "blocks": 34,
+    "chars": 1767
+  },
+  {
+    "route": "/invest",
+    "slug": "invest",
+    "title": "Invest & Establish | Amaravati Quantum Valley",
+    "blocks": 71,
+    "chars": 3270
+  },
+  {
+    "route": "/industry",
+    "slug": "industry",
+    "title": "Industry & Enterprise | Amaravati Quantum Valley",
+    "blocks": 44,
+    "chars": 2734
+  },
+  {
+    "route": "/startups",
+    "slug": "startups",
+    "title": "Startups & Launchpad | Amaravati Quantum Valley",
+    "blocks": 65,
+    "chars": 3782
+  },
+  {
+    "route": "/incentives",
+    "slug": "incentives",
+    "title": "Incentives & Policy | Amaravati Quantum Valley",
+    "blocks": 36,
+    "chars": 2191
+  },
+  {
+    "route": "/ecosystem",
+    "slug": "ecosystem",
+    "title": "Ecosystem & Partners | Amaravati Quantum Valley",
+    "blocks": 100,
+    "chars": 3297
+  },
+  {
+    "route": "/talent",
+    "slug": "talent",
+    "title": "Talent Hub | Amaravati Quantum Valley",
+    "blocks": 39,
+    "chars": 3370
+  },
+  {
+    "route": "/talent/students",
+    "slug": "talent-students",
+    "title": "Students & Careers | Amaravati Quantum Valley",
+    "blocks": 54,
+    "chars": 3787
+  },
+  {
+    "route": "/research",
+    "slug": "research",
+    "title": "Academia & Research | Amaravati Quantum Valley",
+    "blocks": 57,
+    "chars": 3719
+  },
+  {
+    "route": "/news",
+    "slug": "news",
+    "title": "Newsroom | Amaravati Quantum Valley",
+    "blocks": 78,
+    "chars": 4058
+  },
+  {
+    "route": "/dashboard",
+    "slug": "dashboard",
+    "title": "KPI Dashboard | Amaravati Quantum Valley",
+    "blocks": 7,
+    "chars": 1304
+  },
+  {
+    "route": "/events",
+    "slug": "events",
+    "title": "Events & Summits | Amaravati Quantum Valley",
+    "blocks": 34,
+    "chars": 1922
+  },
+  {
+    "route": "/resources",
+    "slug": "resources",
+    "title": "Downloads & Media Kit | Amaravati Quantum Valley",
+    "blocks": 19,
+    "chars": 2744
+  },
+  {
+    "route": "/resources/government-orders",
+    "slug": "resources-government-orders",
+    "title": "Government Orders & Policy Library | Amaravati Quantum Valley",
+    "blocks": 26,
+    "chars": 2669
+  },
+  {
+    "route": "/faq",
+    "slug": "faq",
+    "title": "FAQs | Amaravati Quantum Valley",
+    "blocks": 79,
+    "chars": 4557
+  },
+  {
+    "route": "/tenders",
+    "slug": "tenders",
+    "title": "Tenders | Amaravati Quantum Valley",
+    "blocks": 5,
+    "chars": 480
+  },
+  {
+    "route": "/contact",
+    "slug": "contact",
+    "title": "Apply / Connect | Amaravati Quantum Valley",
+    "blocks": 16,
+    "chars": 591
+  }
+]

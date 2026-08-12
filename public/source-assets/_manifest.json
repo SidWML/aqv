@@ -1,0 +1,410 @@
+[
+ {
+  "asset": "/assets/graphics-maps/graphic-amaravati-1q-component-supply-map.png",
+  "bytes": 1215315,
+  "usedOn": [
+   "/technology/indigenous-hardware"
+  ]
+ },
+ {
+  "asset": "/assets/graphics-maps/graphic-aqaic-pipeline-icons.png",
+  "bytes": 77887,
+  "usedOn": [
+   "/research"
+  ]
+ },
+ {
+  "asset": "/assets/graphics-maps/graphic-quantum-policy-document-pages.png",
+  "bytes": 792075,
+  "usedOn": [
+   "/news",
+   "/why-amaravati"
+  ]
+ },
+ {
+  "asset": "/assets/graphics-maps/map-ap-districts-amaravati.png",
+  "bytes": 91902,
+  "usedOn": [
+   "/about"
+  ]
+ },
+ {
+  "asset": "/assets/graphics-maps/map-apcrda-region.png",
+  "bytes": 264899,
+  "usedOn": [
+   "/about"
+  ]
+ },
+ {
+  "asset": "/assets/graphics-maps/map-india-andhra-highlight.png",
+  "bytes": 243741,
+  "usedOn": [
+   "/about"
+  ]
+ },
+ {
+  "asset": "/assets/job-postings/centella-quantum-ai-research-intern-jd.jpg",
+  "bytes": 217402,
+  "usedOn": [
+   "/talent/students"
+  ]
+ },
+ {
+  "asset": "/assets/job-postings/qbitforce-hiring-poster-1lakh-internship.jpg",
+  "bytes": 264021,
+  "usedOn": [
+   "/startups",
+   "/talent/students"
+  ]
+ },
+ {
+  "asset": "/assets/job-postings/qclairvoyance-cryptography-engineer-jd.jpg",
+  "bytes": 313682,
+  "usedOn": [
+   "/talent/students"
+  ]
+ },
+ {
+  "asset": "/assets/logos/astrazeneca.png",
+  "bytes": 12670,
+  "usedOn": [
+   "/",
+   "/ecosystem",
+   "/industry",
+   "/missions/bio-foundry"
+  ]
+ },
+ {
+  "asset": "/assets/logos/cca.png",
+  "bytes": 136379,
+  "usedOn": [
+   "/",
+   "/ecosystem"
+  ]
+ },
+ {
+  "asset": "/assets/logos/cybrane.png",
+  "bytes": 110921,
+  "usedOn": [
+   "/",
+   "/ecosystem"
+  ]
+ },
+ {
+  "asset": "/assets/logos/drdo.png",
+  "bytes": 44630,
+  "usedOn": [
+   "/",
+   "/ecosystem"
+  ]
+ },
+ {
+  "asset": "/assets/logos/fortytwo-labs.png",
+  "bytes": 12975,
+  "usedOn": [
+   "/",
+   "/ecosystem"
+  ]
+ },
+ {
+  "asset": "/assets/logos/govt-andhra-pradesh-seal.png",
+  "bytes": 114672,
+  "usedOn": [
+   "/",
+   "/about",
+   "/contact",
+   "/dashboard",
+   "/ecosystem",
+   "/events",
+   "/faq",
+   "/incentives",
+   "/industry",
+   "/infrastructure",
+   "/infrastructure/facilities",
+   "/invest",
+   "/missions",
+   "/missions/bio-foundry",
+   "/missions/governance",
+   "/missions/quantum-os",
+   "/news",
+   "/research",
+   "/resources",
+   "/resources/government-orders",
+   "/startups",
+   "/talent",
+   "/talent/students",
+   "/technology/indigenous-hardware",
+   "/technology/quantum-computing",
+   "/tenders",
+   "/why-amaravati",
+   "/why-amaravati/global-comparison",
+   "/why-amaravati/track-record"
+  ]
+ },
+ {
+  "asset": "/assets/logos/hdfc-bank.png",
+  "bytes": 58766,
+  "usedOn": [
+   "/",
+   "/ecosystem",
+   "/industry"
+  ]
+ },
+ {
+  "asset": "/assets/logos/ibm.png",
+  "bytes": 12485,
+  "usedOn": [
+   "/",
+   "/ecosystem",
+   "/industry",
+   "/missions/bio-foundry"
+  ]
+ },
+ {
+  "asset": "/assets/logos/laurus-labs.png",
+  "bytes": 18196,
+  "usedOn": [
+   "/",
+   "/ecosystem",
+   "/industry",
+   "/missions/bio-foundry"
+  ]
+ },
+ {
+  "asset": "/assets/logos/punjab-national-bank.png",
+  "bytes": 23876,
+  "usedOn": [
+   "/",
+   "/ecosystem",
+   "/industry"
+  ]
+ },
+ {
+  "asset": "/assets/logos/qclairvoyance.png",
+  "bytes": 111985,
+  "usedOn": [
+   "/",
+   "/ecosystem"
+  ]
+ },
+ {
+  "asset": "/assets/logos/tcs.png",
+  "bytes": 12542,
+  "usedOn": [
+   "/",
+   "/ecosystem",
+   "/industry",
+   "/missions/bio-foundry"
+  ]
+ },
+ {
+  "asset": "/assets/logos/unicc.png",
+  "bytes": 26103,
+  "usedOn": [
+   "/",
+   "/ecosystem"
+  ]
+ },
+ {
+  "asset": "/assets/real-photos/amaravati-1q-4k-milestone-lab.jpg",
+  "bytes": 121591,
+  "usedOn": [
+   "/resources",
+   "/technology/indigenous-hardware"
+  ]
+ },
+ {
+  "asset": "/assets/real-photos/amaravati-1q-medha-towers-qubitech.jpg",
+  "bytes": 148207,
+  "usedOn": [
+   "/events",
+   "/infrastructure",
+   "/infrastructure/facilities",
+   "/news",
+   "/resources",
+   "/startups",
+   "/technology/indigenous-hardware"
+  ]
+ },
+ {
+  "asset": "/assets/real-photos/amaravati-krishna-river-prakasam-barrage.jpg",
+  "bytes": 316345,
+  "usedOn": [
+   "/about"
+  ]
+ },
+ {
+  "asset": "/assets/real-photos/cm-addressing-students-videowall.jpg",
+  "bytes": 184415,
+  "usedOn": [
+   "/talent",
+   "/talent/students"
+  ]
+ },
+ {
+  "asset": "/assets/real-photos/cm-naidu-at-srm-reference-facility.jpg",
+  "bytes": 77912,
+  "usedOn": [
+   "/events",
+   "/technology/indigenous-hardware"
+  ]
+ },
+ {
+  "asset": "/assets/real-photos/cm-naidu-with-team-srm-facility.jpg",
+  "bytes": 152192,
+  "usedOn": [
+   "/technology/indigenous-hardware"
+  ]
+ },
+ {
+  "asset": "/assets/real-photos/cm-nobel-prize-100cr-announcement.jpg",
+  "bytes": 132340,
+  "usedOn": [
+   "/talent/students"
+  ]
+ },
+ {
+  "asset": "/assets/real-photos/cryostat-3-98-kelvin-lakeshore-readout.jpg",
+  "bytes": 115491,
+  "usedOn": [
+   "/infrastructure/facilities",
+   "/news",
+   "/resources",
+   "/technology/indigenous-hardware"
+  ]
+ },
+ {
+  "asset": "/assets/real-photos/hackathon-20000-participants-group.jpg",
+  "bytes": 380344,
+  "usedOn": [
+   "/events",
+   "/news",
+   "/resources",
+   "/talent",
+   "/talent/students"
+  ]
+ },
+ {
+  "asset": "/assets/real-photos/ibm-building-construction-drone.jpg",
+  "bytes": 262770,
+  "usedOn": [
+   "/",
+   "/infrastructure",
+   "/resources",
+   "/technology/quantum-computing"
+  ]
+ },
+ {
+  "asset": "/assets/real-photos/photonic-ising-machine-closed.jpg",
+  "bytes": 109984,
+  "usedOn": [
+   "/missions/governance"
+  ]
+ },
+ {
+  "asset": "/assets/real-photos/photonic-ising-machine-open-chassis.jpg",
+  "bytes": 153719,
+  "usedOn": [
+   "/missions/governance"
+  ]
+ },
+ {
+  "asset": "/assets/real-photos/qaic-launch-apsche-1.jpg",
+  "bytes": 189776,
+  "usedOn": [
+   "/events",
+   "/news",
+   "/research"
+  ]
+ },
+ {
+  "asset": "/assets/real-photos/qaic-launch-apsche-2.jpg",
+  "bytes": 146832,
+  "usedOn": [
+   "/events",
+   "/research"
+  ]
+ },
+ {
+  "asset": "/assets/real-photos/qaic-launch-apsche-3.jpg",
+  "bytes": 176508,
+  "usedOn": [
+   "/research"
+  ]
+ },
+ {
+  "asset": "/assets/real-photos/qaic-workshop-ibm-group-photo.jpg",
+  "bytes": 444203,
+  "usedOn": [
+   "/events",
+   "/news",
+   "/research",
+   "/resources",
+   "/talent/students"
+  ]
+ },
+ {
+  "asset": "/assets/real-photos/qaic-workshop-roundtable.jpg",
+  "bytes": 508626,
+  "usedOn": [
+   "/events",
+   "/research"
+  ]
+ },
+ {
+  "asset": "/assets/real-photos/quurium-emergency-dispatch-dashboard.jpg",
+  "bytes": 364574,
+  "usedOn": [
+   "/",
+   "/missions/governance",
+   "/news",
+   "/startups"
+  ]
+ },
+ {
+  "asset": "/assets/real-photos/rtgs-command-center-floor.jpg",
+  "bytes": 70168,
+  "usedOn": [
+   "/",
+   "/missions/governance"
+  ]
+ },
+ {
+  "asset": "/assets/real-photos/rtgs-real-time-governance-logo-wall.jpg",
+  "bytes": 79204,
+  "usedOn": [
+   "/missions/governance"
+  ]
+ },
+ {
+  "asset": "/assets/real-photos/sipb-meeting-videowall-frame.jpg",
+  "bytes": 34699,
+  "usedOn": [
+   "/why-amaravati"
+  ]
+ },
+ {
+  "asset": "/assets/renders/ibm-quantum-system-two-official.jpg",
+  "bytes": 154458,
+  "usedOn": [
+   "/",
+   "/news",
+   "/technology/quantum-computing"
+  ]
+ },
+ {
+  "asset": "/assets/renders/render-amaravati-city-masterplan.jpg",
+  "bytes": 582332,
+  "usedOn": [
+   "/about",
+   "/infrastructure"
+  ]
+ },
+ {
+  "asset": "/assets/renders/render-quantum-valley-towers-t1-t8-labeled.jpg",
+  "bytes": 106756,
+  "usedOn": [
+   "/infrastructure"
+  ]
+ }
+]

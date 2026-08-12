@@ -1,0 +1,549 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   Amaravati Quantum Valley — design tokens
+
+   Palette taken from the AQV mockups:
+     deep midnight navy · warm cream · champagne gold
+
+   Gold is the accent — chips, rules, arrows, one emphasised word in a
+   heading. It is never a background. The dark ground is navy, never
+   neutral black, and never green.
+------------------------------------------------------------------- */
+
+@theme {
+  /* ink */
+  --color-ink: #0f1722;
+  --color-ink-soft: #26313f;
+  --color-muted: #5c6672;
+  --color-faint: #8b94a0;
+
+  /* light surfaces */
+  --color-chalk: #ffffff;
+  --color-bone: #f5f2ec;
+  --color-bone-deep: #ece7dd;
+  --color-line: #dfdacf;
+  --color-line-soft: #eae5db;
+
+  /* champagne gold — the accent */
+  --color-gold: #c4a57b;
+  --color-gold-bright: #d9bf94;
+  /* gold is too light for small text on cream (2.9:1) — this is the
+     text-safe weight at 4.9:1 */
+  --color-gold-deep: #7a5c2e;
+  --color-gold-soft: #efe4d1;
+  --color-gold-wash: #faf5ec;
+
+  /* midnight — the dark grounds */
+  --color-navy: #0a1628;
+  --color-navy-2: #0e1e33;
+  --color-navy-3: #16293f;
+
+  /* slate (cool counterweight) */
+  --color-slate: #c3ccd6;
+  --color-slate-deep: #6b7889;
+
+  /* ------------------------------------------------------------------
+     Aliases. Components were written against the previous names; these
+     point them at the new palette so nothing needs renaming.
+  ------------------------------------------------------------------ */
+  --color-forest: #0a1628;
+  --color-forest-2: #0e1e33;
+  --color-forest-3: #16293f;
+
+  --color-jade: #7a5c2e;
+  --color-jade-deep: #5e4520;
+  --color-jade-soft: #efe4d1;
+  --color-jade-wash: #faf5ec;
+
+  --color-lime: #d9bf94;
+  --color-lime-bright: #e8d6b4;
+
+  --color-sage: #d9bf94;
+  --color-sage-deep: #7a5c2e;
+  --color-sage-soft: #efe4d1;
+  --color-sage-wash: #faf5ec;
+
+  --color-river: #c3ccd6;
+  --color-river-deep: #6b7889;
+
+  --radius-card: 20px;
+  --radius-slab: 28px;
+
+  --shadow-lift: 0 1px 2px rgb(15 23 34 / 0.04), 0 8px 24px -12px rgb(15 23 34 / 0.12);
+  --shadow-float: 0 2px 4px rgb(15 23 34 / 0.05), 0 24px 60px -24px rgb(15 23 34 / 0.24);
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@theme inline {
+  --font-sans: var(--font-instrument), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", sans-serif;
+  --font-mono: var(--font-mono-jb), ui-monospace, "SFMono-Regular", monospace;
+}
+
+/* ------------------------------------------------------------------
+   Base
+------------------------------------------------------------------- */
+
+:root {
+  color-scheme: light;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+}
+
+body {
+  background: var(--color-bone);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-gold);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-gold-deep);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  font-weight: 500;
+  text-wrap: balance;
+}
+
+/* ------------------------------------------------------------------
+   Scroll reveal
+------------------------------------------------------------------- */
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.85s var(--ease-out-soft),
+    transform 0.85s var(--ease-out-soft);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+[data-reveal="shown"] {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  [data-reveal],
+  [data-reveal="shown"] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .marquee-track,
+  .drift,
+  .shimmer {
+    animation: none !important;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Washes
+------------------------------------------------------------------- */
+
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.28;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.24'/%3E%3C/svg%3E");
+}
+
+/* the light ground — a warm cream shift with a faint gold floor */
+.valley-wash {
+  background:
+    radial-gradient(120% 80% at 50% 118%, rgb(196 165 123 / 0.22) 0%, rgb(196 165 123 / 0) 62%),
+    radial-gradient(92% 62% at 50% -16%, rgb(195 204 214 / 0.4) 0%, rgb(195 204 214 / 0) 60%),
+    linear-gradient(180deg, #f7f5f0 0%, #f5f2ec 40%, #f1ece1 100%);
+}
+
+/* the dark chapters — midnight navy with a low gold glow */
+.forest-wash {
+  background:
+    radial-gradient(70% 56% at 16% 2%, rgb(217 191 148 / 0.14) 0%, rgb(217 191 148 / 0) 58%),
+    radial-gradient(88% 70% at 94% 104%, rgb(107 120 137 / 0.26) 0%, rgb(107 120 137 / 0) 60%),
+    linear-gradient(152deg, #16293f 0%, #0c1b2e 48%, #060e1a 100%);
+}
+
+.dusk-wash {
+  background:
+    radial-gradient(96% 112% at 100% 0%, rgb(217 191 148 / 0.24) 0%, rgb(217 191 148 / 0) 56%),
+    radial-gradient(80% 90% at 4% 98%, rgb(107 120 137 / 0.3) 0%, rgb(107 120 137 / 0) 58%),
+    linear-gradient(158deg, #1a3149 0%, #10223a 54%, #08111f 100%);
+}
+
+/* copy over photography — navy, never coloured, never neutral black */
+.scrim-b {
+  background: linear-gradient(
+    to top,
+    rgb(8 17 31 / 0.9) 0%,
+    rgb(10 22 40 / 0.52) 38%,
+    rgb(12 27 46 / 0.12) 72%,
+    rgb(8 17 31 / 0.34) 100%
+  );
+}
+
+.scrim-l {
+  background: linear-gradient(
+    to right,
+    rgb(8 17 31 / 0.86) 0%,
+    rgb(8 17 31 / 0.46) 42%,
+    rgb(8 17 31 / 0.06) 76%
+  );
+}
+
+.mask-fade-x {
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent);
+}
+
+/* ------------------------------------------------------------------
+   Panels
+------------------------------------------------------------------- */
+
+.panel-dark {
+  position: relative;
+  isolation: isolate;
+  border-radius: var(--radius-slab);
+  overflow: hidden;
+  background:
+    radial-gradient(76% 60% at 88% 4%, rgb(217 191 148 / 0.16) 0%, rgb(217 191 148 / 0) 58%),
+    radial-gradient(70% 78% at 4% 98%, rgb(107 120 137 / 0.28) 0%, rgb(107 120 137 / 0) 58%),
+    linear-gradient(150deg, #17304a 0%, #0d1e33 52%, #070f1c 100%);
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 0.07),
+    var(--shadow-float);
+}
+
+.panel-tint {
+  position: relative;
+  border-radius: var(--radius-slab);
+  background: linear-gradient(160deg, #f2eee6 0%, #ece7dd 100%);
+  box-shadow: inset 0 0 0 1px rgb(15 23 34 / 0.055);
+}
+
+.tile-glass {
+  background: linear-gradient(158deg, rgb(255 255 255 / 0.09), rgb(255 255 255 / 0.03));
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.1);
+  border-radius: var(--radius-card);
+}
+
+.glass-dark {
+  background: rgb(10 22 40 / 0.52);
+  backdrop-filter: blur(14px);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.13);
+}
+
+.hairline {
+  box-shadow: inset 0 0 0 1px rgb(15 23 34 / 0.09);
+}
+
+.hairline-light {
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.12);
+}
+
+.chip-float {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-chalk);
+  color: var(--color-ink);
+  border-radius: 999px;
+  padding: 9px 16px 9px 13px;
+  font-size: 13.5px;
+  font-weight: 500;
+  box-shadow: var(--shadow-lift);
+}
+
+.chip-float::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--color-gold);
+}
+
+/* ------------------------------------------------------------------
+   Photography — real photographs stay photographs
+------------------------------------------------------------------- */
+
+.grade-light {
+  filter: saturate(0.8) contrast(1.04);
+}
+
+.grade-dark {
+  filter: saturate(0.74) contrast(1.08) brightness(0.9);
+}
+
+.mono-shot {
+  filter: grayscale(1) contrast(1.06);
+}
+
+/* ------------------------------------------------------------------
+   Dissolve — kept for the placeholder art, off by default
+------------------------------------------------------------------- */
+
+.dis-all {
+  -webkit-mask-image: radial-gradient(68% 68% at 50% 48%, #000 42%, transparent 100%);
+  mask-image: radial-gradient(68% 68% at 50% 48%, #000 42%, transparent 100%);
+}
+
+.dis-wide {
+  -webkit-mask-image: radial-gradient(88% 84% at 50% 46%, #000 56%, transparent 100%);
+  mask-image: radial-gradient(88% 84% at 50% 46%, #000 56%, transparent 100%);
+}
+
+.dis-b {
+  -webkit-mask-image: linear-gradient(to top, transparent 0%, #000 34%);
+  mask-image: linear-gradient(to top, transparent 0%, #000 34%);
+}
+
+.dis-b-full {
+  -webkit-mask-image: linear-gradient(to top, transparent 0%, #000 26%);
+  mask-image: linear-gradient(to top, transparent 0%, #000 26%);
+}
+
+.dis-l {
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 42%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 42%);
+}
+
+.dis-r {
+  -webkit-mask-image: linear-gradient(to left, transparent 0%, #000 42%);
+  mask-image: linear-gradient(to left, transparent 0%, #000 42%);
+}
+
+.dis-corner {
+  -webkit-mask-image: linear-gradient(to top, transparent 0%, #000 34%);
+  mask-image: linear-gradient(to top, transparent 0%, #000 34%);
+}
+
+/* ------------------------------------------------------------------
+   Thin graphic language — rules and measurement ticks
+------------------------------------------------------------------- */
+
+.ticks {
+  background-image: repeating-linear-gradient(
+    to right,
+    var(--color-line) 0 1px,
+    transparent 1px 12px
+  );
+  height: 5px;
+}
+
+.ticks-light {
+  background-image: repeating-linear-gradient(
+    to right,
+    rgb(255 255 255 / 0.2) 0 1px,
+    transparent 1px 12px
+  );
+  height: 5px;
+}
+
+/* ------------------------------------------------------------------
+   Motion
+------------------------------------------------------------------- */
+
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.marquee-track {
+  animation: marquee var(--marquee-duration, 52s) linear infinite;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -10px, 0);
+  }
+}
+
+.drift {
+  animation: drift var(--drift-duration, 9s) ease-in-out infinite;
+  animation-delay: var(--drift-delay, 0s);
+}
+
+@keyframes shimmer {
+  from {
+    background-position: -180% 0;
+  }
+  to {
+    background-position: 280% 0;
+  }
+}
+
+.shimmer {
+  background-image: linear-gradient(
+    100deg,
+    transparent 38%,
+    rgb(217 191 148 / 0.22) 50%,
+    transparent 62%
+  );
+  background-size: 220% 100%;
+  animation: shimmer 3.4s linear infinite;
+}
+
+.no-bar {
+  scrollbar-width: none;
+}
+
+.no-bar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ------------------------------------------------------------------
+   Micro-typography
+------------------------------------------------------------------- */
+
+.micro {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==================================================================
+   DARK MODE — one continuous midnight ground
+================================================================== */
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* The grounds invert — but NOT chalk. It is doing two jobs: the card
+     surface, and the "text on a dark ground" colour. Inverting it turns
+     every text-chalk on the site dark-on-dark. It stays light here and
+     the card surface is overridden separately, below. */
+  --color-bone: #08111f;
+  --color-bone-deep: #0c1a2c;
+  --color-chalk: #ffffff;
+
+  --color-ink: #eef2f7;
+  --color-ink-soft: #cdd6e0;
+  --color-muted: #93a0b0;
+  --color-faint: #7d8a9a;
+
+  --color-line: #1e3049;
+  --color-line-soft: #16253a;
+
+  /* gold brightens — the deep weight is unreadable on navy */
+  --color-gold-deep: #d9bf94;
+  --color-gold-soft: #23334a;
+  --color-gold-wash: #16253a;
+
+  --color-jade: #d9bf94;
+  --color-jade-deep: #e8d6b4;
+  --color-jade-soft: #23334a;
+  --color-jade-wash: #16253a;
+
+  --color-sage-deep: #d9bf94;
+  --color-sage-soft: #23334a;
+  --color-sage-wash: #16253a;
+
+  --color-river: #2a4058;
+  --color-river-deep: #a9b8c8;
+
+  --shadow-lift: 0 1px 2px rgb(0 0 0 / 0.3), 0 8px 24px -12px rgb(0 0 0 / 0.5);
+  --shadow-float: 0 2px 4px rgb(0 0 0 / 0.34), 0 24px 60px -24px rgb(0 0 0 / 0.62);
+}
+
+:root[data-theme="dark"] .valley-wash {
+  background: linear-gradient(180deg, #0a1424 0%, #08111f 44%, #0b1728 100%);
+}
+
+:root[data-theme="dark"] .panel-tint {
+  background: linear-gradient(160deg, #0f2036 0%, #0b1728 100%);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.07);
+}
+
+:root[data-theme="dark"] .hairline {
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.09);
+}
+
+/* multiply turns a dark ground to mud — screen keeps the texture */
+:root[data-theme="dark"] .grain::after {
+  mix-blend-mode: screen;
+  opacity: 0.05;
+}
+
+:root[data-theme="dark"] .grade-light {
+  filter: saturate(0.72) contrast(1.08) brightness(0.92);
+}
+
+/* the dark chapters lift, so they read as a change of surface rather
+   than disappearing into the page */
+:root[data-theme="dark"] .panel-dark {
+  background:
+    radial-gradient(76% 60% at 88% 4%, rgb(217 191 148 / 0.12) 0%, rgb(217 191 148 / 0) 58%),
+    linear-gradient(150deg, #14293f 0%, #0d1c2f 52%, #0a1523 100%);
+}
+
+:root[data-theme="dark"] .chip-float {
+  background: #14273d;
+  color: var(--color-ink);
+}
+
+/* the card surface, set on its own because chalk stays light */
+:root[data-theme="dark"] .bg-chalk {
+  background-color: #0e1e33;
+}
+
+/* Inverted fills need their label inverted too — in dark mode bg-ink is
+   light and bg-lime/bg-sage stay light, so a light label vanishes. */
+:root[data-theme="dark"] .bg-ink.text-chalk,
+:root[data-theme="dark"] .bg-lime.text-ink,
+:root[data-theme="dark"] .bg-sage.text-ink,
+:root[data-theme="dark"] .bg-chalk\/85.text-ink,
+:root[data-theme="dark"] .bg-chalk\/70.text-ink {
+  color: #0a1628;
+}
+
+:root[data-theme="dark"] .bg-chalk\/85 {
+  background-color: rgb(10 22 40 / 0.82);
+}
