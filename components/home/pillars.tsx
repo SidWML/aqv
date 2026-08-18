@@ -1,145 +1,132 @@
-"use client";
-
-import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { pillars } from "@/lib/aqv";
 import { Plate } from "../ui/plate";
-import { Reveal } from "../ui/reveal";
-import { Arrow, Container, Head, cx } from "../ui/kit";
+import { Prop } from "../ui/overlay";
+import { NavIcon, type IconKind } from "../ui/nav-icon";
+import { ArrowLink, Container, SectionHeader } from "../ui/kit";
 
-/**
- * The five pillars, as a dragged rail.
- *
- * Each card's photograph dissolves at its base into the card body, so
- * the image and the copy are one object rather than a picture sitting
- * inside a frame.
- */
+const A = "/source-assets/assets";
+
+/* ── 06 · five pillars ────────────────────────────────────────────────
+   §44. Five chapters of equal weight — the Valley does not have a
+   headline pillar, it has five that hold it up. Each carries its own
+   photograph, glyph and proof line; the numbered node ties them to the
+   section rhythm.
+──────────────────────────────────────────────────────────────────── */
+
+const PILLARS: {
+  n: string;
+  icon: IconKind;
+  title: string;
+  body: string;
+  href: string;
+  src?: string;
+  alt: string;
+  tier?: "construction";
+}[] = [
+  {
+    n: "01",
+    icon: "campus",
+    title: "Physical Infrastructure",
+    body: "Medha Towers operational today · AQCC campus under construction · Quantum Valley Towers masterplanned.",
+    href: "/infrastructure",
+    src: "/pillars/infrastructure.png",
+    alt: "Medha Towers at dusk — operational today",
+  },
+  {
+    n: "02",
+    icon: "chip",
+    title: "Hardware Ecosystem",
+    body: "40+ companies engaged across the stack · Amaravati 1Q live · indigenous 3.98 K cryogenics.",
+    href: "/technology/indigenous-hardware",
+    src: "/pillars/hardware.png",
+    alt: "The Amaravati 1Q cryostat at the Qbit Force reference facility",
+  },
+  {
+    n: "03",
+    icon: "scope",
+    title: "Design, Products & R&D",
+    body: "Bio Foundry · QAIC · Quantum OS · BFSI applications with IIT Madras.",
+    href: "/missions",
+    src: "/pillars/rnd.png",
+    alt: "A Bio Foundry wet-lab bench",
+  },
+  {
+    n: "04",
+    icon: "cap",
+    title: "Talent & Jobs",
+    body: "WISER, NPTEL and Phase II pathways · ~1.5 lakh learners trained · live quantum roles in Amaravati.",
+    href: "/talent",
+    src: "/pillars/talent.png",
+    alt: "An AQV cohort at Amaravati Quantum Valley",
+  },
+  {
+    n: "05",
+    icon: "talent",
+    title: "Industry Partnerships",
+    body: "IBM, TCS, L&T anchors · DRDO on campus · AstraZeneca, Laurus, HDFC, PNB, BSE engaged.",
+    href: "/ecosystem",
+    src: "/pillars/partnerships.png",
+    alt: "An AQV partnership signing",
+  },
+];
+
 export function Pillars() {
-  const rail = useRef<HTMLDivElement>(null);
-  const [pos, setPos] = useState(0);
-  const [ends, setEnds] = useState({ start: true, end: false });
-  const drag = useRef({ active: false, x: 0, left: 0 });
-
-  const sync = useCallback(() => {
-    const el = rail.current;
-    if (!el) return;
-    const max = el.scrollWidth - el.clientWidth;
-    setPos(max > 0 ? el.scrollLeft / max : 0);
-    setEnds({ start: el.scrollLeft < 4, end: el.scrollLeft > max - 4 });
-  }, []);
-
-  useEffect(() => {
-    sync();
-    window.addEventListener("resize", sync);
-    return () => window.removeEventListener("resize", sync);
-  }, [sync]);
-
-  const go = (d: 1 | -1) => {
-    const el = rail.current;
-    if (!el) return;
-    const card = el.querySelector("article");
-    el.scrollBy({ left: d * (card ? card.getBoundingClientRect().width + 16 : 380), behavior: "smooth" });
-  };
-
-  const active = Math.round(pos * (pillars.length - 1)) + 1;
-
   return (
-    <section className="relative bg-bone pb-[clamp(72px,11vh,130px)]">
-      <Container>
-        <Reveal>
-          <Head
-            eyebrow="The five pillars"
-            sub="Infrastructure, hardware, R&D, talent and partnerships — each with live proof today."
-          >
-            Five pillars, <span className="text-faint">one valley.</span>
-          </Head>
-        </Reveal>
-      </Container>
+    <section className="ground-sand section relative overflow-hidden">
+      <Prop name="valleyTowers" anchor="top-right" opacity={32} className="hidden w-[42%] max-w-[660px] lg:block" />
 
-      <div
-        ref={rail}
-        onScroll={sync}
-        onPointerDown={(e) => {
-          drag.current = { active: true, x: e.clientX, left: e.currentTarget.scrollLeft };
-          e.currentTarget.setPointerCapture(e.pointerId);
-        }}
-        onPointerMove={(e) => {
-          if (!drag.current.active) return;
-          e.currentTarget.scrollLeft = drag.current.left - (e.clientX - drag.current.x);
-        }}
-        onPointerUp={() => (drag.current.active = false)}
-        onPointerCancel={() => (drag.current.active = false)}
-        className="no-bar mt-12 flex cursor-grab gap-4 overflow-x-auto px-5 pb-3 active:cursor-grabbing sm:px-8"
-        style={{ scrollSnapType: "x mandatory" }}
-      >
-        {pillars.map((p) => (
-          <article
-            key={p.n}
-            style={{ scrollSnapAlign: "start" }}
-            className="group w-[min(84vw,384px)] flex-none overflow-hidden rounded-slab bg-chalk hairline transition-all duration-500 ease-[var(--ease-out-soft)] hover:-translate-y-1 hover:shadow-[var(--shadow-float)]"
-          >
-            <Link href={p.href} className="flex h-full flex-col">
-              {/* photo dissolves into the card body — no visible lid */}
-              <div className="relative aspect-16/11 w-full">
+      <Container className="relative">
+        <SectionHeader
+          n="06"
+          eyebrow="Five pillars of the Valley"
+          sub="Infrastructure, hardware, R&D, talent and partnerships — each with live proof today."
+        >
+          Five pillars <span className="text-gold">of the Valley</span>
+        </SectionHeader>
+
+        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:mt-14 lg:grid-cols-5">
+          {PILLARS.map((p) => (
+            <article
+              key={p.n}
+              className="group flex flex-col overflow-hidden rounded-lg border lit border-border bg-paper transition-colors duration-300 hover:border-gold/45"
+            >
+              {/* the photograph runs to the card edge — only the copy is inset */}
+              <div className="relative">
                 <Plate
                   src={p.src}
                   alt={p.alt}
-                  sizes="384px"
-                  className="size-full transition-transform duration-[1000ms] ease-[var(--ease-out-soft)] group-hover:scale-[1.04]"
+                  tier={p.tier}
+                  ratio="aspect-[7/8]"
+                  sizes="(max-width:640px) 100vw, 20vw"
+                  radius="none"
+                  className="hover-zoom"
                 />
-                <span className="micro absolute top-5 left-5 rounded-full bg-chalk/85 px-2.5 py-1.5 text-ink backdrop-blur-sm tnum">
+                <span
+                  aria-hidden
+                  className="t-label tnum absolute top-4 left-4 grid size-9 place-items-center rounded-full bg-gold text-cream"
+                >
                   {p.n}
                 </span>
               </div>
 
-              <div className="flex flex-1 flex-col p-6">
-                <span className="micro text-sage-deep">{p.kicker}</span>
-                <h3 className="mt-3 text-[19px] font-medium tracking-[-0.03em]">{p.title}</h3>
-                <p className="mt-3 text-[13.5px] leading-[1.6] text-muted">{p.body}</p>
-                <span className="micro mt-auto inline-flex items-center gap-2 pt-7 text-ink">
-                  Explore
-                  <Arrow className="size-3 transition-transform duration-300 group-hover:translate-x-1" />
+              <div className="flex flex-1 flex-col gap-4 p-6">
+                <NavIcon kind={p.icon} className="size-8 text-gold [stroke-width:1.15]" />
+
+                <h3 className="t-h4 max-w-[14ch] text-[clamp(1.25rem,1.5vw,1.4rem)] text-ink">
+                  {p.title}
+                </h3>
+
+                <span aria-hidden className="h-[2px] w-9 bg-gold" />
+
+                <p className="t-body-sm text-muted">{p.body}</p>
+
+                <span className="mt-auto pt-5">
+                  <ArrowLink href={p.href} className="text-[14px] text-gold-text">
+                    Explore
+                  </ArrowLink>
                 </span>
               </div>
-            </Link>
-          </article>
-        ))}
-      </div>
-
-      <Container>
-        <div className="mt-7 flex items-center gap-4">
-          {([-1, 1] as const).map((d) => (
-            <button
-              key={d}
-              type="button"
-              onClick={() => go(d)}
-              disabled={d === -1 ? ends.start : ends.end}
-              aria-label={d === -1 ? "Previous" : "Next"}
-              className={cx(
-                "grid size-11 place-items-center rounded-full bg-chalk hairline transition-all duration-300",
-                "hover:bg-sage disabled:opacity-35 disabled:hover:bg-chalk",
-              )}
-            >
-              <svg viewBox="0 0 16 16" fill="none" aria-hidden className="size-4">
-                <path
-                  d={d === -1 ? "M10 3 5 8l5 5" : "M6 3l5 5-5 5"}
-                  stroke="currentColor"
-                  strokeWidth="1.7"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
+            </article>
           ))}
-          <span className="relative h-px flex-1 bg-line">
-            <span
-              className="absolute inset-y-0 left-0 bg-ink transition-[width] duration-300"
-              style={{ width: `${20 + pos * 80}%` }}
-            />
-          </span>
-          <span className="micro text-faint tnum">
-            {String(active).padStart(2, "0")} / {String(pillars.length).padStart(2, "0")}
-          </span>
         </div>
       </Container>
     </section>

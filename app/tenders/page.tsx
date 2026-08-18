@@ -10,5 +10,5 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <RenderPage def={def} />;
+  return <RenderPage def={def} route="/tenders" />;
 }

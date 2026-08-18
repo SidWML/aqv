@@ -1,9 +1,26 @@
 import type { Metadata } from "next";
-import { Instrument_Sans, JetBrains_Mono } from "next/font/google";
+import { Fraunces, Instrument_Sans, JetBrains_Mono } from "next/font/google";
 import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
 import { org } from "@/lib/aqv";
 import "./globals.css";
+
+/**
+ * Two voices, as the approved boards show them.
+ *
+ * Fraunces carries every display line — an editorial serif with enough
+ * warmth to read civic rather than corporate. Wonk and softness are
+ * dialled to zero in the type scale so it stays institutional.
+ *
+ * Instrument Sans carries everything a reader has to work through, and
+ * mono carries labels, dates and sources.
+ */
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
+  subsets: ["latin"],
+  display: "swap",
+  axes: ["SOFT", "WONK", "opsz"],
+});
 
 const instrument = Instrument_Sans({
   variable: "--font-instrument",
@@ -21,7 +38,7 @@ const mono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://aqv.in"),
   title: {
-    default: `${org.name} — quantum compute, live today`,
+    default: `${org.name} — an integrated Quantum-AI ecosystem`,
     template: `%s · ${org.short}`,
   },
   description:
@@ -29,26 +46,16 @@ export const metadata: Metadata = {
   openGraph: { type: "website", siteName: org.name, locale: "en_IN" },
 };
 
-/**
- * Replays the stored colour mode onto <html> before first paint, so the
- * page never flashes the wrong ground. Runs synchronously in <head>.
- */
-const THEME_SCRIPT = `try{var t=localStorage.getItem('aqv-theme');if(t==='dark')document.documentElement.dataset.theme='dark'}catch(e){}`;
-
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      suppressHydrationWarning
-      className={`${instrument.variable} ${mono.variable} h-full antialiased`}
+      className={`${fraunces.variable} ${instrument.variable} ${mono.variable} h-full`}
     >
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
-      </head>
-      <body className="flex min-h-full flex-col">
+      <body className="flex min-h-full flex-col bg-cream text-ink">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-60 focus:rounded-full focus:bg-ink focus:px-5 focus:py-3 focus:text-chalk"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-60 focus:rounded-md focus:bg-ink focus:px-5 focus:py-3 focus:text-cream"
         >
           Skip to content
         </a>

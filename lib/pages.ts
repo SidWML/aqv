@@ -14,7 +14,7 @@ import type { FeedItem } from "@/components/page/feed";
 const A = "/source-assets/assets";
 
 export type Block =
-  | { t: "band"; n?: string; eyebrow?: string; lead?: string; accent?: string; sub?: string; tone?: "light" | "dark"; align?: "center" }
+  | { t: "band"; n?: string; eyebrow?: string; lead?: string; accent?: string; sub?: string; tone?: "cream" | "warm" | "ink"; align?: "center" }
   | { t: "metrics"; items: { status?: Status; value: string; unit?: string; label: string; source?: string }[] }
   | { t: "table"; head: string[]; rows: string[][] }
   | { t: "cards"; cols?: 2 | 3 | 4; items: { n?: string; kicker?: string; title: string; body?: string; href?: string; src?: string; slot?: string; status?: Status }[] }
@@ -887,7 +887,7 @@ export const pages: Record<string, PageDef> = {
             body: "Open ask: coming soon — to publish on the SRM × C-DOT announcement.",
             src: `${A}/real-photos/cm-naidu-at-srm-reference-facility.jpg`,
             href: "/missions",
-            status: "COMING SOON",
+            status: "PLANNED",
           },
         ],
       },

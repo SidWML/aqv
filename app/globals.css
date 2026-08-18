@@ -1,566 +1,704 @@
 @import "tailwindcss";
 
-/* ------------------------------------------------------------------
-   Amaravati Quantum Valley — design tokens
+/* ════════════════════════════════════════════════════════════════════
+   AMARAVATI QUANTUM VALLEY — digital design system v1.0
+   Government of Andhra Pradesh
 
-   Palette taken from the AQV mockups:
-     deep midnight navy · warm cream · champagne gold
+   A warm institutional brand for a technology ecosystem. Cream is the
+   environment; ink anchors the type; gold connects the system. Dark is
+   a supporting colour, never the default ground.
 
-   Gold is the accent — chips, rules, arrows, one emphasised word in a
-   heading. It is never a background. The dark ground is navy, never
-   neutral black, and never green.
-------------------------------------------------------------------- */
+   Order follows the implementation phases:
+     01  tokens
+     02  typography
+     03  layout
+     04  surfaces & lines
+     05  motion
+     06  graphic language
+════════════════════════════════════════════════════════════════════ */
+
+/* ── 01 · tokens ─────────────────────────────────────────────────── */
 
 @theme {
-  /* ink */
-  --color-ink: #0f1722;
-  --color-ink-soft: #26313f;
-  --color-muted: #5c6672;
-  --color-faint: #8b94a0;
+  /* canvas — 60% of the visual environment */
+  --color-cream: #f7f4ed;
+  --color-cream-warm: #f2ece0;
+  --color-sand: #ded1ba;
+  --color-sand-soft: #e8dfcd;
 
-  /* light surfaces */
-  --color-chalk: #ffffff;
-  --color-bone: #f5f2ec;
-  --color-bone-deep: #ece7dd;
-  --color-line: #dfdacf;
-  --color-line-soft: #eae5db;
+  /* ink — typography and the rare dark surface */
+  --color-ink: #17202b;
+  --color-ink-2: #233040;
+  --color-ink-3: #2f3f52;
+  --color-muted: #5a6675;
+  --color-faint: #8a94a1;
 
-  /* champagne gold — the accent */
-  --color-gold: #c4a57b;
-  --color-gold-bright: #d9bf94;
-  /* gold is too light for small text on cream (2.9:1) — this is the
-     text-safe weight at 4.9:1 */
-  --color-gold-deep: #7a5c2e;
-  --color-gold-soft: #efe4d1;
-  --color-gold-wash: #faf5ec;
+  /* gold — the AQV signature. Architectural amber, matched to the
+     approved boards: deeper and warmer than a flat tan, never yellow. */
+  --color-gold: #b0812c;
+  --color-gold-deep: #966c1f;
+  --color-gold-light: #c79a45;
+  --color-gold-line: #c9ac72;
+  --color-gold-soft: #e8d9b8;
+  --color-gold-wash: #f7f1e3;
+  /* the text-safe weight — 4.8:1 on cream. Gold is an accent, never
+     body copy. */
+  --color-gold-text: #8a6620;
 
-  /* midnight — the dark grounds */
-  --color-navy: #0a1628;
-  --color-navy-2: #0e1e33;
-  --color-navy-3: #16293f;
+  /* supporting — each carries a meaning, never decoration */
+  --color-olive: #7c7d4d;
+  --color-olive-deep: #5e6a30;
+  --color-olive-soft: #e3e3d2;
+  /* the LIVE weight: a deep institutional navy, not an electric blue */
+  --color-navy: #1f3a6e;
+  --color-navy-deep: #102340;
+  --color-navy-soft: #dde3ef;
+  /* the "after" weight on a navy ground — an improvement, read at a glance */
+  --color-olive-light: #a9c481;
+  --color-rose: #a66d78;
+  --color-rose-soft: #efdfe1;
+  --color-violet: #62518b;
+  --color-violet-soft: #e2ddec;
+  --color-teal: #6c9690;
+  --color-teal-soft: #dbe7e5;
+  --color-ochre: #c39a4b;
 
-  /* slate (cool counterweight) */
-  --color-slate: #c3ccd6;
-  --color-slate-deep: #6b7889;
+  /* lines */
+  --color-border: #ded5c6;
+  --color-border-soft: #e9e2d5;
+  --color-border-ink: #2c3949;
 
-  /* ------------------------------------------------------------------
-     Aliases. Components were written against the previous names; these
-     point them at the new palette so nothing needs renaming.
-  ------------------------------------------------------------------ */
-  --color-forest: #0a1628;
-  --color-forest-2: #0e1e33;
-  --color-forest-3: #16293f;
+  /* white, for the few surfaces that need to sit above cream */
+  --color-paper: #fbf9f4;
 
-  --color-jade: #7a5c2e;
-  --color-jade-deep: #5e4520;
-  --color-jade-soft: #efe4d1;
-  --color-jade-wash: #faf5ec;
+  /* ── night ──
+     The one dark chapter. A warm near-black rather than the navy ink,
+     so the gold line-art and the lit photography sit on it without a
+     colour cast. §05 keeps this to a single section. */
+  --color-night: #101010;
+  --color-night-2: #17170f;
+  --color-night-card: #1a1a15;
+  --color-night-line: #2c2c24;
 
-  --color-lime: #d9bf94;
-  --color-lime-bright: #e8d6b4;
+  /* the supporting colours, lifted to read on the night ground */
+  --color-rose-light: #d09aa4;
+  --color-violet-light: #a99ad4;
 
-  --color-sage: #d9bf94;
-  --color-sage-deep: #7a5c2e;
-  --color-sage-soft: #efe4d1;
-  --color-sage-wash: #faf5ec;
+  /* ── radius — never a pill unless it is a marker ── */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-2xl: 32px;
 
-  --color-river: #c3ccd6;
-  --color-river-deep: #6b7889;
+  /* ── shadow — architectural, grounded, no float ──
+     Two passes: a wide ambient and a tight key. Depth comes from the
+     pair, never from one large blur. */
+  --shadow-sm:
+    0 1px 2px rgb(23 32 43 / 0.04),
+    0 4px 16px -6px rgb(23 32 43 / 0.08);
+  --shadow-md:
+    0 1px 2px rgb(23 32 43 / 0.05),
+    0 8px 28px -10px rgb(23 32 43 / 0.10),
+    0 24px 56px -24px rgb(23 32 43 / 0.10);
+  --shadow-lift:
+    0 1px 2px rgb(23 32 43 / 0.05),
+    0 14px 36px -12px rgb(23 32 43 / 0.14),
+    0 32px 72px -28px rgb(23 32 43 / 0.12);
 
-  --radius-card: 20px;
-  --radius-slab: 28px;
+  /* ── type ──
+     Two voices: an editorial serif carries the display line, a modern
+     humanist grotesk carries everything a reader has to work through. */
+  --font-display: var(--font-fraunces), "Iowan Old Style", Georgia, serif;
+  --font-sans:
+    var(--font-instrument), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, sans-serif;
+  --font-mono:
+    var(--font-mono-jb), ui-monospace, "SFMono-Regular", monospace;
 
-  --shadow-lift: 0 1px 2px rgb(15 23 34 / 0.04), 0 8px 24px -12px rgb(15 23 34 / 0.12);
-  --shadow-float: 0 2px 4px rgb(15 23 34 / 0.05), 0 24px 60px -24px rgb(15 23 34 / 0.24);
+  /* ── motion — calm, precise, architectural ── */
+  --ease-out-soft: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-in-out-soft: cubic-bezier(0.5, 0, 0.2, 1);
+  --dur-fast: 200ms;
+  --dur: 300ms;
+  --dur-slow: 600ms;
+  --dur-cinematic: 800ms;
 
-  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  /* ── container ──
+     §13 allows 1440 for reading measure and up to 1600 where the media
+     needs the edges. The site runs at the wider figure throughout so the
+     header, hero and sections align on one vertical. */
+  --container-page: 1600px;
 }
 
-@theme inline {
-  --font-sans: var(--font-instrument), ui-sans-serif, system-ui, -apple-system,
-    "Segoe UI", sans-serif;
-  --font-mono: var(--font-mono-jb), ui-monospace, "SFMono-Regular", monospace;
-}
+/* ── 02 · typography ─────────────────────────────────────────────── */
 
-/* ------------------------------------------------------------------
-   Base
-------------------------------------------------------------------- */
-
-:root {
-  color-scheme: light;
-}
-
-* {
-  -webkit-tap-highlight-color: transparent;
-}
-
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 6rem;
-}
-
-body {
-  background: var(--color-bone);
-  color: var(--color-ink);
-  font-family: var(--font-sans);
-  font-synthesis-weight: none;
-  text-rendering: optimizeLegibility;
-  overflow-x: hidden;
-}
-
-::selection {
-  background: var(--color-gold);
-  color: var(--color-ink);
-}
-
-:focus-visible {
-  outline: 2px solid var(--color-gold-deep);
-  outline-offset: 3px;
-  border-radius: 4px;
-}
-
-h1,
-h2,
-h3,
-h4 {
-  letter-spacing: -0.03em;
-  line-height: 1.05;
-  font-weight: 500;
-  text-wrap: balance;
-}
-
-/* ------------------------------------------------------------------
-   Scroll reveal
-------------------------------------------------------------------- */
-
-[data-reveal] {
-  opacity: 0;
-  transform: translateY(22px);
-  transition:
-    opacity 0.85s var(--ease-out-soft),
-    transform 0.85s var(--ease-out-soft);
-  transition-delay: var(--reveal-delay, 0ms);
-}
-
-[data-reveal="shown"] {
-  opacity: 1;
-  transform: none;
-}
-
-@media (prefers-reduced-motion: reduce) {
+@layer base {
   html {
-    scroll-behavior: auto;
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
   }
-  [data-reveal],
-  [data-reveal="shown"] {
-    opacity: 1;
-    transform: none;
-    transition: none;
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
-  .marquee-track,
-  .drift,
-  .shimmer {
-    animation: none !important;
+
+  body {
+    background-color: var(--color-cream);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    font-size: 17px;
+    line-height: 1.55;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Focus is visible everywhere. The audit found none defined at all. */
+  :focus-visible {
+    outline: 2px solid var(--color-gold-text);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: var(--color-gold-soft);
+    color: var(--color-ink);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  img,
+  video {
+    max-width: 100%;
+    height: auto;
   }
 }
 
-/* ------------------------------------------------------------------
-   Washes
-------------------------------------------------------------------- */
+/* ── type scale ──────────────────────────────────────────────────────
+   Fluid between the mobile and desktop sizes in §08 / §57. Clamps mean
+   tablet is interpolated rather than a third set of breakpoints.
+──────────────────────────────────────────────────────────────────── */
 
+/* These sit in the components layer so a Tailwind `text-[…]` utility can
+   still override a size where a specific composition needs it. Outside a
+   layer they are emitted after the utilities and silently win. */
+@layer components {
+  /* Display sizes are set in the serif — it is the AQV voice. Weight sits
+     at 400/500; the serif carries presence without needing bold. */
+  .t-display-xl,
+  .t-display-l,
+  .t-h1,
+  .t-h2,
+  .t-h3,
+  .t-h4 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-variation-settings: "SOFT" 0, "WONK" 0;
+  }
+
+  .t-display-xl {
+    font-size: clamp(2.375rem, 4.9vw, 4.25rem); /* 38 → 68 */
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+  .t-display-l {
+    font-size: clamp(2.125rem, 4.1vw, 3.5rem); /* 34 → 56 */
+    line-height: 1.07;
+    letter-spacing: -0.018em;
+  }
+  .t-h1 {
+    font-size: clamp(2.125rem, 4vw, 3.5rem); /* 34 → 56 */
+    line-height: 1.08;
+    letter-spacing: -0.017em;
+  }
+  .t-h2 {
+    font-size: clamp(1.75rem, 3.1vw, 2.75rem); /* 28 → 44 */
+    line-height: 1.12;
+    letter-spacing: -0.015em;
+  }
+  .t-h3 {
+    font-size: clamp(1.375rem, 2.1vw, 1.9375rem); /* 22 → 31 */
+    line-height: 1.2;
+    letter-spacing: -0.013em;
+  }
+  .t-h4 {
+    font-size: clamp(1.125rem, 1.5vw, 1.375rem); /* 18 → 22 */
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+  /* the mid register — a lead paragraph that sits between a heading and
+     body copy, so the jump is a step rather than a cliff */
+  .t-lead {
+    font-size: clamp(1.0625rem, 1.35vw, 1.25rem); /* 17 → 20 */
+    line-height: 1.5;
+    letter-spacing: -0.011em;
+  }
+  .t-body-xl {
+    font-size: clamp(1.0625rem, 1.2vw, 1.1875rem); /* 17 → 19 */
+    line-height: 1.52;
+    letter-spacing: -0.01em;
+  }
+  .t-body-l {
+    font-size: clamp(1rem, 1.05vw, 1.0625rem); /* 16 → 17 */
+    line-height: 1.55;
+    letter-spacing: -0.007em;
+  }
+  .t-body {
+    font-size: 1rem; /* 16 */
+    line-height: 1.6;
+  }
+  .t-body-sm {
+    font-size: 0.90625rem; /* 14.5 */
+    line-height: 1.55;
+  }
+  .t-caption {
+    font-size: 0.8125rem; /* 13 */
+    line-height: 1.45;
+  }
+
+  /* label / eyebrow — §08 */
+  .t-label {
+    font-family: var(--font-mono);
+    font-size: 0.65625rem; /* 10.5 */
+    line-height: 1.35;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  /* the nav label — uppercase, letterspaced, sans */
+  .t-nav {
+    font-family: var(--font-sans);
+    font-size: 0.6875rem; /* 11 */
+    letter-spacing: 0.085em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  /* the number system — §34. Figures are set in the serif too, so a
+     headline and the number under it belong to the same voice. */
+  .t-number-xl,
+  .t-number {
+    font-family: var(--font-display);
+    font-variation-settings: "SOFT" 0, "WONK" 0;
+  }
+  .t-number-xl {
+    font-size: clamp(3rem, 6vw, 5.75rem); /* 48 → 92 */
+    line-height: 0.9;
+    letter-spacing: -0.028em;
+    font-weight: 400;
+    font-variant-numeric: tabular-nums;
+  }
+  .t-number {
+    font-size: clamp(2.25rem, 3.6vw, 3.5rem); /* 36 → 56 */
+    line-height: 0.94;
+    letter-spacing: -0.024em;
+    font-weight: 400;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+
+}
+
+/* §09 — body copy stays under ~70 characters */
+.measure {
+  max-width: 68ch;
+}
+.measure-tight {
+  max-width: 52ch;
+}
+
+/* ── 03 · layout ─────────────────────────────────────────────────── */
+
+/* One grid for the whole site. The header, the hero and every section
+   share this measure, so nothing steps in or out as you scroll. */
+.container-page {
+  width: 100%;
+  max-width: var(--container-page);
+  margin-inline: auto;
+  padding-inline: 20px;
+}
+@media (min-width: 768px) {
+  .container-page {
+    padding-inline: 32px;
+  }
+}
+@media (min-width: 1200px) {
+  .container-page {
+    padding-inline: 48px;
+  }
+}
+
+/* section rhythm — §12. Mobile values are the lower bound of each clamp. */
+.section-sm {
+  padding-block: clamp(64px, 7vw, 80px);
+}
+.section {
+  padding-block: clamp(80px, 10vw, 120px);
+}
+.section-lg {
+  padding-block: clamp(96px, 13vw, 160px);
+}
+
+/* ── 04 · surfaces & lines ───────────────────────────────────────── */
+
+/* the alternate cream ground */
+.ground-warm {
+  background-color: var(--color-cream-warm);
+}
+.ground-sand {
+  background-color: var(--color-sand-soft);
+}
+.ground-paper {
+  background-color: var(--color-paper);
+}
+
+/* the night chapter — one section of the page, no more */
+.ground-night {
+  background-color: var(--color-night);
+  color: var(--color-cream);
+}
+
+/* the rare dark chapter — §05, max ~10–15% of the environment */
+.ground-ink {
+  background-color: var(--color-ink);
+  color: var(--color-cream);
+}
+.ground-ink h1,
+.ground-ink h2,
+.ground-ink h3,
+.ground-ink h4 {
+  color: var(--color-cream);
+}
+
+/* a warm wash — cream deepening toward sand, never a gradient for its
+   own sake. Used to separate a section without a hard edge. */
+.wash-warm {
+  background:
+    radial-gradient(
+      120% 90% at 82% 8%,
+      rgb(222 209 186 / 0.55) 0%,
+      rgb(222 209 186 / 0) 62%
+    ),
+    linear-gradient(180deg, var(--color-cream) 0%, var(--color-cream-warm) 100%);
+}
+
+.wash-gold {
+  background:
+    radial-gradient(
+      100% 80% at 12% 0%,
+      rgb(184 154 90 / 0.14) 0%,
+      rgb(184 154 90 / 0) 58%
+    ),
+    var(--color-cream);
+}
+
+/* 1px warm line — §15 */
+.line {
+  box-shadow: inset 0 0 0 1px var(--color-border);
+}
+.line-soft {
+  box-shadow: inset 0 0 0 1px var(--color-border-soft);
+}
+.line-ink {
+  box-shadow: inset 0 0 0 1px var(--color-border-ink);
+}
+
+/* a rule that starts gold and fades — the section divider */
+.rule-gold {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    var(--color-gold) 0%,
+    var(--color-gold) 8%,
+    var(--color-border) 8%,
+    var(--color-border) 100%
+  );
+}
+
+/* paper grain. Very light — it warms the cream, it does not texture it. */
 .grain::after {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.28;
+  opacity: 0.032;
   mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.24'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
 }
-
-/* the light ground — a warm cream shift with a faint gold floor */
-.valley-wash {
-  background:
-    radial-gradient(120% 80% at 50% 118%, rgb(196 165 123 / 0.22) 0%, rgb(196 165 123 / 0) 62%),
-    radial-gradient(92% 62% at 50% -16%, rgb(195 204 214 / 0.4) 0%, rgb(195 204 214 / 0) 60%),
-    linear-gradient(180deg, #f7f5f0 0%, #f5f2ec 40%, #f1ece1 100%);
-}
-
-/* the dark chapters — midnight navy with a low gold glow */
-.forest-wash {
-  background:
-    radial-gradient(70% 56% at 16% 2%, rgb(217 191 148 / 0.14) 0%, rgb(217 191 148 / 0) 58%),
-    radial-gradient(88% 70% at 94% 104%, rgb(107 120 137 / 0.26) 0%, rgb(107 120 137 / 0) 60%),
-    linear-gradient(152deg, #16293f 0%, #0c1b2e 48%, #060e1a 100%);
-}
-
-.dusk-wash {
-  background:
-    radial-gradient(96% 112% at 100% 0%, rgb(217 191 148 / 0.24) 0%, rgb(217 191 148 / 0) 56%),
-    radial-gradient(80% 90% at 4% 98%, rgb(107 120 137 / 0.3) 0%, rgb(107 120 137 / 0) 58%),
-    linear-gradient(158deg, #1a3149 0%, #10223a 54%, #08111f 100%);
-}
-
-/* copy over photography — navy, never coloured, never neutral black */
-.scrim-b {
-  background: linear-gradient(
-    to top,
-    rgb(8 17 31 / 0.9) 0%,
-    rgb(10 22 40 / 0.52) 38%,
-    rgb(12 27 46 / 0.12) 72%,
-    rgb(8 17 31 / 0.34) 100%
-  );
-}
-
-.scrim-l {
-  background: linear-gradient(
-    to right,
-    rgb(8 17 31 / 0.86) 0%,
-    rgb(8 17 31 / 0.46) 42%,
-    rgb(8 17 31 / 0.06) 76%
-  );
-}
-
-.mask-fade-x {
-  -webkit-mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent);
-  mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent);
-}
-
-/* ------------------------------------------------------------------
-   Panels
-------------------------------------------------------------------- */
-
-.panel-dark {
-  position: relative;
-  isolation: isolate;
-  border-radius: var(--radius-slab);
-  overflow: hidden;
-  background:
-    radial-gradient(76% 60% at 88% 4%, rgb(217 191 148 / 0.16) 0%, rgb(217 191 148 / 0) 58%),
-    radial-gradient(70% 78% at 4% 98%, rgb(107 120 137 / 0.28) 0%, rgb(107 120 137 / 0) 58%),
-    linear-gradient(150deg, #17304a 0%, #0d1e33 52%, #070f1c 100%);
-  box-shadow:
-    inset 0 0 0 1px rgb(255 255 255 / 0.07),
-    var(--shadow-float);
-}
-
-.panel-tint {
-  position: relative;
-  border-radius: var(--radius-slab);
-  background: linear-gradient(160deg, #f2eee6 0%, #ece7dd 100%);
-  box-shadow: inset 0 0 0 1px rgb(15 23 34 / 0.055);
-}
-
-.tile-glass {
-  background: linear-gradient(158deg, rgb(255 255 255 / 0.09), rgb(255 255 255 / 0.03));
-  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.1);
-  border-radius: var(--radius-card);
-}
-
-.glass-dark {
-  background: rgb(10 22 40 / 0.52);
-  backdrop-filter: blur(14px);
-  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.13);
-}
-
-.hairline {
-  box-shadow: inset 0 0 0 1px rgb(15 23 34 / 0.09);
-}
-
-.hairline-light {
-  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.12);
-}
-
-.chip-float {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--color-chalk);
-  color: var(--color-ink);
-  border-radius: 999px;
-  padding: 9px 16px 9px 13px;
-  font-size: 13.5px;
-  font-weight: 500;
-  box-shadow: var(--shadow-lift);
-}
-
-.chip-float::before {
-  content: "";
-  width: 7px;
-  height: 7px;
-  border-radius: 999px;
-  background: var(--color-gold);
-}
-
-/* ------------------------------------------------------------------
-   Photography — real photographs stay photographs
-------------------------------------------------------------------- */
-
-.grade-light {
-  filter: saturate(0.8) contrast(1.04);
-}
-
-.grade-dark {
-  filter: saturate(0.74) contrast(1.08) brightness(0.9);
-}
-
-.mono-shot {
-  filter: grayscale(1) contrast(1.06);
-}
-
-/* ------------------------------------------------------------------
-   Dissolve — kept for the placeholder art, off by default
-------------------------------------------------------------------- */
-
-.dis-all {
-  -webkit-mask-image: radial-gradient(68% 68% at 50% 48%, #000 42%, transparent 100%);
-  mask-image: radial-gradient(68% 68% at 50% 48%, #000 42%, transparent 100%);
-}
-
-.dis-wide {
-  -webkit-mask-image: radial-gradient(88% 84% at 50% 46%, #000 56%, transparent 100%);
-  mask-image: radial-gradient(88% 84% at 50% 46%, #000 56%, transparent 100%);
-}
-
-.dis-b {
-  -webkit-mask-image: linear-gradient(to top, transparent 0%, #000 34%);
-  mask-image: linear-gradient(to top, transparent 0%, #000 34%);
-}
-
-.dis-b-full {
-  -webkit-mask-image: linear-gradient(to top, transparent 0%, #000 26%);
-  mask-image: linear-gradient(to top, transparent 0%, #000 26%);
-}
-
-.dis-l {
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 42%);
-  mask-image: linear-gradient(to right, transparent 0%, #000 42%);
-}
-
-.dis-r {
-  -webkit-mask-image: linear-gradient(to left, transparent 0%, #000 42%);
-  mask-image: linear-gradient(to left, transparent 0%, #000 42%);
-}
-
-.dis-corner {
-  -webkit-mask-image: linear-gradient(to top, transparent 0%, #000 34%);
-  mask-image: linear-gradient(to top, transparent 0%, #000 34%);
-}
-
-/* ------------------------------------------------------------------
-   Thin graphic language — rules and measurement ticks
-------------------------------------------------------------------- */
-
-.ticks {
-  background-image: repeating-linear-gradient(
-    to right,
-    var(--color-line) 0 1px,
-    transparent 1px 12px
-  );
-  height: 5px;
-}
-
-.ticks-light {
-  background-image: repeating-linear-gradient(
-    to right,
-    rgb(255 255 255 / 0.2) 0 1px,
-    transparent 1px 12px
-  );
-  height: 5px;
-}
-
-/* ------------------------------------------------------------------
-   Motion
-------------------------------------------------------------------- */
-
-@keyframes marquee {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    transform: translate3d(-50%, 0, 0);
-  }
-}
-
-.marquee-track {
-  animation: marquee var(--marquee-duration, 52s) linear infinite;
-}
-
-.marquee:hover .marquee-track {
-  animation-play-state: paused;
-}
-
-@keyframes drift {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-  50% {
-    transform: translate3d(0, -10px, 0);
-  }
-}
-
-.drift {
-  animation: drift var(--drift-duration, 9s) ease-in-out infinite;
-  animation-delay: var(--drift-delay, 0s);
-}
-
-@keyframes shimmer {
-  from {
-    background-position: -180% 0;
-  }
-  to {
-    background-position: 280% 0;
-  }
-}
-
-.shimmer {
-  background-image: linear-gradient(
-    100deg,
-    transparent 38%,
-    rgb(217 191 148 / 0.22) 50%,
-    transparent 62%
-  );
-  background-size: 220% 100%;
-  animation: shimmer 3.4s linear infinite;
-}
-
-.no-bar {
-  scrollbar-width: none;
-}
-
-.no-bar::-webkit-scrollbar {
-  display: none;
-}
-
-/* ------------------------------------------------------------------
-   Micro-typography
-------------------------------------------------------------------- */
-
-.micro {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  line-height: 1;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.tnum {
-  font-variant-numeric: tabular-nums;
-}
-
-/* ==================================================================
-   DARK MODE — one continuous midnight ground
-================================================================== */
-
-:root[data-theme="dark"] {
-  color-scheme: dark;
-
-  /* The grounds invert — but NOT chalk. It is doing two jobs: the card
-     surface, and the "text on a dark ground" colour. Inverting it turns
-     every text-chalk on the site dark-on-dark. It stays light here and
-     the card surface is overridden separately, below. */
-  --color-bone: #08111f;
-  --color-bone-deep: #0c1a2c;
-  --color-chalk: #ffffff;
-
-  --color-ink: #eef2f7;
-  --color-ink-soft: #cdd6e0;
-  --color-muted: #93a0b0;
-  --color-faint: #7d8a9a;
-
-  --color-line: #1e3049;
-  --color-line-soft: #16253a;
-
-  /* gold brightens — the deep weight is unreadable on navy */
-  --color-gold-deep: #d9bf94;
-  --color-gold-soft: #23334a;
-  --color-gold-wash: #16253a;
-
-  --color-jade: #d9bf94;
-  --color-jade-deep: #e8d6b4;
-  --color-jade-soft: #23334a;
-  --color-jade-wash: #16253a;
-
-  --color-sage-deep: #d9bf94;
-  --color-sage-soft: #23334a;
-  --color-sage-wash: #16253a;
-
-  --color-river: #2a4058;
-  --color-river-deep: #a9b8c8;
-
-  --shadow-lift: 0 1px 2px rgb(0 0 0 / 0.3), 0 8px 24px -12px rgb(0 0 0 / 0.5);
-  --shadow-float: 0 2px 4px rgb(0 0 0 / 0.34), 0 24px 60px -24px rgb(0 0 0 / 0.62);
-}
-
-:root[data-theme="dark"] .valley-wash {
-  background: linear-gradient(180deg, #0a1424 0%, #08111f 44%, #0b1728 100%);
-}
-
-:root[data-theme="dark"] .panel-tint {
-  background: linear-gradient(160deg, #0f2036 0%, #0b1728 100%);
-  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.07);
-}
-
-:root[data-theme="dark"] .hairline {
-  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.09);
-}
-
-/* multiply turns a dark ground to mud — screen keeps the texture */
-:root[data-theme="dark"] .grain::after {
+.ground-ink.grain::after {
   mix-blend-mode: screen;
   opacity: 0.05;
 }
 
-:root[data-theme="dark"] .grade-light {
-  filter: saturate(0.72) contrast(1.08) brightness(0.92);
-}
-
-/* the dark chapters lift, so they read as a change of surface rather
-   than disappearing into the page */
-:root[data-theme="dark"] .panel-dark {
-  background:
-    radial-gradient(76% 60% at 88% 4%, rgb(217 191 148 / 0.12) 0%, rgb(217 191 148 / 0) 58%),
-    linear-gradient(150deg, #14293f 0%, #0d1c2f 52%, #0a1523 100%);
-}
-
-:root[data-theme="dark"] .chip-float {
-  background: #14273d;
-  color: var(--color-ink);
-}
-
-/* the card surface, set on its own because chalk stays light */
-:root[data-theme="dark"] .bg-chalk {
-  background-color: #0e1e33;
-}
-
-/* Inverted fills need their label inverted too — in dark mode bg-ink is
-   light and bg-lime/bg-sage stay light, so a light label vanishes. */
-:root[data-theme="dark"] .bg-ink.text-chalk,
-:root[data-theme="dark"] .bg-lime.text-ink,
-:root[data-theme="dark"] .bg-sage.text-ink,
-:root[data-theme="dark"] .bg-chalk\/85.text-ink,
-:root[data-theme="dark"] .bg-chalk\/70.text-ink {
-  color: #0a1628;
-}
-
-:root[data-theme="dark"] .bg-chalk\/85 {
-  background-color: rgb(10 22 40 / 0.82);
-}
-
-/* ── hover surface ─────────────────────────────────────────────────────
-   A cell that lifts on hover. `hover:bg-chalk` cannot do this job: chalk
-   is pinned light for dark mode, and Tailwind emits `.hover\:bg-chalk`,
-   which the `.bg-chalk` override above never matches — so the cell floods
-   white under light text. This lift is a translucent white in light mode
-   and a much fainter one in dark, so it follows the ground either way.
+/* ── polish ───────────────────────────────────────────────────────────
+   What separates a drawn surface from a milled one: a lit top edge, a
+   layered shadow, and a border that is warmer at the top than the foot.
+   None of it is decoration — it is how light behaves on a real object.
 ──────────────────────────────────────────────────────────────────── */
-.hover-surface {
-  transition: background-color 0.5s var(--ease-out-soft);
+
+/* A card that catches light along its top edge. */
+.lit {
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.85),
+    var(--shadow-sm);
 }
-.hover-surface:hover {
-  background-color: rgb(255 255 255 / 0.5);
+.lit-lg {
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.9),
+    var(--shadow-md);
 }
-:root[data-theme="dark"] .hover-surface:hover {
-  background-color: rgb(255 255 255 / 0.05);
+
+/* Glass — for the few surfaces that sit over photography. The white
+   film is what makes it read as glass rather than as a blur; the inner
+   highlight is the pane's edge. */
+.glass {
+  background-color: rgb(250 247 240 / 0.72);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.7),
+    inset 0 0 0 1px rgb(255 255 255 / 0.35),
+    var(--shadow-md);
+}
+.glass-night {
+  background-color: rgb(16 16 16 / 0.55);
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.09),
+    inset 0 0 0 1px rgb(255 255 255 / 0.06);
+}
+
+/* A hairline that fades rather than stopping dead. */
+.rule-fade {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    var(--color-gold) 0%,
+    rgb(184 154 90 / 0.35) 22%,
+    rgb(222 213 198 / 0.5) 60%,
+    transparent 100%
+  );
+}
+
+/* ── grounds ──────────────────────────────────────────────────────────
+   Cream and night are the two poles. These are the registers between
+   them, so a long page is never only two notes.
+──────────────────────────────────────────────────────────────────── */
+
+/* the deepest warm neutral before ink — for a section that needs weight
+   without going dark */
+.ground-sand {
+  background:
+    radial-gradient(
+      130% 80% at 78% 0%,
+      rgb(222 209 186 / 0.85) 0%,
+      rgb(222 209 186 / 0) 60%
+    ),
+    var(--color-sand-soft);
+}
+
+/* a warm field that lifts toward the top of the section */
+.ground-rise {
+  background: linear-gradient(
+    180deg,
+    var(--color-cream-warm) 0%,
+    var(--color-cream) 46%,
+    var(--color-cream) 100%
+  );
+}
+
+/* and the reverse, to hand a section off to a darker one below it */
+.ground-fall {
+  background: linear-gradient(
+    180deg,
+    var(--color-cream) 0%,
+    var(--color-cream) 54%,
+    var(--color-cream-warm) 100%
+  );
+}
+
+/* ── props ────────────────────────────────────────────────────────────
+   A hanging prop must do one of two things: bleed off a real edge, or
+   dissolve toward the content. Anything cropped mid-air reads as a
+   mistake, so these masks are how a prop meets the page.
+──────────────────────────────────────────────────────────────────── */
+
+.prop-fade-b {
+  mask-image: linear-gradient(180deg, #000 0%, #000 52%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 52%, transparent 100%);
+}
+.prop-fade-l {
+  mask-image: linear-gradient(90deg, transparent 0%, #000 38%, #000 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 38%, #000 100%);
+}
+.prop-fade-r {
+  mask-image: linear-gradient(90deg, #000 0%, #000 62%, transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 62%, transparent 100%);
+}
+/* the common case: it hangs off the bottom-left or bottom-right corner
+   and dissolves on both the inward edge and the foot */
+.prop-fade-bl {
+  mask-image:
+    linear-gradient(180deg, #000 0%, #000 55%, transparent 100%),
+    linear-gradient(90deg, #000 0%, #000 58%, transparent 100%);
+  -webkit-mask-image:
+    linear-gradient(180deg, #000 0%, #000 55%, transparent 100%),
+    linear-gradient(90deg, #000 0%, #000 58%, transparent 100%);
+  mask-composite: intersect;
+  -webkit-mask-composite: source-in;
+}
+.prop-fade-br {
+  mask-image:
+    linear-gradient(180deg, #000 0%, #000 55%, transparent 100%),
+    linear-gradient(90deg, transparent 0%, #000 42%, #000 100%);
+  -webkit-mask-image:
+    linear-gradient(180deg, #000 0%, #000 55%, transparent 100%),
+    linear-gradient(90deg, transparent 0%, #000 42%, #000 100%);
+  mask-composite: intersect;
+  -webkit-mask-composite: source-in;
+}
+.prop-fade-tr {
+  mask-image:
+    linear-gradient(0deg, #000 0%, #000 55%, transparent 100%),
+    linear-gradient(90deg, transparent 0%, #000 42%, #000 100%);
+  -webkit-mask-image:
+    linear-gradient(0deg, #000 0%, #000 55%, transparent 100%),
+    linear-gradient(90deg, transparent 0%, #000 42%, #000 100%);
+  mask-composite: intersect;
+  -webkit-mask-composite: source-in;
+}
+
+/* ── 05 · motion ─────────────────────────────────────────────────── */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity var(--dur-slow) var(--ease-out-soft),
+    transform var(--dur-slow) var(--ease-out-soft);
+}
+.reveal[data-shown="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* line-draw, for diagrams and the timeline spine */
+@keyframes draw {
+  from {
+    stroke-dashoffset: var(--draw-len, 1000);
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.draw {
+  stroke-dasharray: var(--draw-len, 1000);
+  animation: draw 1.4s var(--ease-out-soft) forwards;
+}
+
+/* ── 06 · graphic language ───────────────────────────────────────── */
+
+/* thin gold contour grid — the architectural motif from §26. Quiet. */
+.contours {
+  background-image:
+    linear-gradient(to right, rgb(184 154 90 / 0.09) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(184 154 90 / 0.09) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+/* readability overlay for photography — cream, never black. §25 */
+.veil-cream {
+  background: linear-gradient(
+    90deg,
+    var(--color-cream) 0%,
+    rgb(244 240 231 / 0.94) 34%,
+    rgb(244 240 231 / 0.55) 58%,
+    rgb(244 240 231 / 0) 82%
+  );
+}
+.veil-cream-b {
+  background: linear-gradient(
+    0deg,
+    rgb(244 240 231 / 0.96) 0%,
+    rgb(244 240 231 / 0.7) 26%,
+    rgb(244 240 231 / 0) 62%
+  );
+}
+/* the one ink veil, for type over a photograph. Two layers: a light
+   overall settle so a bright frame cannot blow out, and a bottom ramp
+   that carries the type. Tuned so cream on the ramp clears AA. */
+.veil-ink-b {
+  background:
+    linear-gradient(
+      0deg,
+      rgb(19 26 35 / 0.94) 0%,
+      rgb(19 26 35 / 0.86) 22%,
+      rgb(19 26 35 / 0.55) 46%,
+      rgb(19 26 35 / 0.12) 74%,
+      rgb(19 26 35 / 0) 100%
+    ),
+    linear-gradient(0deg, rgb(19 26 35 / 0.22), rgb(19 26 35 / 0.22));
+}
+
+/* warm the photography to belong to AQV — §24. No teal/orange grading. */
+.grade-warm {
+  filter: saturate(0.94) contrast(1.02) brightness(1.02) sepia(0.06);
+}
+
+/* hover — §28 */
+.hover-card {
+  transition:
+    box-shadow var(--dur) var(--ease-out-soft),
+    background-color var(--dur) var(--ease-out-soft);
+}
+.hover-card:hover {
+  box-shadow: inset 0 0 0 1px var(--color-gold);
+}
+
+.hover-zoom img {
+  transition: transform var(--dur-cinematic) var(--ease-out-soft);
+}
+.hover-zoom:hover img {
+  transform: scale(1.03);
+}
+
+/* utility */
+.no-bar {
+  scrollbar-width: none;
+}
+.no-bar::-webkit-scrollbar {
+  display: none;
 }

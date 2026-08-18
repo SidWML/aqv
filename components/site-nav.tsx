@@ -4,42 +4,34 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { nav, org } from "@/lib/aqv";
-import { Arrow, cx } from "./ui/kit";
+import { nav } from "@/lib/aqv";
+import { Arrow, Button, cx } from "./ui/kit";
+import { Logo } from "./ui/logo";
 import { NavIcon } from "./ui/nav-icon";
-import { ThemeToggle } from "./ui/theme-toggle";
 
 /**
- * The Government of Andhra Pradesh state seal. The supplied PNG shipped as
- * opaque RGB, so a keyed-alpha copy (ap-seal.png) is used — it sits on a
- * white chip, which is how a state emblem is conventionally shown and the
- * only way its green line art reads against the forest bar.
+ * The Government of Andhra Pradesh state seal, alpha-keyed from the
+ * supplied artwork. Used once, in the footer's attribution bar — §31
+ * warns against over-branding with government seals.
  */
-export function Mark({ className }: { className?: string }) {
+export function Seal({ className }: { className?: string }) {
   return (
-    <span
-      className={cx(
-        "grid shrink-0 place-items-center overflow-hidden ",
-        className,
-      )}
-    >
-      <Image
-        src="/source-assets/assets/logos/seal.png"
-        alt=""
-        width={319}
-        height={360}
-        className="h-[86%] w-auto"
-        priority
-      />
-    </span>
+    <Image
+      src="/source-assets/assets/logos/ap-seal.png"
+      alt=""
+      width={319}
+      height={360}
+      className={cx("w-auto shrink-0 object-contain", className)}
+    />
   );
 }
 
-/**
- * Transparent over the hero, then a soft chalk bar once you scroll past
- * it — the Indus Valley pattern. No blend modes; the bar is a real
- * surface so the mega panel can sit under it cleanly.
- */
+/* ── header ───────────────────────────────────────────────────────────
+   §17. Cream, flat, institutional. Seven uppercase groups, an AQV
+   lockup at the left and one gold action at the right. No dark bar, no
+   floating capsule, no chevrons — the boards show a clean rail.
+──────────────────────────────────────────────────────────────────── */
+
 export function SiteNav() {
   const pathname = usePathname();
   const [open, setOpen] = useState<number | null>(null);
@@ -53,7 +45,7 @@ export function SiteNav() {
   }, [pathname]);
 
   useEffect(() => {
-    const on = () => setStuck(window.scrollY > 40);
+    const on = () => setStuck(window.scrollY > 24);
     on();
     window.addEventListener("scroll", on, { passive: true });
     return () => window.removeEventListener("scroll", on);
@@ -66,142 +58,150 @@ export function SiteNav() {
     };
   }, [sheet]);
 
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      setOpen(null);
+      setSheet(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
   useEffect(() => () => void (timer.current && clearTimeout(timer.current)), []);
 
   const show = (i: number) => {
     if (timer.current) clearTimeout(timer.current);
     setOpen(i);
   };
-  // deferred close, so a diagonal move into the panel doesn't dismiss it
   const hide = () => {
     if (timer.current) clearTimeout(timer.current);
     timer.current = setTimeout(() => setOpen(null), 170);
   };
 
-  
+  const groupActive = (i: number) =>
+    nav[i].children.some((c) => c.href === pathname);
 
   return (
     <>
-      {/* a flush bar, edge to edge — it sits on the page, it doesn't float
-          above it. The ground stays translucent forest so the bar reads the
-          same over a dark photo hero and a light valley-wash one. */}
       <header
         className={cx(
-          "fixed inset-x-0 top-0 z-50 border-b text-chalk",
-          "transition-[background-color,border-color,box-shadow] duration-500 ease-[var(--ease-out-soft)]",
-          "backdrop-blur-xl",
+          "fixed inset-x-0 top-0 z-50 border-b",
+          "transition-[background-color,box-shadow,border-color] duration-300 ease-[var(--ease-out-soft)]",
           stuck
-            ? "border-white/10 bg-forest/88 shadow-[var(--shadow-float)]"
-            : "border-white/8 bg-forest/62",
+            ? "border-border bg-cream/94 shadow-[var(--shadow-sm)] backdrop-blur-2xl backdrop-saturate-150"
+            : "glass border-transparent",
         )}
       >
-        <div className="mx-auto flex h-[68px] w-[96%] items-center gap-4">
-          <Link
-            href="/"
-            aria-label={`${org.name} — home`}
-            className="flex shrink-0 items-center gap-3 text-chalk"
-          >
-            <Mark className="size-9" />
-            <span className="flex flex-col leading-none">
-              <span className="text-[13.5px] font-semibold tracking-[0.055em] uppercase">
-                Amaravati Quantum Valley
-              </span>
-              <span className="mt-1.5 text-[11.5px] leading-none tracking-[0.01em] text-chalk/50">
-                {org.owner}
-              </span>
-            </span>
+        <div className="container-page flex h-[72px] items-center gap-8 lg:h-[88px]">
+          <Link href="/" aria-label="Amaravati Quantum Valley — home" className="shrink-0">
+            <Logo className="lg:scale-100" />
           </Link>
 
-          <nav aria-label="Primary" className="mx-auto hidden items-center gap-0.5 xl:flex">
-            {nav.map((g, i) => (
-              <div key={g.label} onMouseEnter={() => show(i)} onMouseLeave={hide}>
-                <button
-                  type="button"
-                  aria-expanded={open === i}
-                  onClick={() => setOpen(open === i ? null : i)}
-                  className={cx(
-                    "flex items-center gap-1.5 rounded-[10px] px-3 py-2 text-[13px] font-medium whitespace-nowrap transition-colors duration-200",
-                    "text-chalk/80 hover:bg-white/10 hover:text-chalk",
-                    open === i && "bg-white/10 text-chalk",
-                  )}
-                >
-                  {g.label}
-                  <svg
-                    viewBox="0 0 12 12"
-                    fill="none"
-                    aria-hidden
-                    className={cx("size-2.5 transition-transform duration-300", open === i && "rotate-180")}
+          <nav
+            aria-label="Primary"
+            className="mx-auto hidden items-center gap-1 xl:flex"
+          >
+            {nav.map((g, i) => {
+              const on = open === i;
+              const active = groupActive(i);
+              return (
+                <div key={g.label} onMouseEnter={() => show(i)} onMouseLeave={hide}>
+                  <button
+                    type="button"
+                    aria-expanded={on}
+                    onClick={() => setOpen(on ? null : i)}
+                    className={cx(
+                      "t-nav relative px-3.5 py-2.5 whitespace-nowrap transition-colors duration-200",
+                      on || active ? "text-gold-text" : "text-ink hover:text-gold-text",
+                    )}
                   >
-                    <path d="M2.5 4.5 6 8l3.5-3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                  </svg>
-                </button>
-              </div>
-            ))}
+                    {g.label}
+                    <span
+                      aria-hidden
+                      className={cx(
+                        "absolute inset-x-3.5 bottom-0 h-[1.5px] origin-left bg-gold",
+                        "transition-transform duration-300 ease-[var(--ease-out-soft)]",
+                        on || active ? "scale-x-100" : "scale-x-0",
+                      )}
+                    />
+                  </button>
+                </div>
+              );
+            })}
           </nav>
 
-          <div className="ml-auto flex items-center gap-2.5 xl:ml-0">
-            <ThemeToggle />
-            <Link
-              href="/contact"
-              className={cx(
-                "hidden h-10 items-center gap-2 rounded-full px-5 text-[13.5px] font-medium whitespace-nowrap transition-all duration-300 sm:inline-flex",
-                "bg-lime text-ink hover:brightness-105",
-              )}
+          <div className="ml-auto flex items-center gap-3 xl:ml-0">
+            <Button
+              href="/why-amaravati"
+              className="t-nav hidden h-11 shrink-0 gap-2.5 px-6 whitespace-nowrap sm:inline-flex"
             >
-              Apply / Connect
-              <Arrow className="size-3" />
-            </Link>
+              Explore the Valley
+            </Button>
             <button
               type="button"
               onClick={() => setSheet((s) => !s)}
               aria-expanded={sheet}
               aria-label={sheet ? "Close menu" : "Open menu"}
-              className={cx(
-                "grid size-10 shrink-0 place-items-center rounded-full xl:hidden",
-                "text-chalk hover:bg-white/12",
-              )}
+              className="grid size-11 shrink-0 place-items-center rounded-md text-ink transition-colors hover:bg-sand/60 xl:hidden"
             >
-              <span className="relative block h-2.5 w-4.5">
-                <span className={cx("absolute inset-x-0 top-0 h-px bg-current transition-transform duration-300", sheet && "translate-y-[5px] rotate-45")} />
-                <span className={cx("absolute inset-x-0 bottom-0 h-px bg-current transition-transform duration-300", sheet && "-translate-y-[5px] -rotate-45")} />
+              <span className="relative block h-2.5 w-5">
+                <span
+                  className={cx(
+                    "absolute inset-x-0 top-0 h-px bg-current transition-transform duration-300",
+                    sheet && "translate-y-[5px] rotate-45",
+                  )}
+                />
+                <span
+                  className={cx(
+                    "absolute inset-x-0 bottom-0 h-px bg-current transition-transform duration-300",
+                    sheet && "-translate-y-[5px] -rotate-45",
+                  )}
+                />
               </span>
             </button>
           </div>
         </div>
       </header>
-      {/* mega panel */}
+
+      {/* ── mega panel ── */}
       {nav.map((g, i) => (
         <div
           key={g.label}
           onMouseEnter={() => show(i)}
           onMouseLeave={hide}
           className={cx(
-            "fixed top-[68px] left-1/2 z-40 hidden w-[min(900px,94vw)] -translate-x-1/2 px-2 pt-2 transition-all duration-300 ease-[var(--ease-out-soft)] xl:block",
-            open === i ? "pointer-events-auto translate-y-0 opacity-100" : "pointer-events-none -translate-y-2 opacity-0",
+            "fixed top-[88px] left-1/2 z-40 hidden w-[min(860px,94vw)] -translate-x-1/2 pt-2",
+            "transition-all duration-300 ease-[var(--ease-out-soft)] xl:block",
+            open === i
+              ? "pointer-events-auto translate-y-0 opacity-100"
+              : "pointer-events-none invisible -translate-y-2 opacity-0",
           )}
         >
-          <div className="rounded-[var(--radius-slab)] bg-chalk p-2 shadow-[var(--shadow-float)]">
+          <div className="rounded-lg border border-border bg-cream p-2.5 shadow-[var(--shadow-md)]">
             <ul className="grid grid-cols-2 gap-1">
               {g.children.map((c) => (
                 <li key={c.label}>
                   <Link
                     href={c.href}
-                    className="group/i flex items-center gap-3.5 rounded-[16px] px-3.5 py-3 transition-colors duration-200 hover:bg-bone"
+                    className="group/i flex items-center gap-4 rounded-md p-3 transition-colors duration-200 hover:bg-cream-warm"
                   >
-                    <span className="grid size-10 shrink-0 place-items-center rounded-[12px] bg-bone text-sage-deep transition-colors duration-200 group-hover/i:bg-sage-wash">
+                    <span className="grid size-10 shrink-0 place-items-center rounded-md border border-border bg-cream-warm text-gold-text transition-colors duration-200 group-hover/i:border-gold/50 group-hover/i:bg-gold-wash">
                       <NavIcon kind={c.icon} className="size-5" />
                     </span>
-                    <span className="flex min-w-0 flex-col gap-1">
+                    <span className="flex min-w-0 flex-col gap-1.5">
                       <span className="flex items-center gap-2 text-[14.5px] leading-none font-medium text-ink">
                         <span className="truncate">{c.label}</span>
                         {c.soon ? (
-                          <span className="micro shrink-0 rounded-full bg-bone-deep px-2 py-1 text-faint">
-                            Soon
+                          <span className="t-label shrink-0 rounded-sm bg-sand px-1.5 py-1 text-[#5d5343]">
+                            Planned
                           </span>
                         ) : null}
-                        <Arrow className="size-3 shrink-0 -translate-x-1 text-sage-deep opacity-0 transition-all duration-300 group-hover/i:translate-x-0 group-hover/i:opacity-100" />
+                        <Arrow className="size-3 shrink-0 -translate-x-1 text-gold-text opacity-0 transition-all duration-200 group-hover/i:translate-x-0 group-hover/i:opacity-100" />
                       </span>
-                      <span className="truncate text-[12.5px] leading-none text-muted">{c.blurb}</span>
+                      <span className="truncate text-[12.5px] leading-none text-muted">
+                        {c.blurb}
+                      </span>
                     </span>
                   </Link>
                 </li>
@@ -211,50 +211,59 @@ export function SiteNav() {
         </div>
       ))}
 
-      {/* mobile sheet */}
-      <div className={cx("fixed inset-0 z-40 xl:hidden", sheet ? "pointer-events-auto" : "pointer-events-none")} aria-hidden={!sheet}>
+      {/* ── mobile drawer ── */}
+      <div
+        className={cx(
+          "fixed inset-0 z-40 xl:hidden",
+          sheet ? "pointer-events-auto" : "pointer-events-none",
+        )}
+        aria-hidden={!sheet}
+      >
         <div
           onClick={() => setSheet(false)}
-          className={cx("absolute inset-0 bg-forest/45 backdrop-blur-sm transition-opacity duration-400", sheet ? "opacity-100" : "opacity-0")}
+          className={cx(
+            "absolute inset-0 bg-ink/25 backdrop-blur-sm transition-opacity duration-300",
+            sheet ? "opacity-100" : "opacity-0",
+          )}
         />
         <div
           className={cx(
-            "absolute inset-x-3 top-[80px] max-h-[78vh] overflow-y-auto rounded-[var(--radius-slab)] bg-chalk p-3 shadow-[var(--shadow-float)] transition-all duration-500 ease-[var(--ease-out-soft)]",
+            "absolute inset-x-3 top-[80px] max-h-[80vh] overflow-y-auto rounded-lg border border-border bg-cream p-3 shadow-[var(--shadow-md)]",
+            "transition-all duration-400 ease-[var(--ease-out-soft)]",
             sheet ? "translate-y-0 opacity-100" : "-translate-y-3 opacity-0",
           )}
         >
           {nav.map((g) => (
-            <div key={g.label} className="px-1 py-2">
-              <span className="micro text-faint">{g.label}</span>
-              <ul className="mt-2 flex flex-col">
+            <div key={g.label} className="px-1 py-2.5">
+              <span className="t-label text-gold-text">{g.label}</span>
+              <ul className="mt-2.5 flex flex-col">
                 {g.children.map((c) => (
                   <li key={c.label}>
                     <Link
                       href={c.href}
-                      className="flex items-center gap-3 rounded-[14px] px-3 py-2.5 hover:bg-bone"
+                      className="flex min-h-[52px] items-center gap-3 rounded-md px-2.5 py-2.5 hover:bg-cream-warm"
                     >
-                      <span className="grid size-9 shrink-0 place-items-center rounded-[11px] bg-bone text-sage-deep">
+                      <span className="grid size-9 shrink-0 place-items-center rounded-md border border-border bg-cream-warm text-gold-text">
                         <NavIcon kind={c.icon} className="size-4.5" />
                       </span>
-                      <span className="flex min-w-0 flex-col gap-0.5">
-                        <span className="truncate text-[14.5px] leading-none font-medium text-ink">
+                      <span className="flex min-w-0 flex-col gap-1">
+                        <span className="truncate text-[15px] leading-none font-medium text-ink">
                           {c.label}
                         </span>
-                        <span className="truncate text-[12px] leading-none text-muted">{c.blurb}</span>
+                        <span className="truncate text-[12.5px] leading-none text-muted">
+                          {c.blurb}
+                        </span>
                       </span>
-                      <Arrow className="ml-auto size-3 shrink-0 text-sage-deep" />
+                      <Arrow className="ml-auto size-3.5 shrink-0 text-gold-text" />
                     </Link>
                   </li>
                 ))}
               </ul>
             </div>
           ))}
-          <Link
-            href="/contact"
-            className="mt-2 flex h-12 items-center justify-center gap-2 rounded-full bg-ink text-[14px] font-medium text-chalk"
-          >
-            Apply / Connect <Arrow className="size-3" />
-          </Link>
+          <Button href="/why-amaravati" className="mt-3 w-full">
+            Explore the Valley
+          </Button>
         </div>
       </div>
     </>

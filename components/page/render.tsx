@@ -1,36 +1,92 @@
 import type { PageDef } from "@/lib/pages";
-import { Container, cx } from "../ui/kit";
+import { artFor } from "@/lib/page-art";
+import { Container, Source, cx } from "../ui/kit";
 import { Reveal } from "../ui/reveal";
 import { Plate } from "../ui/plate";
+import { Prop } from "../ui/overlay";
 import { Accordion } from "./accordion";
 import { Feed } from "./feed";
-import { Band, CTABand, Cards, DataTable, LinkRows, Metrics, PageHero, Split, Steps } from "./blocks";
+import {
+  Band,
+  Cards,
+  DataTable,
+  LinkRows,
+  Metrics,
+  PageClose,
+  PageHero,
+  Split,
+  Steps,
+} from "./blocks";
 
 /**
- * Renders a PageDef. Every inner route is composed from the same block
- * vocabulary, so a page is content plus a shape — never bespoke layout.
+ * Renders a PageDef.
+ *
+ * §35 — the grounds cycle so no two consecutive chapters share a field,
+ * and each chapter hangs the page's own prop on alternating corners.
+ * A band and the blocks that follow it stay on one ground, so a heading
+ * never floats away from its content.
  */
-export function RenderPage({ def }: { def: PageDef }) {
+
+const GROUNDS = ["cream", "warm", "sand"] as const;
+
+export function RenderPage({ def, route }: { def: PageDef; route: string }) {
+  const art = artFor(route);
+
+  /* Which ground each block sits on. A band starts a new chapter and
+     advances the cycle; everything after it inherits that ground. */
+  let chapter = -1;
+  const ground = def.blocks.map((b) => {
+    if (b.t === "band") chapter += 1;
+    return b.t === "band" && b.tone === "ink"
+      ? ("ink" as const)
+      : GROUNDS[Math.max(0, chapter) % GROUNDS.length];
+  });
+
+  const bg = (g: string) =>
+    g === "warm" ? "bg-cream-warm" : g === "sand" ? "ground-sand" : "bg-cream";
+
   return (
     <>
-      <PageHero {...def.hero} />
+      <PageHero {...def.hero} art={art} />
 
       {def.blocks.map((b, i) => {
-        switch (b.t) {
-          case "band":
-            return (
-              <Band
-                key={i}
-                n={b.n}
-                eyebrow={b.eyebrow}
-                lead={b.lead}
-                accent={b.accent}
-                sub={b.sub}
-                tone={b.tone}
-                align={b.align}
-              />
-            );
+        const g = ground[i];
 
+        if (b.t === "band") {
+          return (
+            <Band
+              key={i}
+              n={b.n}
+              eyebrow={b.eyebrow}
+              lead={b.lead}
+              accent={b.accent}
+              sub={b.sub}
+              tone={g}
+              align={b.align}
+            />
+          );
+        }
+
+        /* the first block after a band carries that chapter's prop, on
+           alternating corners so a long page keeps its rhythm */
+        const opensChapter = i > 0 && def.blocks[i - 1].t === "band";
+        const left = (chapterAt(def.blocks, i) % 2) === 1;
+
+        const Wrap = ({ children }: { children: React.ReactNode }) => (
+          <section className={cx("relative overflow-hidden pb-[clamp(56px,7vw,88px)]", bg(g))}>
+            {opensChapter ? (
+              <Prop
+                name={left ? art.prop : (art.tail ?? art.prop)}
+                anchor={left ? "bottom-left" : "bottom-right"}
+                opacity={18}
+                className="hidden w-[30%] max-w-[440px] lg:block"
+              />
+            ) : null}
+            <Container className="relative">{children}</Container>
+          </section>
+        );
+
+        switch (b.t) {
           case "metrics":
             return (
               <Wrap key={i}>
@@ -41,7 +97,9 @@ export function RenderPage({ def }: { def: PageDef }) {
           case "table":
             return (
               <Wrap key={i}>
-                <DataTable head={b.head} rows={b.rows} />
+                <Reveal>
+                  <DataTable head={b.head} rows={b.rows} />
+                </Reveal>
               </Wrap>
             );
 
@@ -62,14 +120,20 @@ export function RenderPage({ def }: { def: PageDef }) {
           case "steps":
             return (
               <Wrap key={i}>
-                <Steps items={b.items} />
+                <Reveal>
+                  <Steps items={b.items} />
+                </Reveal>
               </Wrap>
             );
 
           case "links":
             return (
               <Wrap key={i}>
-                <LinkRows items={b.items} />
+                <Reveal>
+                  <div className="max-w-3xl">
+                    <LinkRows items={b.items} />
+                  </div>
+                </Reveal>
               </Wrap>
             );
 
@@ -80,42 +144,6 @@ export function RenderPage({ def }: { def: PageDef }) {
               </Wrap>
             );
 
-          case "prose":
-            return (
-              <Wrap key={i}>
-                <Reveal>
-                  <p className="max-w-[74ch] text-[16.5px] leading-[1.75] text-muted">{b.text}</p>
-                </Reveal>
-              </Wrap>
-            );
-
-          case "peers":
-            /* Names as type on a dark ground. The supplied logo PNGs carry
-               opaque grey plates that no blend mode removes, so the strip
-               sets them rather than knocking them out. */
-            return (
-              <Wrap key={i}>
-                <Reveal>
-                  <div className="relative overflow-hidden rounded-slab panel-dark px-7 py-10 sm:px-10">
-                    <span className="absolute inset-0 grain" aria-hidden />
-                    <ul className="relative flex flex-wrap items-center gap-x-8 gap-y-5 sm:gap-x-12">
-                      {b.items.map((p) => (
-                        <li
-                          key={p}
-                          className="text-[17px] leading-none font-medium tracking-[-0.02em] text-chalk/70 transition-colors duration-300 hover:text-chalk sm:text-[19px]"
-                        >
-                          {p}
-                        </li>
-                      ))}
-                    </ul>
-                    {b.note ? (
-                      <p className="micro relative mt-9 border-t border-white/10 pt-6 text-chalk/45">{b.note}</p>
-                    ) : null}
-                  </div>
-                </Reveal>
-              </Wrap>
-            );
-
           case "feed":
             return (
               <Wrap key={i}>
@@ -123,20 +151,78 @@ export function RenderPage({ def }: { def: PageDef }) {
               </Wrap>
             );
 
+          case "prose":
+            return (
+              <Wrap key={i}>
+                <Reveal>
+                  <p className="t-lead measure text-ink/80">{b.text}</p>
+                </Reveal>
+              </Wrap>
+            );
+
+          case "note":
+            return (
+              <Wrap key={i}>
+                <Reveal>
+                  <p className="t-body-sm measure rounded-lg border-l-2 border-gold bg-gold-wash/70 px-6 py-5 text-muted">
+                    {b.text}
+                  </p>
+                </Reveal>
+              </Wrap>
+            );
+
+          case "peers":
+            return (
+              <Wrap key={i}>
+                <Reveal>
+                  {/* §53 — organised, on cream, never a dark logo wall */}
+                  <div className="lit rounded-lg border border-border bg-paper px-8 py-10">
+                    <ul className="flex flex-wrap items-center gap-x-9 gap-y-5">
+                      {b.items.map((p) => (
+                        <li
+                          key={p}
+                          className="text-[17px] leading-none font-medium tracking-[-0.02em] text-ink/70 transition-colors duration-200 hover:text-gold-text"
+                        >
+                          {p}
+                        </li>
+                      ))}
+                    </ul>
+                    {b.note ? (
+                      <p className="t-caption mt-8 border-t border-border pt-6 text-muted">
+                        {b.note}
+                      </p>
+                    ) : null}
+                  </div>
+                </Reveal>
+              </Wrap>
+            );
+
           case "gallery":
             return (
               <Wrap key={i}>
-                <div className={cx("grid gap-5", b.cols === 2 ? "sm:grid-cols-2" : "sm:grid-cols-2 lg:grid-cols-3")}>
-                  {b.items.map((g, gi) => (
-                    <Reveal key={g.src + gi} delay={gi * 70}>
-                      <figure>
-                        <div className="relative aspect-4/3 w-full overflow-hidden rounded-slab hairline">
-                          <Plate src={g.src} alt={g.alt} sizes="(max-width:768px) 100vw, 33vw" className="size-full" />
-                        </div>
-                        {g.caption ? (
-                          <figcaption className="mt-3">
-                            <span className="block text-[13.5px] leading-snug text-ink">{g.caption}</span>
-                            {g.meta ? <span className="micro mt-1.5 block text-faint">{g.meta}</span> : null}
+                <div
+                  className={cx(
+                    "grid gap-5",
+                    b.cols === 2 ? "sm:grid-cols-2" : "sm:grid-cols-2 lg:grid-cols-3",
+                  )}
+                >
+                  {b.items.map((gi2, gi) => (
+                    <Reveal key={gi2.src + gi} delay={gi * 70}>
+                      <figure className="hover-zoom">
+                        <Plate
+                          src={gi2.src}
+                          alt={gi2.alt}
+                          ratio="aspect-[4/3]"
+                          sizes="(max-width:768px) 100vw, 33vw"
+                          radius="lg"
+                          className="lit"
+                        />
+                        {gi2.caption ? (
+                          <figcaption className="mt-3.5">
+                            <span className="t-body-sm block text-ink">{gi2.caption}</span>
+                            {gi2.meta ? (
+                              <Source className="mt-2 block text-gold-text">{gi2.meta}</Source>
+                            ) : null}
                           </figcaption>
                         ) : null}
                       </figure>
@@ -150,38 +236,24 @@ export function RenderPage({ def }: { def: PageDef }) {
             return (
               <Wrap key={i}>
                 <Reveal>
-                  <figure>
-                    <div
-                      className={cx(
-                        "relative w-full overflow-hidden rounded-slab hairline",
-                        b.wide ? "aspect-16/7" : "aspect-16/9",
-                      )}
-                    >
-                      <Plate src={b.src} slot={b.slot} alt={b.alt} sizes="(max-width:1024px) 100vw, 1200px" className="size-full" />
-                    </div>
+                  <figure className={cx(b.wide ? "" : "max-w-4xl")}>
+                    <Plate
+                      src={b.src}
+                      alt={b.alt}
+                      ratio="aspect-[16/9]"
+                      sizes={b.wide ? "100vw" : "(max-width:1024px) 100vw, 62vw"}
+                      radius="lg"
+                      className="lit-lg"
+                    />
                     {b.caption ? (
-                      <figcaption className="mt-4 flex flex-wrap items-baseline gap-x-4 gap-y-1">
-                        <span className="text-[14.5px] text-ink">{b.caption}</span>
-                        {b.meta ? <span className="micro text-faint">{b.meta}</span> : null}
+                      <figcaption className="mt-3.5">
+                        <span className="t-body-sm block text-ink">{b.caption}</span>
+                        {b.meta ? (
+                          <Source className="mt-2 block text-gold-text">{b.meta}</Source>
+                        ) : null}
                       </figcaption>
                     ) : null}
                   </figure>
-                </Reveal>
-              </Wrap>
-            );
-
-          case "note":
-            return (
-              <Wrap key={i}>
-                <Reveal>
-                  <p
-                    className={cx(
-                      "max-w-[70ch] border-l-2 border-sage-deep/40 py-1 pl-6",
-                      "text-[15px] leading-[1.75] text-muted",
-                    )}
-                  >
-                    {b.text}
-                  </p>
                 </Reveal>
               </Wrap>
             );
@@ -191,16 +263,14 @@ export function RenderPage({ def }: { def: PageDef }) {
         }
       })}
 
-      {def.cta ? <CTABand {...def.cta} /> : null}
+      {def.cta ? <PageClose {...def.cta} art={art} /> : null}
     </>
   );
 }
 
-/** Blocks that follow a band need the band's bottom padding removed. */
-function Wrap({ children }: { children: React.ReactNode }) {
-  return (
-    <section className="bg-bone pb-[clamp(56px,9vh,110px)]">
-      <Container>{children}</Container>
-    </section>
-  );
+/** How many bands precede this block — the chapter it belongs to. */
+function chapterAt(blocks: PageDef["blocks"], index: number) {
+  let n = 0;
+  for (let i = 0; i < index; i++) if (blocks[i].t === "band") n++;
+  return n;
 }
