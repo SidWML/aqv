@@ -4,6 +4,7 @@ import { Container, Source, cx } from "../ui/kit";
 import { Reveal } from "../ui/reveal";
 import { Plate } from "../ui/plate";
 import { Prop } from "../ui/overlay";
+import { SiteHero } from "./hero";
 import { Accordion } from "./accordion";
 import { Feed } from "./feed";
 import {
@@ -13,7 +14,6 @@ import {
   LinkRows,
   Metrics,
   PageClose,
-  PageHero,
   Split,
   Steps,
 } from "./blocks";
@@ -47,7 +47,16 @@ export function RenderPage({ def, route }: { def: PageDef; route: string }) {
 
   return (
     <>
-      <PageHero {...def.hero} art={art} />
+      <SiteHero
+        art={art}
+        eyebrow={def.hero.eyebrow}
+        lead={def.hero.lead}
+        accent={def.hero.accent}
+        statement={def.hero.sub}
+        ctas={def.hero.ctas}
+        src={def.hero.src}
+        alt={def.hero.alt}
+      />
 
       {def.blocks.map((b, i) => {
         const g = ground[i];

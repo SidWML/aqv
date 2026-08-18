@@ -1,29 +1,35 @@
 import type { Metadata } from "next";
-import { Fraunces, Instrument_Sans, JetBrains_Mono } from "next/font/google";
+import { Fraunces, Manrope, JetBrains_Mono } from "next/font/google";
 import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
+import { Motion } from "@/components/ui/motion";
 import { org } from "@/lib/aqv";
 import "./globals.css";
 
 /**
- * Two voices, as the approved boards show them.
+ * Two voices.
  *
- * Fraunces carries every display line — an editorial serif with enough
- * warmth to read civic rather than corporate. Wonk and softness are
- * dialled to zero in the type scale so it stays institutional.
+ * Fraunces carries every display line. Soft and Wonk are dialled to
+ * zero in the type scale, which keeps its old-style warmth but takes
+ * the whimsy out — the result reads institutional rather than playful,
+ * and it holds weight at 68px the way a thin didone cannot.
  *
- * Instrument Sans carries everything a reader has to work through, and
- * mono carries labels, dates and sources.
+ * Manrope carries everything a reader has to work through. Geometric
+ * enough to feel future-ready, humanist enough to stay warm beside the
+ * cream and the gold, and unusually clear at label sizes.
+ *
+ * Mono is a utility face, not a third brand voice: it sets labels,
+ * dates and sources so a figure is never confused for a caption.
  */
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
+const display = Fraunces({
+  variable: "--font-display-face",
   subsets: ["latin"],
   display: "swap",
   axes: ["SOFT", "WONK", "opsz"],
 });
 
-const instrument = Instrument_Sans({
-  variable: "--font-instrument",
+const body = Manrope({
+  variable: "--font-body-face",
   subsets: ["latin"],
   display: "swap",
 });
@@ -50,7 +56,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${instrument.variable} ${mono.variable} h-full`}
+      className={`${display.variable} ${body.variable} ${mono.variable} h-full`}
     >
       <body className="flex min-h-full flex-col bg-cream text-ink">
         <a
@@ -64,6 +70,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {children}
         </main>
         <SiteFooter />
+        {/* one reveal observer for the whole site */}
+        <Motion />
       </body>
     </html>
   );

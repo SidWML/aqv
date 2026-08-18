@@ -93,7 +93,7 @@ const MARKS: { icon: IconKind; a: string; b: string }[] = [
 
 export function FindYourDoor() {
   return (
-    <section className=" bg-[#030303] section relative isolate overflow-hidden">
+    <section className="tone-4 section relative isolate overflow-hidden">
       {/* the gateway, lit against the night */}
       <Prop
         name="gatewayNight"
@@ -130,7 +130,7 @@ export function FindYourDoor() {
               className={cx(
                 "group hover-zoom flex flex-col overflow-hidden rounded-lg",
                 "border border-night-line bg-night-card",
-                "transition-colors duration-300 hover:border-gold/45",
+                "transition-colors duration-300 hover:border-gold/50",
               )}
             >
               {/* number and mark */}

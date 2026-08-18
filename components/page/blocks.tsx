@@ -17,100 +17,6 @@ import {
   statusTint,
 } from "../ui/kit";
 
-/* ── page hero ────────────────────────────────────────────────────────
-   §67. The type sits on a warm rise with the page's own prop hung at
-   the top right; the photograph follows as a wide frame, so the hero
-   opens with the subject rather than a coloured band.
-──────────────────────────────────────────────────────────────────── */
-
-export function PageHero({
-  eyebrow,
-  lead,
-  accent,
-  sub,
-  ctas,
-  src,
-  alt,
-  tier,
-  art,
-}: {
-  eyebrow: string;
-  lead: string;
-  accent?: string;
-  sub?: string;
-  ctas?: { label: string; href: string }[];
-  src?: string;
-  alt?: string;
-  tier?: Tier;
-  art: PageArt;
-}) {
-  const image = src ?? art.hero;
-  const imageAlt = alt ?? art.heroAlt ?? "";
-
-  return (
-    <section className="ground-rise relative isolate overflow-hidden pt-[132px] lg:pt-[164px]">
-      <Prop
-        name={art.prop}
-        anchor="top-right"
-        opacity={38}
-        className="hidden w-[40%] max-w-[620px] lg:block"
-      />
-
-      <Container className="relative">
-        <div className="max-w-[46rem]">
-          <Eyebrow>{eyebrow}</Eyebrow>
-
-          <h1 className="t-h1 mt-6 text-ink">
-            {lead}
-            {accent ? (
-              <>
-                {" "}
-                <span className="text-gold">{accent}</span>
-              </>
-            ) : null}
-          </h1>
-
-          <span aria-hidden className="rule-fade mt-7 block w-24" />
-
-          {sub ? <p className="t-lead measure mt-6 text-muted">{sub}</p> : null}
-
-          {ctas?.length ? (
-            <div className="mt-9 flex flex-wrap items-center gap-4">
-              {ctas.map((c, i) => (
-                <Button
-                  key={c.href + i}
-                  href={c.href}
-                  variant={i === 0 ? "primary" : "secondary"}
-                  className="t-nav"
-                >
-                  {c.label}
-                </Button>
-              ))}
-            </div>
-          ) : null}
-        </div>
-      </Container>
-
-      {image ? (
-        <Container className="relative mt-12 lg:mt-14">
-          <Plate
-            src={image}
-            alt={imageAlt}
-            tier={tier}
-            ratio="aspect-[21/9]"
-            sizes="100vw"
-            radius="lg"
-            priority
-            className="lit-lg"
-          />
-        </Container>
-      ) : (
-        <div className="pb-2" />
-      )}
-    </section>
-  );
-}
-
 /* ── band ─────────────────────────────────────────────────────────────
    A section header on a ground. Grounds cycle down the page so a long
    route is never one flat field — §35.
@@ -377,7 +283,7 @@ export function Cards({ items, cols = 3 }: { items: Card[]; cols?: 2 | 3 | 4 }) 
     <div className={cx("grid gap-4", grid)}>
       {items.map((c, i) => (
         <Reveal key={c.title + i} delay={i * 50}>
-          <article className="lit hover-zoom group flex h-full flex-col overflow-hidden rounded-lg border border-border bg-paper transition-colors duration-300 hover:border-gold/55">
+          <article className="lit hover-zoom group flex h-full flex-col overflow-hidden rounded-lg border border-border bg-paper transition-colors duration-300 hover:border-gold/50">
             {c.src ? (
               <Plate
                 src={c.src}

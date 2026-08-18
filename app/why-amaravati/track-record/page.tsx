@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { RenderPage } from "@/components/page/render";
+import { TrackRecordPage } from "@/components/pages/track-record";
 import { pages } from "@/lib/pages";
 
 const def = pages["/why-amaravati/track-record"];
@@ -10,5 +10,5 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <RenderPage def={def} route="/why-amaravati/track-record" />;
+  return <TrackRecordPage />;
 }

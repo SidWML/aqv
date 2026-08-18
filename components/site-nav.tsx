@@ -93,7 +93,13 @@ export function SiteNav() {
             : "glass border-transparent",
         )}
       >
-        <div className="container-page flex h-[72px] items-center gap-8 lg:h-[88px]">
+        <div
+          className={cx(
+            "container-page flex items-center gap-8",
+            "transition-[height] duration-300 ease-[var(--ease-out-soft)]",
+            stuck ? "h-[64px] lg:h-[70px]" : "h-[72px] lg:h-[88px]",
+          )}
+        >
           <Link href="/" aria-label="Amaravati Quantum Valley — home" className="shrink-0">
             <Logo className="lg:scale-100" />
           </Link>
@@ -132,12 +138,14 @@ export function SiteNav() {
           </nav>
 
           <div className="ml-auto flex items-center gap-3 xl:ml-0">
-            <Button
-              href="/why-amaravati"
-              className="t-nav hidden h-11 shrink-0 gap-2.5 px-6 whitespace-nowrap sm:inline-flex"
-            >
-              Explore the Valley
-            </Button>
+            <span className="hidden sm:block">
+              <Button
+                href="/why-amaravati"
+                className="t-nav h-11 shrink-0 gap-2.5 px-5 whitespace-nowrap lg:px-6"
+              >
+                Explore the Valley
+              </Button>
+            </span>
             <button
               type="button"
               onClick={() => setSheet((s) => !s)}
@@ -194,7 +202,7 @@ export function SiteNav() {
                         <span className="truncate">{c.label}</span>
                         {c.soon ? (
                           <span className="t-label shrink-0 rounded-sm bg-sand px-1.5 py-1 text-[#5d5343]">
-                            Planned
+                            Coming soon
                           </span>
                         ) : null}
                         <Arrow className="size-3 shrink-0 -translate-x-1 text-gold-text opacity-0 transition-all duration-200 group-hover/i:translate-x-0 group-hover/i:opacity-100" />

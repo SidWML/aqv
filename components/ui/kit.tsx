@@ -18,6 +18,21 @@ export function Container({
   return <div className={cx("container-page", className)}>{children}</div>;
 }
 
+/* ── the ground scale ─────────────────────────────────────────────────
+   Section grounds are one system, defined once in globals.css as
+   `.tone-1` … `.tone-4`:
+
+     tone-1   Warm Ivory        light     the default page ground
+     tone-2   warm half-step    light+
+     tone-3   Champagne Beige   shaded    the weighted step
+     tone-4   Quantum Navy      dark      the one dark chapter
+
+   Every section on the site carries exactly one of them, two adjacent
+   sections never carry the same one, and a page closes on the shaded
+   or the dark step. Cards stay White on all three light grounds, so a
+   card always reads as a surface above its section.
+──────────────────────────────────────────────────────────────────── */
+
 /* ── eyebrow ──────────────────────────────────────────────────────────
    A numbered label with a short gold rule. This is the one repeated
    device in the system — it is how a reader knows where they are.
@@ -47,6 +62,58 @@ export function Eyebrow({
         {children}
       </span>
     </span>
+  );
+}
+
+/* ── breadcrumb ───────────────────────────────────────────────────────
+   §67. Where a route sits below a parent, the trail is stated rather
+   than left to the nav's underline.
+──────────────────────────────────────────────────────────────────── */
+
+export function Breadcrumb({
+  items,
+  tone = "light",
+  className,
+}: {
+  items: { label: string; href?: string }[];
+  tone?: "light" | "dark";
+  className?: string;
+}) {
+  const dark = tone === "dark";
+  return (
+    <nav aria-label="Breadcrumb" className={className}>
+      <ol className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
+        {items.map((c, i) => (
+          <li key={c.label} className="flex items-center gap-2.5">
+            {i > 0 ? (
+              <span aria-hidden className={dark ? "text-cream/25" : "text-border"}>
+                /
+              </span>
+            ) : null}
+            {c.href ? (
+              <Link
+                href={c.href}
+                className={cx(
+                  "t-caption transition-colors",
+                  dark
+                    ? "text-cream/55 hover:text-gold-light"
+                    : "text-muted hover:text-gold-text",
+                )}
+              >
+                {c.label}
+              </Link>
+            ) : (
+              <span
+                className={cx("t-caption", dark ? "text-gold-light" : "text-ink")}
+                aria-current="page"
+              >
+                {c.label}
+              </span>
+            )}
+          </li>
+        ))}
+      </ol>
+    </nav>
   );
 }
 
@@ -147,11 +214,11 @@ const STATUS: Record<
   LIVE: {
     light: "bg-navy text-cream ring-transparent",
     dark: "bg-cream text-navy ring-transparent",
-    ink: "text-navy",
+    ink: "text-navy-ink",
     glyph: "dot",
   },
   "IN PROGRESS": {
-    light: "bg-gold text-cream ring-transparent",
+    light: "bg-gold-deep text-cream ring-transparent",
     dark: "bg-gold/28 text-gold-light ring-gold/45",
     ink: "text-gold-text",
     glyph: "line",
@@ -161,6 +228,13 @@ const STATUS: Record<
     dark: "bg-transparent text-gold-light ring-gold/55",
     ink: "text-gold",
     glyph: "ring",
+  },
+  /* not yet announced — the same restraint as PLANNED, its own word */
+  "COMING SOON": {
+    light: "bg-transparent text-[#5d5343] ring-border",
+    dark: "bg-transparent text-cream/65 ring-cream/25",
+    ink: "text-muted",
+    glyph: "outline",
   },
   PLANNED: {
     light: "bg-transparent text-[#5d5343] ring-border",
@@ -181,10 +255,11 @@ export function statusInk(status: Status) {
  * thing without each one being set by hand.
  */
 const STATUS_TINT: Record<Status, string> = {
-  DELIVERED: "bg-olive/8 border-olive/35",
-  LIVE: "bg-navy/8 border-navy/30",
-  "IN PROGRESS": "bg-gold/8 border-gold/40",
-  OPEN: "bg-gold/6 border-gold/35",
+  DELIVERED: "bg-olive/10 border-olive/40",
+  LIVE: "bg-navy-ink/8 border-navy-ink/28",
+  "IN PROGRESS": "bg-gold/10 border-gold/40",
+  OPEN: "bg-gold/6 border-gold/38",
+  "COMING SOON": "bg-sand/35 border-border",
   PLANNED: "bg-sand/35 border-border",
 };
 
@@ -238,33 +313,22 @@ function StatusGlyph({ kind }: { kind: string }) {
   }
 }
 
-/** The outlined weight, for rows that already carry colour elsewhere. */
-const STATUS_OUTLINE: Record<Status, string> = {
-  DELIVERED: "bg-transparent text-olive-deep ring-olive/60",
-  LIVE: "bg-transparent text-navy ring-navy/45",
-  "IN PROGRESS": "bg-transparent text-navy ring-navy/45",
-  OPEN: "bg-transparent text-gold-text ring-gold/70",
-  PLANNED: "bg-transparent text-muted ring-border",
-};
-
+/**
+ * One weight, site-wide. There is deliberately no outlined variant —
+ * a status must look identical on the homepage, in a ledger and on a
+ * sub-route, or it stops being a system.
+ */
 export function StatusTag({
   status,
   tone = "light",
-  variant = "solid",
   className,
 }: {
   status: Status;
   tone?: "light" | "dark";
-  variant?: "solid" | "outline";
   className?: string;
 }) {
   const s = STATUS[status] ?? STATUS.PLANNED;
-  const skin =
-    variant === "outline" && tone === "light"
-      ? (STATUS_OUTLINE[status] ?? STATUS_OUTLINE.PLANNED)
-      : tone === "dark"
-        ? s.dark
-        : s.light;
+  const skin = tone === "dark" ? s.dark : s.light;
 
   return (
     <span

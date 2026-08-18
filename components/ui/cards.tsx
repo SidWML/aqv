@@ -28,8 +28,8 @@ function Shell({
   const cls = cx(
     "group relative flex flex-col overflow-hidden rounded-xl border transition-colors duration-300",
     tone === "dark"
-      ? "border-cream/12 bg-cream/[0.04] hover:border-gold/45"
-      : "lit border-border bg-paper hover:border-gold/55",
+      ? "border-cream/12 bg-cream/[0.04] hover:border-gold/50"
+      : "lit border-border bg-paper hover:border-gold/50",
     pad && "p-7",
     className,
   );
@@ -353,7 +353,7 @@ export function DoorCard({
   return (
     <Link
       href={href}
-      className="group relative isolate flex min-h-[440px] flex-col overflow-hidden rounded-lg border lit border-border bg-paper transition-colors duration-300 hover:border-gold/40 lg:min-h-[600px]"
+      className="group relative isolate flex min-h-[440px] flex-col overflow-hidden rounded-lg border lit border-border bg-paper transition-colors duration-300 hover:border-gold/50 lg:min-h-[600px]"
     >
       {/* the photograph, dissolving up into the card */}
       <div className="absolute inset-x-0 bottom-0 top-[42%] -z-10">

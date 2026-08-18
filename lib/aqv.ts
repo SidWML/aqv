@@ -33,7 +33,7 @@ export const img = {
   qaic: `${A}/real-photos/qaic-workshop-ibm-group-photo.jpg`,
   isingOpen: `${A}/real-photos/photonic-ising-machine-open-chassis.jpg`,
   river: `${G}/IMG-01.png`,
-  heroLoop: `${G}/VID-01.opt.mp4`,
+  heroLoop: `/media/hero-prakasam-barrage.mp4`,
   heroPoster: `${G}/VID-01-poster.jpg`,
   mapIndia: `${A}/graphics-maps/map-india-andhra-locator.png`,
   mapAp: `${A}/graphics-maps/map-ap-districts-amaravati.png`,
@@ -68,34 +68,28 @@ export type NavGroup = {
   }[];
 };
 
-/* The seven groups from the approved navigation. Every route the old
-   six-group menu reached is still reachable — nothing was dropped, the
-   grouping was rebalanced so the labels match the boards. */
+/* The live site's six groups, verbatim. Every child carries a blurb and
+   a glyph so the dropdown rows are identical in height whatever the
+   label length; the blurbs come from each page's own content. */
 export const nav: NavGroup[] = [
   {
     label: "Why Amaravati",
     href: "/why-amaravati",
     children: [
       { label: "The Thesis", href: "/why-amaravati", icon: "thesis", blurb: "Why a whole valley, and why here" },
-      { label: "Track Record", href: "/why-amaravati/track-record", icon: "check", blurb: "The Declaration, line by line" },
-      { label: "What AQV Offers", href: "/why-amaravati/global-comparison", icon: "scale", blurb: "How the Valley compares" },
-      { label: "About & Governance", href: "/about", icon: "org", blurb: "Who runs it, and how" },
+      { label: "Promises vs Delivered", href: "/why-amaravati/track-record", icon: "check", blurb: "The Declaration, line by line" },
+      { label: "What AQV Offers", href: "/why-amaravati/global-comparison", icon: "scale", blurb: "Six pillars, already on the ground" },
+      { label: "About, Mission & Governance", href: "/about", icon: "org", blurb: "Who runs it, under what authority" },
     ],
   },
   {
-    label: "Infrastructure",
-    href: "/infrastructure",
-    children: [
-      { label: "Campus & Towers", href: "/infrastructure", icon: "campus", blurb: "Medha Towers, AQCC, 200 acres" },
-      { label: "QChipIN Testbed & Facilities", href: "/infrastructure/facilities", icon: "flask", blurb: "Open sub-4 K testbed" },
-    ],
-  },
-  {
-    label: "Technology",
+    label: "Infrastructure & Technology",
     href: "/technology/quantum-computing",
     children: [
       { label: "Quantum Computing", href: "/technology/quantum-computing", icon: "chip", blurb: "Cloud live, System Two licensed" },
-      { label: "Indigenous Hardware", href: "/technology/indigenous-hardware", icon: "anvil", blurb: "Amaravati 1Q, 85→100% localisation" },
+      { label: "Made in Amaravati", href: "/technology/indigenous-hardware", icon: "anvil", blurb: "Amaravati 1Q, 85→100% localisation" },
+      { label: "Campus, Towers & Hardware Park", href: "/infrastructure", icon: "campus", blurb: "Medha Towers, AQCC, 200 acres" },
+      { label: "QChipIN Testbed & Facilities", href: "/infrastructure/facilities", icon: "flask", blurb: "Open sub-4 K testbed" },
     ],
   },
   {
@@ -105,8 +99,19 @@ export const nav: NavGroup[] = [
       { label: "Overview", href: "/missions", icon: "grid", blurb: "Four missions, one operating system" },
       { label: "Quantum-for-Governance", href: "/missions/governance", icon: "shield", blurb: "24 use cases, #1 live" },
       { label: "Quantum Bio Foundry", href: "/missions/bio-foundry", icon: "bio", blurb: "₹200 Cr anchor opportunity" },
-      { label: "Quantum OS", href: "/missions/quantum-os", icon: "layers", blurb: "National programme, DST call issued" },
       { label: "Quantum Security", href: "/missions", icon: "shield", soon: true, blurb: "SRM × C-DOT testbed forming" },
+      { label: "Quantum OS", href: "/missions/quantum-os", icon: "layers", blurb: "National programme, DST call issued" },
+    ],
+  },
+  {
+    label: "Engage",
+    href: "/invest",
+    children: [
+      { label: "Invest & Establish", href: "/invest", icon: "coins", blurb: "₹1,000 Cr fund, named opportunities" },
+      { label: "Industry & Enterprise", href: "/industry", icon: "briefcase", blurb: "Pilots on real hardware" },
+      { label: "Startups & Launchpad", href: "/startups", icon: "rocket", blurb: "105 pipeline · 15 operational" },
+      { label: "Incentives & Policy", href: "/incentives", icon: "policy", blurb: "GO Ms.No.54, clause by clause" },
+      { label: "Ecosystem & Partners", href: "/ecosystem", icon: "network", blurb: "Who is on campus today" },
     ],
   },
   {
@@ -119,28 +124,15 @@ export const nav: NavGroup[] = [
     ],
   },
   {
-    label: "Ecosystem",
-    href: "/ecosystem",
-    children: [
-      { label: "Ecosystem & Partners", href: "/ecosystem", icon: "network", blurb: "Who is on campus today" },
-      { label: "Invest & Establish", href: "/invest", icon: "coins", blurb: "₹1,000 Cr fund, named opportunities" },
-      { label: "Industry & Enterprise", href: "/industry", icon: "briefcase", blurb: "Pilots on real hardware" },
-      { label: "Startups & Launchpad", href: "/startups", icon: "rocket", blurb: "105 pipeline · 15 operational" },
-      { label: "Incentives & Policy", href: "/incentives", icon: "policy", blurb: "GO Ms.No.54, clause by clause" },
-    ],
-  },
-  {
-    label: "Newsroom",
+    label: "News & Resources",
     href: "/news",
     children: [
       { label: "Newsroom", href: "/news", icon: "news", blurb: "What happened. Dated. Sourced." },
-      { label: "Events & Summits", href: "/events", icon: "calendar", blurb: "Workshops, launches, summits" },
       { label: "KPI Dashboard", href: "/dashboard", icon: "chart", blurb: "Quarterly actuals and status" },
-      { label: "Government Orders", href: "/resources/government-orders", icon: "file", blurb: "11 GOs issued to date" },
-      { label: "Tenders", href: "/tenders", icon: "policy", blurb: "Procurement notices as issued" },
-      { label: "Downloads & Media Kit", href: "/resources", icon: "download", blurb: "Photo pack and fact sheet" },
+      { label: "Events & Summits", href: "/events", icon: "calendar", blurb: "Workshops, launches, summits" },
+      { label: "Government Orders & Policy Library", href: "/resources/government-orders", icon: "file", blurb: "11 GOs issued to date" },
       { label: "FAQs", href: "/faq", icon: "help", blurb: "Answers by stakeholder" },
-      { label: "Contact", href: "/contact", icon: "org", blurb: "One intake, routed to the right team" },
+      { label: "Downloads & Media Kit", href: "/resources", icon: "download", blurb: "Photo pack and fact sheet" },
     ],
   },
 ];
@@ -152,6 +144,8 @@ export type Status =
   | "LIVE"
   | "IN PROGRESS"
   | "OPEN"
+  /** announced but not yet published — reads as PLANNED, says its own word */
+  | "COMING SOON"
   | "PLANNED";
 
 export const liveMetrics: {

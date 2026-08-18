@@ -26,34 +26,34 @@ export const pageArt: Record<string, PageArt> = {
   /* ── why amaravati ── */
   "/why-amaravati": {
     prop: "capitalAxis",
-    tail: "barrage",
+    tail: "buddha",
     hero: "/media/hero-prakasam-barrage.png",
     heroAlt: "The Prakasam Barrage on the Krishna at Amaravati",
   },
   "/why-amaravati/track-record": {
     prop: "campusPlan",
-    tail: "medha",
+    tail: "qubitChip",
     hero: "/ledger/medha-towers.png",
     heroAlt: "Medha Towers at dusk — the operational AQV campus",
   },
   "/why-amaravati/global-comparison": {
-    prop: "masterplan",
-    tail: "valleyTowers",
+    prop: "krishnaBridge",
+    tail: "barrageGates",
     hero: "/media/amaravati-valley-render.png",
     heroAlt: "Amaravati Quantum Valley from the air, as masterplanned",
   },
-  "/about": { prop: "buddha", tail: "capitalAxis" },
+  "/about": { prop: "buddha", tail: "barrage" },
 
   /* ── technology ── */
-  "/technology/quantum-computing": { prop: "qpuCabinet", tail: "aqcc" },
-  "/technology/indigenous-hardware": { prop: "qubitChip", tail: "cryostat" },
+  "/technology/quantum-computing": { prop: "qpuCabinet", tail: "opticalBench" },
+  "/technology/indigenous-hardware": { prop: "qubitChip", tail: "photonicChip" },
 
   /* ── infrastructure ── */
-  "/infrastructure": { prop: "medha", tail: "campusPlan" },
-  "/infrastructure/facilities": { prop: "cryostat", tail: "opticalBench" },
+  "/infrastructure": { prop: "medha", tail: "cryostat" },
+  "/infrastructure/facilities": { prop: "medhaBlock", tail: "opticalBench" },
 
   /* ── missions ── */
-  "/missions": { prop: "valleyTowers", tail: "masterplan" },
+  "/missions": { prop: "cryostat", tail: "masterplan" },
   "/missions/governance": { prop: "buddha", tail: "barrageGates" },
   "/missions/bio-foundry": { prop: "photonicModule", tail: "photonicChip" },
   "/missions/quantum-os": { prop: "opticalBench", tail: "qpuCabinet" },
@@ -80,7 +80,7 @@ export const pageArt: Record<string, PageArt> = {
   },
   "/industry/defence": {
     prop: "qpuCabinet",
-    tail: "cryostat",
+    tail: "medhaBlock",
     hero: `${A}/real-photos/cryostat-3-98-kelvin-lakeshore-readout.jpg`,
     heroAlt: "The indigenous cryostat readout at 3.98803 Kelvin",
   },

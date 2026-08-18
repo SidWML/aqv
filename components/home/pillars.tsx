@@ -46,7 +46,7 @@ const PILLARS: {
     title: "Design, Products & R&D",
     body: "Bio Foundry · QAIC · Quantum OS · BFSI applications with IIT Madras.",
     href: "/missions",
-    src: "/pillars/rnd.png",
+    src: "/pillars/bio-foundry-bench.png",
     alt: "A Bio Foundry wet-lab bench",
   },
   {
@@ -71,7 +71,7 @@ const PILLARS: {
 
 export function Pillars() {
   return (
-    <section className="ground-sand section relative overflow-hidden">
+    <section className="tone-1 section relative overflow-hidden">
       <Prop name="valleyTowers" anchor="top-right" opacity={32} className="hidden w-[42%] max-w-[660px] lg:block" />
 
       <Container className="relative">
@@ -87,7 +87,7 @@ export function Pillars() {
           {PILLARS.map((p) => (
             <article
               key={p.n}
-              className="group flex flex-col overflow-hidden rounded-lg border lit border-border bg-paper transition-colors duration-300 hover:border-gold/45"
+              className="group flex h-full flex-col overflow-hidden rounded-lg border lit border-border bg-paper transition-colors duration-300 hover:border-gold/50"
             >
               {/* the photograph runs to the card edge — only the copy is inset */}
               <div className="relative">

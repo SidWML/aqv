@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { RenderPage } from "@/components/page/render";
+import { TendersPage } from "@/components/pages/tenders";
 import { pages } from "@/lib/pages";
 
 const def = pages["/tenders"];
@@ -10,5 +10,5 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <RenderPage def={def} route="/tenders" />;
+  return <TendersPage />;
 }

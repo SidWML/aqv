@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { RenderPage } from "@/components/page/render";
+import { DashboardPage } from "@/components/pages/dashboard";
 import { pages } from "@/lib/pages";
 
 const def = pages["/dashboard"];
@@ -10,5 +10,5 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <RenderPage def={def} route="/dashboard" />;
+  return <DashboardPage />;
 }

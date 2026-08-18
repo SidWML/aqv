@@ -74,7 +74,7 @@ const GROUPS: { icon: IconKind; title: string; marks: Mark[] }[] = [
 
 export function WorkingEconomy() {
   return (
-    <section className="section relative overflow-hidden bg-cream">
+    <section className="tone-1 section relative overflow-hidden">
       <Prop
         name="medhaBlock"
         anchor="top-left"
@@ -89,8 +89,8 @@ export function WorkingEconomy() {
       />
 
       <Container className="relative">
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)] lg:items-start lg:gap-12">
-          <div className="max-w-[34rem] lg:pt-2">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)] lg:items-stretch lg:gap-12">
+          <div className="flex max-w-[34rem] flex-col justify-center">
             <Eyebrow n="08">A working economy</Eyebrow>
             <h2 className="t-h2 mt-6 max-w-[13ch] text-ink">
               A working economy on <span className="text-gold">campus</span>
@@ -210,7 +210,7 @@ const PROMISES: { icon: IconKind; title: string; body: string }[] = [
 
 export function ApplyConnect() {
   return (
-    <section className="ground-rise section relative overflow-hidden">
+    <section className="tone-3 section relative overflow-hidden">
       <Prop
         name="barrageGates"
         anchor="bottom-right"

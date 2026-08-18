@@ -65,7 +65,7 @@ export function Hero() {
   }, []);
 
   return (
-    <section className="relative isolate flex min-h-[92svh] flex-col overflow-hidden bg-cream lg:min-h-svh">
+    <section className="relative isolate flex min-h-[92svh] flex-col overflow-hidden lg:min-h-svh">
       {/* ── the river ──
           The supplied still carries the hero, and the loop plays over it
           where motion is welcome. Under reduced motion, or if autoplay is
@@ -99,7 +99,11 @@ export function Hero() {
         </video>
       </div>
 
-      {/* §25 — a cream veil, never a black one. It clears the barrage. */}
+      {/* §25 — a cream veil, never a black one. Two cuts, because the
+          type sits in a different place on each: down the left column on
+          a desktop, across the top on a phone. The stops live in
+          globals.css, where a four-stop ramp can be written exactly —
+          a utility gradient can only fade the whole width. */}
       <div aria-hidden className="veil-cream absolute inset-0 -z-10 hidden lg:block" />
       <div aria-hidden className="veil-cream-b absolute inset-0 -z-10 lg:hidden" />
 

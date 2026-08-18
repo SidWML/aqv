@@ -38,7 +38,7 @@ function Framed({
   sizes?: string;
 }) {
   return (
-    <figure className="flex flex-col overflow-hidden rounded-lg border lit border-border bg-paper">
+    <figure className="flex h-full flex-col overflow-hidden rounded-lg border lit border-border bg-paper">
       <Plate
         src={src}
         alt={alt}
@@ -69,7 +69,7 @@ function Framed({
 
 export function QuantumComputing() {
   return (
-    <section className="section relative overflow-hidden bg-cream-warm">
+    <section className="tone-3 section relative overflow-hidden">
       <Prop
         name="aqcc"
         anchor="top-right"
@@ -161,7 +161,7 @@ export function QuantumComputing() {
               Milestone delivered
             </span>
 
-            <div className="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-start">
+            <div className="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-stretch">
               <div>
                 <h3 className="t-h3 max-w-[24ch] text-[clamp(1.4rem,1.8vw,1.75rem)] text-ink">
                   IBM Quantum System Two — licence secured
@@ -174,7 +174,7 @@ export function QuantumComputing() {
                 </p>
               </div>
 
-              <div className="flex shrink-0 items-start gap-4">
+              <div className="flex shrink-0 items-center gap-4">
                 <span className="grid size-12 shrink-0 place-items-center rounded-full border border-gold/40 text-gold">
                   <NavIcon kind="calendar" className="size-[21px] [stroke-width:1.15]" />
                 </span>
@@ -248,7 +248,7 @@ const NEWS_META: Record<string, { date: string }> = {
 
 export function Newsroom() {
   return (
-    <section className="section relative overflow-hidden bg-cream-warm">
+    <section className="tone-2 section relative overflow-hidden">
       <Prop
         name="krishnaBridge"
         anchor="top-right"

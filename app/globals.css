@@ -20,41 +20,49 @@
 /* ── 01 · tokens ─────────────────────────────────────────────────── */
 
 @theme {
-  /* canvas — 60% of the visual environment */
-  --color-cream: #f7f4ed;
-  --color-cream-warm: #f2ece0;
-  --color-sand: #ded1ba;
-  --color-sand-soft: #e8dfcd;
+  /* ── canvas ──
+     Warm Ivory is the page; White lifts a card off it; Champagne Beige
+     is the shaded step between sections. Three grounds, one family. */
+  --color-cream: #f7f3ea;        /* Warm Ivory   — page & section ground */
+  --color-cream-warm: #f2ebdc;   /* the half-step toward champagne      */
+  --color-sand-soft: #eadfc6;    /* Champagne Beige — borders & dividers */
+  --color-champagne: #f1e8d6;    /* the same beige as a ground — lighter  */
+  --color-paper-warm: #fbf8f1;   /* paper, warmed — the lifted step       */
+  --color-sand: #dfd2b4;         /* champagne, one shade down           */
+  --color-paper: #ffffff;        /* White — cards, panels, navigation   */
 
-  /* ink — typography and the rare dark surface */
-  --color-ink: #17202b;
-  --color-ink-2: #233040;
-  --color-ink-3: #2f3f52;
-  --color-muted: #5a6675;
-  --color-faint: #8a94a1;
+  /* ── ink ──
+     Deep Charcoal carries every heading; Muted Slate carries body. The
+     brand slate is #647386; body sits one step darker so it clears AA
+     on both the ivory and the champagne ground. */
+  --color-ink: #171b20;          /* Deep Charcoal */
+  --color-ink-2: #232931;
+  --color-ink-3: #2f3843;
+  --color-muted: #566476;        /* 5.45 on ivory · 4.56 on champagne */
+  --color-slate: #647386;        /* Muted Slate — brand weight, non-text */
+  --color-faint: #7c8a9b;
 
-  /* gold — the AQV signature. Architectural amber, matched to the
-     approved boards: deeper and warmer than a flat tan, never yellow. */
-  --color-gold: #b0812c;
-  --color-gold-deep: #966c1f;
-  --color-gold-light: #c79a45;
-  --color-gold-line: #c9ac72;
-  --color-gold-soft: #e8d9b8;
-  --color-gold-wash: #f7f1e3;
-  /* the text-safe weight — 4.8:1 on cream. Gold is an accent, never
-     body copy. */
-  --color-gold-text: #8a6620;
+  /* ── gold — the AQV signature ──
+     AQV Gold is the brand fill: buttons, pills, rules, icons. Warm Gold
+     is its hover. Text-safe gold is a deeper weight, because gold is an
+     accent and never body copy. */
+  --color-gold: #b47a18;         /* AQV Gold   */
+  --color-gold-light: #d59a2a;   /* Warm Gold — hover, emphasis */
+  --color-gold-deep: #96650f;
+  --color-gold-line: #cda558;
+  --color-gold-soft: #ecdcb8;
+  --color-gold-wash: #f6efe0;
+  --color-gold-text: #805812;    /* 5.71 on ivory · 4.78 on champagne */
 
-  /* supporting — each carries a meaning, never decoration */
-  --color-olive: #7c7d4d;
-  --color-olive-deep: #5e6a30;
-  --color-olive-soft: #e3e3d2;
-  /* the LIVE weight: a deep institutional navy, not an electric blue */
-  --color-navy: #1f3a6e;
-  --color-navy-deep: #102340;
-  --color-navy-soft: #dde3ef;
-  /* the "after" weight on a navy ground — an improvement, read at a glance */
-  --color-olive-light: #a9c481;
+  /* ── supporting — each carries a meaning, never decoration ── */
+  --color-olive: #6f7f6a;        /* Pillar Green — ecosystem, nature */
+  --color-olive-deep: #52604d;   /* the DELIVERED weight, 6.0 both ways */
+  --color-olive-light: #9dae97;
+  --color-olive-soft: #e2e6de;
+  --color-navy: #0d1b2a;         /* Quantum Navy — deep tech, data, depth */
+  --color-navy-deep: #071018;
+  --color-navy-ink: #2c4e72;     /* so a LIVE figure still reads blue */
+  --color-navy-soft: #dce3ec;
   --color-rose: #a66d78;
   --color-rose-soft: #efdfe1;
   --color-violet: #62518b;
@@ -63,22 +71,18 @@
   --color-teal-soft: #dbe7e5;
   --color-ochre: #c39a4b;
 
-  /* lines */
-  --color-border: #ded5c6;
-  --color-border-soft: #e9e2d5;
-  --color-border-ink: #2c3949;
-
-  /* white, for the few surfaces that need to sit above cream */
-  --color-paper: #fbf9f4;
+  /* ── lines ── Champagne Beige is the border, per the brand sheet. */
+  --color-border: #eadfc6;
+  --color-border-soft: #f1e8d7;
+  --color-border-ink: #21303f;
 
   /* ── night ──
-     The one dark chapter. A warm near-black rather than the navy ink,
-     so the gold line-art and the lit photography sit on it without a
-     colour cast. §05 keeps this to a single section. */
-  --color-night: #101010;
-  --color-night-2: #17170f;
-  --color-night-card: #1a1a15;
-  --color-night-line: #2c2c24;
+     The dark chapter is Quantum Navy, so a dark section belongs to the
+     same palette as the light ones rather than reading as a hole. */
+  --color-night: #0d1b2a;
+  --color-night-2: #0a1521;
+  --color-night-card: #13212f;
+  --color-night-line: #21303f;
 
   /* the supporting colours, lifted to read on the night ground */
   --color-rose-light: #d09aa4;
@@ -93,25 +97,26 @@
 
   /* ── shadow — architectural, grounded, no float ──
      Two passes: a wide ambient and a tight key. Depth comes from the
-     pair, never from one large blur. */
+     pair, never from one large blur. Kept deliberately faint: a card
+     should sit on the cream, not hover above it. */
   --shadow-sm:
-    0 1px 2px rgb(23 32 43 / 0.04),
-    0 4px 16px -6px rgb(23 32 43 / 0.08);
+    0 1px 1px rgb(23 32 43 / 0.025),
+    0 2px 8px -5px rgb(23 32 43 / 0.05);
   --shadow-md:
-    0 1px 2px rgb(23 32 43 / 0.05),
-    0 8px 28px -10px rgb(23 32 43 / 0.10),
-    0 24px 56px -24px rgb(23 32 43 / 0.10);
+    0 1px 2px rgb(23 32 43 / 0.03),
+    0 4px 14px -9px rgb(23 32 43 / 0.06),
+    0 12px 30px -22px rgb(23 32 43 / 0.06);
   --shadow-lift:
-    0 1px 2px rgb(23 32 43 / 0.05),
-    0 14px 36px -12px rgb(23 32 43 / 0.14),
-    0 32px 72px -28px rgb(23 32 43 / 0.12);
+    0 1px 2px rgb(23 32 43 / 0.035),
+    0 8px 22px -12px rgb(23 32 43 / 0.08),
+    0 20px 46px -28px rgb(23 32 43 / 0.07);
 
   /* ── type ──
      Two voices: an editorial serif carries the display line, a modern
      humanist grotesk carries everything a reader has to work through. */
-  --font-display: var(--font-fraunces), "Iowan Old Style", Georgia, serif;
+  --font-display: var(--font-display-face), "Iowan Old Style", Georgia, serif;
   --font-sans:
-    var(--font-instrument), ui-sans-serif, system-ui, -apple-system,
+    var(--font-body-face), ui-sans-serif, system-ui, -apple-system,
     "Segoe UI", Roboto, sans-serif;
   --font-mono:
     var(--font-mono-jb), ui-monospace, "SFMono-Regular", monospace;
@@ -371,7 +376,7 @@
   background-color: var(--color-cream-warm);
 }
 .ground-sand {
-  background-color: var(--color-sand-soft);
+  background-color: var(--color-champagne);
 }
 .ground-paper {
   background-color: var(--color-paper);
@@ -393,6 +398,64 @@
 .ground-ink h3,
 .ground-ink h4 {
   color: var(--color-cream);
+}
+
+/* ── the ground scale ─────────────────────────────────────────────────
+   Four steps in one family, so a page reads as a rhythm rather than a
+   run of identical blocks. Every section takes exactly one, and two
+   neighbouring sections never take the same one.
+
+     tone-1   Warm Ivory     #f7f3ea   light      the default page ground
+     tone-2   Paper          #fbf8f1   lighter    a section that lifts
+     tone-3   Champagne      #f1e8d6   shaded     the weighted step
+     tone-4   Quantum Navy   #0d1b2a   dark       the one dark chapter
+
+   The scale steps *up* into the light before it steps down into the
+   shade. An earlier version put a deeper champagne (#eadfc6) under a
+   warm radial, and the two together sampled around #e7dcc2 — a muddy
+   mid-beige that dirtied every section it touched. Champagne Beige is
+   a border and divider colour at that weight; as a ground it has to be
+   the lighter tint, and flat, with no wash over it.
+
+   Cards stay White on all three light grounds, so a card always reads
+   as a surface above its section rather than a tint of it.
+──────────────────────────────────────────────────────────────────── */
+
+.tone-1 {
+  background-color: var(--color-cream);
+}
+.tone-2 {
+  background-color: var(--color-paper-warm);
+}
+.tone-3 {
+  background-color: var(--color-champagne);
+}
+.tone-4 {
+  background:
+    radial-gradient(
+      120% 90% at 78% 0%,
+      rgb(44 78 114 / 0.28) 0%,
+      rgb(44 78 114 / 0) 64%
+    ),
+    var(--color-night);
+  color: var(--color-cream);
+}
+.tone-4 h1,
+.tone-4 h2,
+.tone-4 h3,
+.tone-4 h4 {
+  color: var(--color-cream);
+}
+
+/* A hairline where two light steps meet, so the boundary is a decision
+   rather than a gradient the eye has to hunt for. */
+.tone-2 + .tone-1,
+.tone-1 + .tone-2,
+.tone-3 + .tone-1,
+.tone-1 + .tone-3,
+.tone-3 + .tone-2,
+.tone-2 + .tone-3 {
+  border-top: 1px solid var(--color-border-soft);
 }
 
 /* a warm wash — cream deepening toward sand, never a gradient for its
@@ -514,13 +577,7 @@
 /* the deepest warm neutral before ink — for a section that needs weight
    without going dark */
 .ground-sand {
-  background:
-    radial-gradient(
-      130% 80% at 78% 0%,
-      rgb(222 209 186 / 0.85) 0%,
-      rgb(222 209 186 / 0) 60%
-    ),
-    var(--color-sand-soft);
+  background-color: var(--color-champagne);
 }
 
 /* a warm field that lifts toward the top of the section */
@@ -639,22 +696,29 @@
   background-size: 64px 64px;
 }
 
-/* readability overlay for photography — cream, never black. §25 */
+/* readability overlay for photography — cream, never black. §25
+
+   The veil only covers the type. On a desktop that is the left column,
+   so the cream is solid to the end of the measure and gone by the time
+   the frame gets interesting; on a phone the type runs across the top,
+   so it ramps down the page instead. Either way the photograph is left
+   clear wherever there is nothing to read. */
 .veil-cream {
   background: linear-gradient(
     90deg,
     var(--color-cream) 0%,
-    rgb(244 240 231 / 0.94) 34%,
-    rgb(244 240 231 / 0.55) 58%,
-    rgb(244 240 231 / 0) 82%
+    var(--color-cream) 38%,
+    rgb(247 243 234 / 0.7) 47%,
+    rgb(247 243 234 / 0) 58%
   );
 }
 .veil-cream-b {
   background: linear-gradient(
-    0deg,
-    rgb(244 240 231 / 0.96) 0%,
-    rgb(244 240 231 / 0.7) 26%,
-    rgb(244 240 231 / 0) 62%
+    180deg,
+    rgb(247 243 234 / 0.97) 0%,
+    rgb(247 243 234 / 0.95) 56%,
+    rgb(247 243 234 / 0.55) 69%,
+    rgb(247 243 234 / 0) 80%
   );
 }
 /* the one ink veil, for type over a photograph. Two layers: a light
@@ -701,4 +765,108 @@
 }
 .no-bar::-webkit-scrollbar {
   display: none;
+}
+
+/* ── 07 · motion ──────────────────────────────────────────────────────
+   One idea, applied everywhere: content arrives from just below its
+   resting place and settles. Nothing bounces, nothing slides sideways,
+   nothing moves after it has landed.
+
+   The initial state is only applied once the observer is mounted
+   (`html.js-motion`), so a page with JavaScript disabled — or one being
+   printed, crawled or piped through a reader — is fully visible.
+
+   `--rv-i` is the element's index inside its section; the stagger is
+   linear and capped so a long list never keeps a reader waiting.
+──────────────────────────────────────────────────────────────────── */
+
+html.js-motion [data-rv] {
+  opacity: 0;
+  transform: translate3d(0, var(--rv-y, 20px), 0);
+  transition:
+    opacity var(--dur-slow) var(--ease-out-soft),
+    transform var(--dur-slow) var(--ease-out-soft),
+    filter var(--dur-slow) var(--ease-out-soft);
+  transition-delay: calc(var(--rv-i, 0) * 70ms);
+  will-change: opacity, transform;
+}
+
+html.js-motion [data-rv].rv-in {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+}
+
+/* a photograph settles from a shade larger, so the frame feels loaded
+   rather than dropped in */
+html.js-motion [data-rv="plate"] {
+  --rv-y: 26px;
+  clip-path: inset(0 0 0 0 round var(--radius-lg));
+}
+html.js-motion [data-rv="plate"] > :first-child {
+  transform: scale(1.06);
+  transition: transform var(--dur-cinematic) var(--ease-out-soft);
+}
+html.js-motion [data-rv="plate"].rv-in > :first-child {
+  transform: none;
+}
+
+/* the display line rises out of its own measure */
+html.js-motion [data-rv="line"] {
+  --rv-y: 0px;
+  clip-path: inset(0 0 105% 0);
+  transition:
+    clip-path var(--dur-cinematic) var(--ease-out-soft),
+    opacity var(--dur) var(--ease-out-soft);
+}
+html.js-motion [data-rv="line"].rv-in {
+  clip-path: inset(0 0 -20% 0);
+}
+
+/* a rule draws itself */
+html.js-motion [data-rv="rule"] {
+  --rv-y: 0px;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition:
+    transform var(--dur-slow) var(--ease-out-soft),
+    opacity var(--dur-fast) linear;
+}
+html.js-motion [data-rv="rule"].rv-in {
+  transform: scaleX(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js-motion [data-rv],
+  html.js-motion [data-rv="plate"] > :first-child {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+    transition: none !important;
+  }
+}
+
+/* ── hover, on things that are actually pressable ── */
+
+.hover-lift {
+  transition:
+    transform var(--dur) var(--ease-out-soft),
+    box-shadow var(--dur) var(--ease-out-soft),
+    border-color var(--dur) var(--ease-out-soft);
+}
+@media (hover: hover) {
+  .hover-lift:hover {
+    transform: translateY(-3px);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.9),
+      var(--shadow-lift);
+  }
+}
+
+/* the header condenses once the page has moved */
+.head-shell {
+  transition:
+    background-color var(--dur) var(--ease-out-soft),
+    box-shadow var(--dur) var(--ease-out-soft),
+    border-color var(--dur) var(--ease-out-soft);
 }

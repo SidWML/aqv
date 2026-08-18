@@ -31,6 +31,7 @@ export function Plate({
   warm = true,
   fill,
   tone = "light",
+  stampClass,
 }: {
   src?: string;
   alt: string;
@@ -47,6 +48,8 @@ export function Plate({
   fill?: boolean;
   /** The ground the frame sits on, so an empty slot matches it. */
   tone?: "light" | "dark";
+  /** Move the provenance stamp — it must never end up under an overlay. */
+  stampClass?: string;
 }) {
   const rad = {
     none: "",
@@ -88,7 +91,7 @@ export function Plate({
       )}
 
       {stamp ? (
-        <figcaption className="absolute top-3 left-3 z-10">
+        <figcaption className={cx("absolute z-10", stampClass ?? "top-3 left-3")}>
           <span className="t-label rounded-sm bg-cream/92 px-2.5 py-1.5 text-ink/75 backdrop-blur-sm">
             {stamp}
           </span>

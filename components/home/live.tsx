@@ -81,7 +81,7 @@ const RAIL: { icon: IconKind; kicker: string; value: string; label: string }[] =
 
 export function WhatIsLive() {
   return (
-    <section className="section ground-rise relative overflow-hidden">
+    <section className="tone-1 section relative overflow-hidden">
       <Prop
         name="barrage"
         anchor="top-right"
@@ -158,7 +158,7 @@ export function WhatIsLive() {
             >
               <NavIcon
                 kind={r.icon}
-                className="size-9 shrink-0 text-gold [stroke-width:1.05]"
+                className="size-12 shrink-0 text-gold [stroke-width:0.95]"
               />
               <span className="flex min-w-0 flex-col gap-1">
                 <span className="t-label text-gold-text">{r.kicker}</span>
@@ -290,7 +290,7 @@ function MetricCard({
   accent,
 }: (typeof CARDS)[number]) {
   return (
-    <article className="group flex flex-col rounded-lg border lit border-border bg-paper p-5 transition-colors duration-300 hover:border-gold/50 lg:p-6">
+    <article className="group flex h-full flex-col rounded-lg border lit border-border bg-paper p-5 transition-colors duration-300 hover:border-gold/50 lg:p-6">
       <div className="flex items-start justify-between gap-3">
         <span className="flex items-center gap-3">
           <span className="grid size-10 shrink-0 place-items-center rounded-full border border-gold/40 text-gold">
@@ -343,7 +343,7 @@ function MetricCard({
 
 function Statement() {
   return (
-    <div className="flex flex-col items-center justify-center gap-4 rounded-lg border border-gold/40 bg-gold-wash/60 p-6 text-center lg:p-7">
+    <div className="flex flex-col justify-center gap-4 rounded-lg border border-gold/40 bg-gold-wash/60 p-6 lg:p-7">
       <NavIcon kind="sparkle" className="size-7 text-gold [stroke-width:1.1]" />
       <p className="t-label leading-[1.9] text-gold-text">
         A stronger

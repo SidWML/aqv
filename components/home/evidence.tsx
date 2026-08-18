@@ -47,7 +47,7 @@ const LEDGER_MEDIA: Record<
 
 export function DeclarationToDelivery() {
   return (
-    <section className="section relative overflow-hidden bg-cream-warm">
+    <section className="tone-1 section relative overflow-hidden">
       <Prop name="campusPlan" anchor="top-right" opacity={45} className="hidden w-[36%] max-w-[540px] lg:block" />
       <Prop name="medha" anchor="bottom-left" opacity={22} className="hidden w-[34%] max-w-[500px] lg:block" />
 
@@ -198,7 +198,7 @@ function Evidence({
 
 export function Governance() {
   return (
-    <section className="section relative overflow-hidden bg-cream-warm">
+    <section className="tone-2 section relative overflow-hidden">
       <Prop name="buddha" anchor="bottom-left" opacity={24} className="hidden w-[42%] max-w-[600px] lg:block" />
       <Prop name="photonicModule" anchor="top-right" opacity={20} className="hidden w-[24%] max-w-[350px] xl:block" />
 
