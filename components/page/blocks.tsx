@@ -1,162 +1,26 @@
-import Link from "next/link";
 import type { ReactNode } from "react";
 import type { Status } from "@/lib/aqv";
-import { Plate } from "../ui/plate";
+import type { PageArt } from "@/lib/page-art";
+import { Plate, type Tier } from "../ui/plate";
+import { Prop } from "../ui/overlay";
 import { Reveal } from "../ui/reveal";
-import { Arrow, Btn, CircleArrow, Container, Eyebrow, Head, Pill, cx } from "../ui/kit";
+import { NavIcon, type IconKind } from "../ui/nav-icon";
+import {
+  ArrowLink,
+  Button,
+  Container,
+  Eyebrow,
+  Source,
+  StatusTag,
+  cx,
+  statusInk,
+  statusTint,
+} from "../ui/kit";
 
-/* ── band motif ───────────────────────────────────────────────────────
-   A drawn qubit lattice, keyed off the section number so consecutive
-   bands never repeat the same figure. It sits behind the headline at
-   very low contrast — the section reads as type on a ground, never as
-   type on nothing.
+/* ── band ─────────────────────────────────────────────────────────────
+   A section header on a ground. Grounds cycle down the page so a long
+   route is never one flat field — §35.
 ──────────────────────────────────────────────────────────────────── */
-
-function BandMotif({ seed, dark }: { seed: number; dark: boolean }) {
-  const stroke = dark ? "#a9ce8c" : "#1b8a5a";
-  const nodes = 5 + (seed % 3);
-  const rows = 3;
-
-  return (
-    <svg
-      aria-hidden
-      viewBox="0 0 320 160"
-      preserveAspectRatio="xMaxYMid slice"
-      className={cx(
-        "pointer-events-none absolute top-1/2 right-0 hidden h-[min(78%,240px)] -translate-y-1/2 lg:block",
-        dark ? "opacity-[0.16]" : "opacity-[0.09]",
-      )}
-    >
-      {/* lattice bonds */}
-      {Array.from({ length: rows }).map((_, r) =>
-        Array.from({ length: nodes - 1 }).map((_, c) => (
-          <line
-            key={`h${r}-${c}`}
-            x1={30 + c * 44}
-            y1={34 + r * 46}
-            x2={30 + (c + 1) * 44}
-            y2={34 + r * 46}
-            stroke={stroke}
-            strokeWidth="1"
-          />
-        )),
-      )}
-      {Array.from({ length: rows - 1 }).map((_, r) =>
-        Array.from({ length: nodes }).map((_, c) => (
-          <line
-            key={`v${r}-${c}`}
-            x1={30 + c * 44}
-            y1={34 + r * 46}
-            x2={30 + c * 44}
-            y2={34 + (r + 1) * 46}
-            stroke={stroke}
-            strokeWidth="1"
-          />
-        )),
-      )}
-      {/* nodes — a few excited, chosen deterministically from the seed */}
-      {Array.from({ length: rows }).map((_, r) =>
-        Array.from({ length: nodes }).map((_, c) => {
-          const on = (r * nodes + c + seed) % 4 === 0;
-          return (
-            <circle
-              key={`n${r}-${c}`}
-              cx={30 + c * 44}
-              cy={34 + r * 46}
-              r={on ? 5 : 2.4}
-              fill={on ? stroke : "none"}
-              stroke={stroke}
-              strokeWidth="1"
-            />
-          );
-        }),
-      )}
-    </svg>
-  );
-}
-
-/* ── page hero ────────────────────────────────────────────────────── */
-
-export function PageHero({
-  eyebrow,
-  lead,
-  accent,
-  sub,
-  ctas,
-  src,
-  alt,
-}: {
-  eyebrow: string;
-  lead: string;
-  accent?: string;
-  sub?: string;
-  ctas?: { label: string; href: string }[];
-  src?: string;
-  alt?: string;
-}) {
-  const media = Boolean(src);
-  return (
-    <section
-      className={cx(
-        "relative isolate overflow-hidden",
-        media ? "bg-forest" : "valley-wash",
-      )}
-    >
-      {media ? (
-        <>
-          <div className="absolute inset-0 -z-20">
-            <Plate src={src} alt={alt ?? ""} tone="dark" priority sizes="100vw" className="size-full" />
-          </div>
-          <div aria-hidden className="scrim-b absolute inset-0 -z-10" />
-        </>
-      ) : null}
-
-      <Container
-        className={cx(
-          "relative flex flex-col justify-end",
-          media ? "min-h-[62svh] pt-[150px] pb-14" : "pt-[150px] pb-[clamp(56px,9vh,110px)]",
-        )}
-      >
-        <Reveal>
-          <Eyebrow tone={media ? "dark" : "light"}>{eyebrow}</Eyebrow>
-          <h1
-            className={cx(
-              "mt-6 max-w-[18ch] text-[clamp(2.1rem,4.8vw,4rem)] leading-[1.04]",
-              media ? "text-chalk" : "text-ink",
-            )}
-          >
-            {lead} {accent ? <span className="text-sage-deep">{accent}</span> : null}
-          </h1>
-          {sub ? (
-            <p
-              className={cx(
-                "mt-7 max-w-[58ch] text-[16.5px] leading-[1.65]",
-                media ? "text-chalk/72" : "text-muted",
-              )}
-            >
-              {sub}
-            </p>
-          ) : null}
-          {ctas?.length ? (
-            <div className="mt-9 flex flex-wrap gap-3">
-              {ctas.map((c, i) => (
-                <Btn
-                  key={c.href + c.label}
-                  href={c.href}
-                  variant={i === 0 ? (media ? "sage" : "solid") : media ? "glass" : "quiet"}
-                >
-                  {c.label}
-                </Btn>
-              ))}
-            </div>
-          ) : null}
-        </Reveal>
-      </Container>
-    </section>
-  );
-}
-
-/* ── section band ─────────────────────────────────────────────────── */
 
 export function Band({
   n,
@@ -164,172 +28,205 @@ export function Band({
   lead,
   accent,
   sub,
-  tone = "light",
+  tone = "cream",
   align = "left",
   action,
   children,
-  className,
 }: {
   n?: string;
   eyebrow?: string;
   lead?: string;
   accent?: string;
   sub?: string;
-  tone?: "light" | "dark";
+  tone?: "cream" | "warm" | "sand" | "ink";
   align?: "left" | "center";
   action?: ReactNode;
   children?: ReactNode;
-  className?: string;
 }) {
-  const dark = tone === "dark";
+  const ink = tone === "ink";
+  const ground = {
+    cream: "bg-cream",
+    warm: "bg-cream-warm",
+    sand: "ground-sand",
+    ink: "ground-night",
+  }[tone];
+
   return (
-    <section
-      className={cx(
-        "relative",
-        dark ? "bg-forest" : "bg-bone",
-        "py-[clamp(56px,9vh,110px)]",
-        className,
-      )}
-    >
-      {dark ? <div aria-hidden className="forest-wash absolute inset-0" /> : null}
-      {lead ? <BandMotif seed={n ? Number(n) : (eyebrow?.length ?? 3)} dark={dark} /> : null}
+    <section className={cx("section relative overflow-hidden", ground)}>
       <Container className="relative">
         {lead ? (
           <Reveal>
-            <Head
-              eyebrow={n ? `${n} — ${eyebrow ?? ""}`.trim() : eyebrow}
-              tone={tone}
-              align={align}
-              sub={sub}
-              action={action}
-            >
-              {lead} {accent ? <span className={dark ? "text-sage" : "text-faint"}>{accent}</span> : null}
-            </Head>
+            <div className={cx("flex flex-col gap-6", align === "center" && "items-center text-center")}>
+              {eyebrow ? (
+                <Eyebrow n={n} tone={ink ? "dark" : "light"}>
+                  {eyebrow}
+                </Eyebrow>
+              ) : null}
+
+              <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between lg:gap-16">
+                <h2 className={cx("t-h2 max-w-[20ch]", ink ? "text-cream" : "text-ink")}>
+                  {lead}
+                  {accent ? (
+                    <>
+                      {" "}
+                      <span className="text-gold">{accent}</span>
+                    </>
+                  ) : null}
+                </h2>
+                {action ? <div className="shrink-0 lg:pb-2">{action}</div> : null}
+              </div>
+
+              <span aria-hidden className={cx("rule-fade block w-20", align === "center" && "mx-auto")} />
+
+              {sub ? (
+                <p
+                  className={cx(
+                    "t-body-l measure",
+                    align === "center" && "mx-auto text-center",
+                    ink ? "text-cream/70" : "text-muted",
+                  )}
+                >
+                  {sub}
+                </p>
+              ) : null}
+            </div>
           </Reveal>
         ) : null}
-        {children ? <div className={lead ? "mt-12" : undefined}>{children}</div> : null}
+        {children ? <div className={lead ? "mt-14" : undefined}>{children}</div> : null}
       </Container>
     </section>
   );
 }
 
-/* ── metrics ──────────────────────────────────────────────────────── */
+/* ── metrics ──────────────────────────────────────────────────────────
+   §36. Figures take the colour of their status, so a row of numbers
+   reads as evidence rather than as a scoreboard.
+──────────────────────────────────────────────────────────────────── */
 
-export type Metric = { status?: Status; value: string; unit?: string; label: string; source?: string };
+export type Metric = {
+  status?: Status;
+  value: string;
+  unit?: string;
+  label: string;
+  source?: string;
+};
 
-export function Metrics({ items, tone = "light" }: { items: Metric[]; tone?: "light" | "dark" }) {
-  const dark = tone === "dark";
+const METRIC_ICON: Partial<Record<Status, IconKind>> = {
+  DELIVERED: "check",
+  LIVE: "cloud",
+  "IN PROGRESS": "clipboard",
+  OPEN: "bank",
+  PLANNED: "calendar",
+};
+
+export function Metrics({ items }: { items: Metric[] }) {
+  const cols =
+    items.length <= 2
+      ? "sm:grid-cols-2"
+      : items.length === 3
+        ? "sm:grid-cols-3"
+        : "sm:grid-cols-2 lg:grid-cols-3";
+
   return (
-    <div className={cx("overflow-hidden rounded-slab", dark ? "hairline-light" : "panel-tint")}>
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3">
-        {items.map((m, i) => (
-          <Reveal
-            key={m.label + i}
-            delay={i * 60}
+    <div className={cx("grid gap-4", cols)}>
+      {items.map((m, i) => (
+        <Reveal key={m.label + i} delay={i * 60}>
+          <article
             className={cx(
-              "flex flex-col gap-4 p-8",
-              dark ? "border-white/10" : "border-line/70",
-              i % 3 !== 2 && "lg:border-r",
-              i % 2 !== 1 && "sm:max-lg:border-r",
-              i < items.length - (items.length % 3 || 3) && "lg:border-b",
-              "max-sm:border-b",
+              "lit flex h-full flex-col gap-5 rounded-lg border p-6 lg:p-7",
+              m.status ? statusTint(m.status) : "border-border bg-paper",
             )}
           >
-            {m.status ? <Pill status={m.status} tone={tone} /> : null}
-            <div
+            <div className="flex items-start justify-between gap-3">
+              <span className="grid size-11 shrink-0 place-items-center rounded-full border border-gold/40 bg-paper/70 text-gold">
+                <NavIcon
+                  kind={(m.status && METRIC_ICON[m.status]) ?? "sparkle"}
+                  className="size-5 [stroke-width:1.2]"
+                />
+              </span>
+              {m.status ? <StatusTag status={m.status} /> : null}
+            </div>
+
+            <p
               className={cx(
-                "text-[clamp(2.2rem,3.6vw,3rem)] leading-[0.88] font-medium tracking-[-0.05em] tnum",
-                dark ? "text-chalk" : "text-ink",
+                "t-number tnum",
+                /\d/.test(m.value) ? "" : "text-[clamp(1.5rem,1.9vw,1.85rem)]",
+                m.status ? statusInk(m.status) : "text-ink",
               )}
             >
               {m.value}
               {m.unit ? (
-                <span className={cx("ml-1.5 text-[0.34em]", dark ? "text-chalk/55" : "text-muted")}>
+                <span className="ml-1.5 align-baseline text-[0.4em] font-medium tracking-normal">
                   {m.unit}
                 </span>
               ) : null}
-            </div>
-            <p className={cx("text-[13.5px] leading-[1.6]", dark ? "text-chalk/62" : "text-muted")}>
-              {m.label}
             </p>
+
+            <p className="t-body-sm text-ink/80">{m.label}</p>
             {m.source ? (
-              <span className={cx("micro mt-auto pt-2", dark ? "text-chalk/38" : "text-faint")}>
-                {m.source}
-              </span>
+              <Source className="mt-auto border-t border-border/70 pt-4">{m.source}</Source>
             ) : null}
-          </Reveal>
-        ))}
-      </div>
+          </article>
+        </Reveal>
+      ))}
     </div>
   );
 }
 
-/* ── data table ───────────────────────────────────────────────────── */
+/* ── table ────────────────────────────────────────────────────────── */
 
-export function DataTable({
-  head,
-  rows,
-  tone = "light",
-}: {
-  head: string[];
-  rows: string[][];
-  tone?: "light" | "dark";
-}) {
-  const dark = tone === "dark";
-  const cols = `repeat(${head.length}, minmax(0,1fr))`;
+export function DataTable({ head, rows }: { head: string[]; rows: string[][] }) {
   return (
-    <Reveal>
-      <div
-        className={cx(
-          "overflow-hidden rounded-card",
-          dark ? "bg-white/5 hairline-light" : "bg-chalk hairline",
-        )}
-      >
-        <div
-          className={cx(
-            "micro grid gap-4 border-b px-6 py-4",
-            dark ? "border-white/10 text-chalk/45" : "border-line-soft text-faint",
-          )}
-          style={{ gridTemplateColumns: cols }}
-        >
-          {head.map((h, i) => (
-            <span key={h} className={i === head.length - 1 ? "text-right" : undefined}>
-              {h}
-            </span>
-          ))}
-        </div>
-        <ul>
+    <div className="lit overflow-x-auto rounded-lg border border-border bg-paper">
+      <table className="w-full min-w-[640px] border-collapse text-left">
+        <thead>
+          <tr className="border-b border-border bg-cream-warm/60">
+            {head.map((h, i) => (
+              <th
+                key={h}
+                scope="col"
+                className={cx(
+                  "t-label px-6 py-4 font-medium text-gold-text",
+                  i === head.length - 1 && head.length > 2 && "text-right",
+                )}
+              >
+                {h}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
           {rows.map((r, ri) => (
-            <li
+            <tr
               key={r[0] + ri}
-              className={cx(
-                "grid items-center gap-4 border-b px-6 py-4 transition-colors duration-300 last:border-0",
-                dark ? "border-white/8 hover:bg-white/5" : "border-line-soft hover:bg-bone",
-              )}
-              style={{ gridTemplateColumns: cols }}
+              className="border-b border-border-soft transition-colors duration-200 last:border-0 hover:bg-cream-warm/70"
             >
               {r.map((c, ci) => (
-                <span
+                <td
                   key={ci}
                   className={cx(
+                    "px-6 py-4 align-top",
                     ci === 0
-                      ? cx("text-[14.5px] font-medium", dark ? "text-chalk" : "text-ink")
-                      : cx("text-[13px]", dark ? "text-chalk/62" : "text-muted"),
-                    ci === r.length - 1 && "text-right",
+                      ? "text-[14.5px] font-medium text-ink"
+                      : "t-body-sm text-muted",
+                    ci === r.length - 1 && r.length > 2 && "text-right",
                   )}
                 >
                   {c}
-                </span>
+                </td>
               ))}
-            </li>
+            </tr>
           ))}
-        </ul>
-      </div>
-    </Reveal>
+        </tbody>
+      </table>
+    </div>
   );
 }
 
-/* ── card grid ────────────────────────────────────────────────────── */
+/* ── cards ────────────────────────────────────────────────────────────
+   With imagery they become programme cards; without, a numbered board
+   on a gold rule. Never the same silhouette for both.
+──────────────────────────────────────────────────────────────────── */
 
 export type Card = {
   n?: string;
@@ -338,295 +235,270 @@ export type Card = {
   body?: string;
   href?: string;
   src?: string;
-  slot?: string;
   status?: Status;
+  tier?: Tier;
 };
 
-export function Cards({
-  items,
-  cols = 3,
-  tone = "light",
-}: {
-  items: Card[];
-  cols?: 2 | 3 | 4;
-  tone?: "light" | "dark";
-}) {
-  const dark = tone === "dark";
-  const grid = { 2: "md:grid-cols-2", 3: "sm:grid-cols-2 lg:grid-cols-3", 4: "sm:grid-cols-2 lg:grid-cols-4" }[cols];
+export function Cards({ items, cols = 3 }: { items: Card[]; cols?: 2 | 3 | 4 }) {
+  const withMedia = items.some((c) => c.src);
+  const grid = {
+    2: "md:grid-cols-2",
+    3: "sm:grid-cols-2 lg:grid-cols-3",
+    4: "sm:grid-cols-2 lg:grid-cols-4",
+  }[cols];
+
+  if (!withMedia) {
+    return (
+      <div className={cx("grid gap-4", grid)}>
+        {items.map((c, i) => (
+          <Reveal key={c.title + i} delay={i * 50}>
+            <article className="lit flex h-full flex-col gap-4 rounded-lg border border-border bg-paper p-6 lg:p-7">
+              <div className="flex items-start justify-between gap-3">
+                <span className="flex items-center gap-3">
+                  <span className="t-label tnum text-gold-text">
+                    {c.n ?? String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span aria-hidden className="h-px w-6 bg-gold" />
+                </span>
+                {c.status ? <StatusTag status={c.status} /> : null}
+              </div>
+              {c.kicker ? <span className="t-label text-muted">{c.kicker}</span> : null}
+              <h3 className="t-h4 text-ink">{c.title}</h3>
+              {c.body ? <p className="t-body-sm text-muted">{c.body}</p> : null}
+              {c.href ? (
+                <span className="mt-auto pt-5">
+                  <ArrowLink href={c.href} className="text-[14px] text-gold-text">
+                    Explore
+                  </ArrowLink>
+                </span>
+              ) : null}
+            </article>
+          </Reveal>
+        ))}
+      </div>
+    );
+  }
+
   return (
     <div className={cx("grid gap-4", grid)}>
-      {items.map((c, i) => {
-        const inner = (
-          <>
-            {c.src || c.slot ? (
-              <div className="relative aspect-16/11 w-full overflow-hidden rounded-card">
-                <Plate
-                  src={c.src}
-                  slot={c.slot}
-                  alt={c.title}
-                  tone={tone}
-                  sizes="(max-width:768px) 100vw, 33vw"
-                  className="size-full transition-transform duration-[1000ms] ease-[var(--ease-out-soft)] group-hover:scale-[1.04]"
-                />
-              </div>
+      {items.map((c, i) => (
+        <Reveal key={c.title + i} delay={i * 50}>
+          <article className="lit hover-zoom group flex h-full flex-col overflow-hidden rounded-lg border border-border bg-paper transition-colors duration-300 hover:border-gold/50">
+            {c.src ? (
+              <Plate
+                src={c.src}
+                alt={c.title}
+                tier={c.tier}
+                ratio="aspect-[16/10]"
+                sizes="(max-width:768px) 100vw, 33vw"
+                radius="none"
+              />
             ) : null}
-            <div className={cx("flex flex-1 flex-col", c.src || c.slot ? "pt-5" : "")}>
+            <div className="flex flex-1 flex-col gap-3.5 p-6 lg:p-7">
               <div className="flex items-start justify-between gap-3">
                 {c.kicker ? (
-                  <span className={cx("micro", dark ? "text-sage" : "text-sage-deep")}>{c.kicker}</span>
+                  <span className="t-label text-gold-text">{c.kicker}</span>
                 ) : c.n ? (
-                  <span className={cx("micro tnum", dark ? "text-chalk/45" : "text-faint")}>{c.n}</span>
-                ) : null}
-                {c.status ? <Pill status={c.status} tone={tone} /> : null}
-              </div>
-              <h3
-                className={cx(
-                  "mt-3 text-[18px] leading-snug font-medium tracking-[-0.03em]",
-                  dark ? "text-chalk" : "text-ink",
+                  <span className="t-label tnum text-gold-text">{c.n}</span>
+                ) : (
+                  <span />
                 )}
-              >
-                {c.title}
-              </h3>
-              {c.body ? (
-                <p className={cx("mt-3 text-[13.5px] leading-[1.6]", dark ? "text-chalk/62" : "text-muted")}>
-                  {c.body}
-                </p>
-              ) : null}
+                {c.status ? <StatusTag status={c.status} /> : null}
+              </div>
+              <h3 className="t-h4 leading-snug text-ink">{c.title}</h3>
+              {c.body ? <p className="t-body-sm text-muted">{c.body}</p> : null}
               {c.href ? (
-                <span className={cx("micro mt-auto inline-flex items-center gap-2 pt-7", dark ? "text-sage" : "text-ink")}>
-                  Explore
-                  <Arrow className="size-3 transition-transform duration-300 group-hover:translate-x-1" />
+                <span className="mt-auto pt-6">
+                  <ArrowLink href={c.href} className="text-[14px] text-gold-text">
+                    Explore
+                  </ArrowLink>
                 </span>
               ) : null}
             </div>
-          </>
-        );
-
-        const shell = cx(
-          "group flex h-full flex-col p-5 transition-all duration-500 ease-[var(--ease-out-soft)]",
-          dark ? "rounded-slab bg-white/5 hairline-light" : "rounded-slab bg-chalk hairline",
-          c.href && "hover:-translate-y-1 hover:shadow-[var(--shadow-float)]",
-        );
-
-        return (
-          <Reveal key={c.title + i} delay={i * 70}>
-            {c.href ? (
-              <Link href={c.href} className={shell}>
-                {inner}
-              </Link>
-            ) : (
-              <article className={shell}>{inner}</article>
-            )}
-          </Reveal>
-        );
-      })}
+          </article>
+        </Reveal>
+      ))}
     </div>
   );
 }
 
-/* ── split: media beside copy ─────────────────────────────────────── */
+/* ── split ────────────────────────────────────────────────────────── */
 
 export function Split({
   eyebrow,
   title,
   body,
-  bullets,
-  cta,
+  points,
   src,
-  slot,
   alt,
-  caption,
+  tier,
+  href,
   flip,
-  tone = "light",
+  status,
+  source,
 }: {
   eyebrow?: string;
   title: string;
   body?: string;
-  bullets?: string[];
-  cta?: { label: string; href: string };
+  points?: string[];
   src?: string;
-  slot?: string;
   alt?: string;
-  caption?: string;
+  tier?: Tier;
+  href?: string;
   flip?: boolean;
-  tone?: "light" | "dark";
+  status?: Status;
+  source?: string;
 }) {
-  const dark = tone === "dark";
   return (
-    <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-      <Reveal className={flip ? "lg:order-2" : undefined}>
-        {eyebrow ? <Eyebrow tone={tone}>{eyebrow}</Eyebrow> : null}
-        <h3
-          className={cx(
-            "mt-5 max-w-[20ch] text-[clamp(1.5rem,2.8vw,2.2rem)]",
-            dark ? "text-chalk" : "text-ink",
-          )}
-        >
-          {title}
-        </h3>
-        {body ? (
-          <p className={cx("mt-5 max-w-[50ch] text-[15px] leading-[1.7]", dark ? "text-chalk/62" : "text-muted")}>
-            {body}
-          </p>
-        ) : null}
-        {bullets?.length ? (
-          <ul className="mt-7 flex flex-col gap-3">
-            {bullets.map((b) => (
-              <li key={b} className="flex gap-3">
-                <span
-                  className={cx(
-                    "mt-2 size-1.5 shrink-0 rounded-full",
-                    dark ? "bg-sage" : "bg-sage-deep",
-                  )}
-                />
-                <span className={cx("text-[14.5px] leading-[1.6]", dark ? "text-chalk/72" : "text-ink-soft")}>
-                  {b}
-                </span>
+    <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+      <Reveal className={cx(flip && "lg:order-2")}>
+        <Plate
+          src={src}
+          alt={alt ?? title}
+          tier={tier}
+          ratio="aspect-[4/3]"
+          sizes="(max-width:1024px) 100vw, 48vw"
+          radius="lg"
+          className="hover-zoom lit-lg"
+        />
+      </Reveal>
+
+      <Reveal delay={90} className="flex flex-col gap-5">
+        {eyebrow ? <Eyebrow>{eyebrow}</Eyebrow> : null}
+        {status ? <StatusTag status={status} /> : null}
+        <h3 className="t-h3 max-w-[20ch] text-ink">{title}</h3>
+        {body ? <p className="t-body-l measure text-muted">{body}</p> : null}
+        {points?.length ? (
+          <ul className="mt-2 flex flex-col gap-3 border-l-2 border-gold/40 pl-6">
+            {points.map((p) => (
+              <li key={p} className="t-body-sm text-ink/80">
+                {p}
               </li>
             ))}
           </ul>
         ) : null}
-        {cta ? (
-          <div className="mt-9">
-            <Btn href={cta.href} variant={dark ? "glass" : "quiet"}>
-              {cta.label}
-            </Btn>
-          </div>
-        ) : null}
-      </Reveal>
-
-      <Reveal delay={120} className={flip ? "lg:order-1" : undefined}>
-        <div className="relative aspect-4/3 w-full overflow-hidden rounded-slab">
-          <Plate src={src} slot={slot} alt={alt ?? title} tone={tone} sizes="(max-width:1024px) 100vw, 50vw" className="size-full" />
-        </div>
-        {caption ? (
-          <p className={cx("micro mt-3", dark ? "text-chalk/38" : "text-faint")}>{caption}</p>
+        {source ? <Source className="mt-2">{source}</Source> : null}
+        {href ? (
+          <span className="mt-3">
+            <ArrowLink href={href}>Read more</ArrowLink>
+          </span>
         ) : null}
       </Reveal>
     </div>
   );
 }
 
-/* ── numbered steps ───────────────────────────────────────────────── */
+/* ── steps ────────────────────────────────────────────────────────── */
 
-export function Steps({
-  items,
-  tone = "light",
-}: {
-  items: { title: string; body?: string }[];
-  tone?: "light" | "dark";
-}) {
-  const dark = tone === "dark";
+export function Steps({ items }: { items: { title: string; body?: string }[] }) {
   return (
-    <div className={cx("rounded-slab px-6 py-9 sm:px-10", dark ? "dusk-wash" : "panel-tint hairline")}>
-      <div
-        className={cx(
-          "grid gap-8 sm:grid-cols-2 lg:gap-x-6",
-          items.length >= 5 ? "lg:grid-cols-5" : "lg:grid-cols-4",
-        )}
-      >
-        {items.map((s, i) => (
-          <Reveal key={s.title} delay={i * 70} className="flex flex-col">
-            <span
-              className={cx(
-                "micro grid size-11 place-items-center rounded-xl tnum",
-                dark ? "bg-white/10 text-sage" : "bg-chalk text-sage-deep hairline",
-              )}
-            >
-              {String(i + 1).padStart(2, "0")}
-            </span>
-            <span
-              className={cx(
-                "mt-5 text-[14.5px] leading-snug font-medium tracking-[-0.02em]",
-                dark ? "text-chalk" : "text-ink",
-              )}
-            >
-              {s.title}
-            </span>
-            {s.body ? (
-              <span className={cx("mt-2 text-[13px] leading-[1.55]", dark ? "text-chalk/60" : "text-muted")}>
-                {s.body}
-              </span>
-            ) : null}
-          </Reveal>
-        ))}
-      </div>
-    </div>
+    <ol className="relative grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
+      {items.map((s, i) => (
+        <li key={s.title} className="lit flex gap-5 rounded-lg border border-border bg-paper p-6">
+          <span className="t-label tnum grid size-10 shrink-0 place-items-center rounded-full border border-gold/45 bg-gold-wash text-gold-text">
+            {String(i + 1).padStart(2, "0")}
+          </span>
+          <div className="flex min-w-0 flex-col gap-2 pt-1.5">
+            <h3 className="text-[16px] leading-snug font-medium text-ink">{s.title}</h3>
+            {s.body ? <p className="t-body-sm text-muted">{s.body}</p> : null}
+          </div>
+        </li>
+      ))}
+    </ol>
   );
 }
 
-/* ── closing band ─────────────────────────────────────────────────── */
+/* ── closing ──────────────────────────────────────────────────────────
+   §37. One per page, at the end, on the deepest warm ground so it reads
+   as an ending rather than another section.
+──────────────────────────────────────────────────────────────────── */
 
-export function CTABand({
+export function PageClose({
   lead,
   accent,
   sub,
   ctas,
+  art,
 }: {
   lead: string;
   accent?: string;
   sub?: string;
-  ctas: { label: string; href: string }[];
+  ctas?: { label: string; href: string }[];
+  art: PageArt;
 }) {
   return (
-    <section className="relative isolate overflow-hidden">
-      <div aria-hidden className="dusk-wash absolute inset-0 -z-20" />
-      <div aria-hidden className="grain absolute inset-0 -z-10" />
-      <Container className="relative flex flex-col items-center py-[clamp(72px,13vh,150px)] text-center">
-        <Reveal className="flex flex-col items-center">
-          <h2 className="max-w-[18ch] text-[clamp(1.9rem,4.4vw,3.4rem)] text-chalk">
-            {lead} {accent ? <span className="text-sage">{accent}</span> : null}
-          </h2>
-          {sub ? <p className="mt-6 max-w-[46ch] text-[16px] leading-[1.65] text-chalk/62">{sub}</p> : null}
-          <div className="mt-10 flex flex-wrap justify-center gap-3">
-            {ctas.map((c, i) => (
-              <Btn key={c.href + c.label} href={c.href} variant={i === 0 ? "sage" : "glass"}>
-                {c.label}
-              </Btn>
-            ))}
+    <section className="ground-sand section relative overflow-hidden">
+      {art.tail ? (
+        <Prop
+          name={art.tail}
+          anchor="bottom-right"
+          opacity={28}
+          className="hidden w-[38%] max-w-[560px] lg:block"
+        />
+      ) : null}
+
+      <Container className="relative">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:gap-20">
+          <div>
+            <h2 className="t-h2 max-w-[22ch] text-ink">
+              {lead}
+              {accent ? (
+                <>
+                  {" "}
+                  <span className="text-gold">{accent}</span>
+                </>
+              ) : null}
+            </h2>
+            <span aria-hidden className="rule-fade mt-6 block w-20" />
+            {sub ? <p className="t-body-l measure mt-6 text-muted">{sub}</p> : null}
           </div>
-        </Reveal>
+          {ctas?.length ? (
+            <div className="flex shrink-0 flex-wrap items-center gap-4">
+              {ctas.map((c, i) => (
+                <Button
+                  key={c.href + i}
+                  href={c.href}
+                  variant={i === 0 ? "primary" : "secondary"}
+                  className="t-nav"
+                >
+                  {c.label}
+                </Button>
+              ))}
+            </div>
+          ) : null}
+        </div>
       </Container>
     </section>
   );
 }
 
-/* ── quiet link list, for resource-style pages ────────────────────── */
+/* ── link rows ────────────────────────────────────────────────────── */
 
 export function LinkRows({
   items,
-  tone = "light",
 }: {
-  items: { label: string; meta?: string; href: string }[];
-  tone?: "light" | "dark";
+  items: { label: string; href: string; meta?: string }[];
 }) {
-  const dark = tone === "dark";
   return (
-    <div className="flex flex-col">
+    <ul className="lit overflow-hidden rounded-lg border border-border bg-paper">
       {items.map((r, i) => (
-        <Reveal key={r.href + i} delay={i * 50}>
-          <Link
+        <li key={r.href + i} className="border-b border-border-soft last:border-0">
+          <ArrowLink
             href={r.href}
-            className={cx(
-              "group flex items-center justify-between gap-6 border-b py-6 transition-colors duration-300",
-              dark ? "border-white/10 hover:bg-white/5" : "hover-surface border-line",
-            )}
+            className="group/row flex w-full items-center justify-between gap-6 px-6 py-5 transition-colors duration-200 hover:bg-cream-warm/70"
           >
-            <span className="flex flex-col gap-1.5">
-              <span className={cx("text-[16px] font-medium", dark ? "text-chalk" : "text-ink")}>
-                {r.label}
+            <span className="flex items-center gap-4">
+              <span className="grid size-9 shrink-0 place-items-center rounded-full border border-gold/40 text-gold">
+                <NavIcon kind="file" className="size-4 [stroke-width:1.25]" />
               </span>
-              {r.meta ? (
-                <span className={cx("micro", dark ? "text-chalk/45" : "text-faint")}>{r.meta}</span>
-              ) : null}
+              <span className="flex flex-col gap-1.5">
+                <span className="text-[16px] font-medium text-ink">{r.label}</span>
+                {r.meta ? <Source>{r.meta}</Source> : null}
+              </span>
             </span>
-            <CircleArrow
-              tone={dark ? "glass" : "ink"}
-              className="size-10 transition-transform duration-300 group-hover:translate-x-1"
-            />
-          </Link>
-        </Reveal>
+          </ArrowLink>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }

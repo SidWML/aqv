@@ -1,43 +1,42 @@
 import { Hero } from "@/components/home/hero";
-import { CallToAction, Doors, Ledger, Newsroom, Proof, Thesis } from "@/components/home/light";
-import { Ecosystem, Machine, Missions } from "@/components/home/machine";
+import { DeclarationToDelivery, Governance } from "@/components/home/evidence";
+import { FindYourDoor } from "@/components/home/doors";
+import { WhatIsLive } from "@/components/home/live";
 import { Pillars } from "@/components/home/pillars";
+import { Newsroom, QuantumComputing } from "@/components/home/compute";
+import { ApplyConnect, WorkingEconomy } from "@/components/home/campus";
 
 /**
- * The homepage.
+ * The homepage — §38.
  *
- * Indus Valley's system — warm light ground, soft rounded surfaces,
- * gradient washes, grain, one accent — with AQV's content.
+ * Ten sections, each with its own composition; no two consecutive
+ * sections share a pattern, and the grounds alternate cream / warm so
+ * the page has a rhythm rather than one flat field.
  *
- *   01  light   hero, photography dissolving into the ground
- *   02  light   proof — six dated metrics
- *   03  light   the thesis
- *   04  light   missions
- *   05  DARK    the machine — the only dark chapter
- *   06  light   ecosystem — occupancy, then anchors
- *   07  light   declaration → delivery
- *   08  light   five pillars
- *   09  light   find your door
- *   10  light   newsroom
- *   11  DARK    the close
- *
- * No photograph anywhere sits in a rectangle. Every one is masked and
- * graded through <Plate>, so it belongs to the page.
+ *   01  hero          full-bleed river video, type in negative space
+ *   02  what is live  six evidence cards, figure coloured by status
+ *   03  find your door  five audience routes, photo dissolving up
+ *   04  declaration   a three-column ledger on a gold spine
+ *   05  governance    the argument, then the deployment panel
+ *   06  five pillars  five equal chapters
+ *   07  compute       live service vs. the machine still arriving
+ *   08  campus        the real facility, then the ecosystem by meaning
+ *   09  newsroom      three dated stories
+ *   10  connect       one intake, five intents
  */
 export default function Home() {
   return (
     <>
       <Hero />
-      <Proof />
-      <Thesis />
-      <Missions />
-      <Machine />
-      <Ecosystem />
-      <Ledger />
+      <WhatIsLive />
+      <FindYourDoor />
+      <DeclarationToDelivery />
+      <Governance />
       <Pillars />
-      <Doors />
+      <QuantumComputing />
+      <WorkingEconomy />
       <Newsroom />
-      <CallToAction />
+      <ApplyConnect />
     </>
   );
 }

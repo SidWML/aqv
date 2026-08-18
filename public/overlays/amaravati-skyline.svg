@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 380" fill="none" stroke="#C9AC72" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round">
+  <!-- PLACEHOLDER — swap for the generated Amaravati line-art PNG.
+       Bridge, capitol and hills, drawn thin in gold. -->
+
+  <!-- hills, right -->
+  <path d="M640 236 C 690 176, 736 150, 786 152 C 840 154, 884 190, 900 236" opacity=".6"/>
+  <path d="M760 236 C 800 196, 836 178, 872 182 C 900 186, 900 200, 900 236" opacity=".4"/>
+
+  <!-- water line -->
+  <path d="M0 268 H900" opacity=".35"/>
+  <path d="M0 280 H900" opacity=".22"/>
+  <path d="M0 292 H900" opacity=".14"/>
+
+  <!-- bridge, left -->
+  <path d="M0 232 H196"/>
+  <path d="M0 244 H196"/>
+  <g opacity=".75">
+    <path d="M14 244 V266 M42 244 V266 M70 244 V266 M98 244 V266 M126 244 V266 M154 244 V266 M182 244 V266"/>
+  </g>
+  <path d="M0 214 C 36 196, 76 194, 112 208 C 146 220, 172 228, 196 232" opacity=".55"/>
+
+  <!-- capitol -->
+  <g>
+    <!-- dome -->
+    <path d="M300 128 C 300 88, 324 62, 352 62 C 380 62, 404 88, 404 128"/>
+    <path d="M316 128 C 316 98, 332 80, 352 80 C 372 80, 388 98, 388 128" opacity=".7"/>
+    <path d="M352 62 V 44"/>
+    <circle cx="352" cy="38" r="5.5"/>
+    <path d="M292 128 H412"/>
+    <path d="M298 140 H406"/>
+    <!-- drum columns -->
+    <g opacity=".65">
+      <path d="M310 140 V172 M326 140 V172 M342 140 V172 M362 140 V172 M378 140 V172 M394 140 V172"/>
+    </g>
+    <path d="M292 172 H412"/>
+
+    <!-- body -->
+    <path d="M232 186 H472"/>
+    <path d="M240 186 V258 M464 186 V258"/>
+    <g opacity=".6">
+      <path d="M256 196 V252 M276 196 V252 M296 196 V252 M316 196 V252 M336 196 V252 M356 196 V252 M376 196 V252 M396 196 V252 M416 196 V252 M436 196 V252"/>
+    </g>
+    <path d="M232 258 H472"/>
+    <path d="M224 268 H480"/>
+
+    <!-- wings -->
+    <path d="M160 214 H232 M160 214 V258 H232" opacity=".8"/>
+    <path d="M472 214 H544 M544 214 V258 H472" opacity=".8"/>
+    <g opacity=".45">
+      <path d="M176 224 V252 M196 224 V252 M216 224 V252"/>
+      <path d="M488 224 V252 M508 224 V252 M528 224 V252"/>
+    </g>
+  </g>
+
+  <!-- trees -->
+  <g opacity=".5">
+    <path d="M560 268 V240 M552 250 C 556 240, 564 240, 568 250"/>
+    <path d="M584 268 V246 M577 254 C 580 246, 588 246, 591 254"/>
+    <path d="M606 268 V242 M598 252 C 602 242, 610 242, 614 252"/>
+    <path d="M120 268 V246 M113 254 C 116 246, 124 246, 127 254"/>
+    <path d="M96 268 V250 M90 256 C 93 250, 99 250, 102 256"/>
+  </g>
+</svg>

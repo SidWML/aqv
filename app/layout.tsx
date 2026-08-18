@@ -1,12 +1,35 @@
 import type { Metadata } from "next";
-import { Instrument_Sans, JetBrains_Mono } from "next/font/google";
+import { Fraunces, Manrope, JetBrains_Mono } from "next/font/google";
 import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
+import { Motion } from "@/components/ui/motion";
 import { org } from "@/lib/aqv";
 import "./globals.css";
 
-const instrument = Instrument_Sans({
-  variable: "--font-instrument",
+/**
+ * Two voices.
+ *
+ * Fraunces carries every display line. Soft and Wonk are dialled to
+ * zero in the type scale, which keeps its old-style warmth but takes
+ * the whimsy out — the result reads institutional rather than playful,
+ * and it holds weight at 68px the way a thin didone cannot.
+ *
+ * Manrope carries everything a reader has to work through. Geometric
+ * enough to feel future-ready, humanist enough to stay warm beside the
+ * cream and the gold, and unusually clear at label sizes.
+ *
+ * Mono is a utility face, not a third brand voice: it sets labels,
+ * dates and sources so a figure is never confused for a caption.
+ */
+const display = Fraunces({
+  variable: "--font-display-face",
+  subsets: ["latin"],
+  display: "swap",
+  axes: ["SOFT", "WONK", "opsz"],
+});
+
+const body = Manrope({
+  variable: "--font-body-face",
   subsets: ["latin"],
   display: "swap",
 });
@@ -21,7 +44,7 @@ const mono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://aqv.in"),
   title: {
-    default: `${org.name} — quantum compute, live today`,
+    default: `${org.name} — an integrated Quantum-AI ecosystem`,
     template: `%s · ${org.short}`,
   },
   description:
@@ -29,26 +52,16 @@ export const metadata: Metadata = {
   openGraph: { type: "website", siteName: org.name, locale: "en_IN" },
 };
 
-/**
- * Replays the stored colour mode onto <html> before first paint, so the
- * page never flashes the wrong ground. Runs synchronously in <head>.
- */
-const THEME_SCRIPT = `try{var t=localStorage.getItem('aqv-theme');if(t==='dark')document.documentElement.dataset.theme='dark'}catch(e){}`;
-
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      suppressHydrationWarning
-      className={`${instrument.variable} ${mono.variable} h-full antialiased`}
+      className={`${display.variable} ${body.variable} ${mono.variable} h-full`}
     >
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
-      </head>
-      <body className="flex min-h-full flex-col">
+      <body className="flex min-h-full flex-col bg-cream text-ink">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-60 focus:rounded-full focus:bg-ink focus:px-5 focus:py-3 focus:text-chalk"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-60 focus:rounded-md focus:bg-ink focus:px-5 focus:py-3 focus:text-cream"
         >
           Skip to content
         </a>
@@ -57,6 +70,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {children}
         </main>
         <SiteFooter />
+        {/* one reveal observer for the whole site */}
+        <Motion />
       </body>
     </html>
   );

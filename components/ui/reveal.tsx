@@ -43,9 +43,9 @@ export function Reveal({
     <Tag
       ref={ref}
       id={id}
-      data-reveal={shown ? "shown" : "hidden"}
-      style={delay ? ({ "--reveal-delay": `${delay}ms` } as React.CSSProperties) : undefined}
-      className={className}
+      data-shown={shown ? "true" : "false"}
+      style={delay ? ({ transitionDelay: `${delay}ms` } as React.CSSProperties) : undefined}
+      className={["reveal", className].filter(Boolean).join(" ")}
     >
       {children}
     </Tag>

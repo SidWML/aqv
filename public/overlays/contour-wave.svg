@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 200" fill="none" stroke="#C9AC72" stroke-width="1" stroke-linecap="round">
+  <!-- PLACEHOLDER — swap for the generated contour PNG. -->
+  <path d="M-20 62 C 90 26, 190 96, 300 62 S 470 20, 500 54" opacity=".30"/>
+  <path d="M-20 84 C 90 48, 190 118, 300 84 S 470 42, 500 76" opacity=".26"/>
+  <path d="M-20 106 C 90 70, 190 140, 300 106 S 470 64, 500 98" opacity=".22"/>
+  <path d="M-20 128 C 90 92, 190 162, 300 128 S 470 86, 500 120" opacity=".18"/>
+  <path d="M-20 150 C 90 114, 190 184, 300 150 S 470 108, 500 142" opacity=".14"/>
+  <path d="M-20 172 C 90 136, 190 206, 300 172 S 470 130, 500 164" opacity=".10"/>
+</svg>

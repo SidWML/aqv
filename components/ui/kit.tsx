@@ -2,41 +2,125 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import type { Status } from "@/lib/aqv";
 
-export function cx(...p: (string | false | null | undefined)[]) {
-  return p.filter(Boolean).join(" ");
+export function cx(...v: (string | false | null | undefined)[]) {
+  return v.filter(Boolean).join(" ");
 }
 
-export function Container({ children, className }: { children: ReactNode; className?: string }) {
-  // 96% of the viewport, edge to edge — no fixed max width
-  return <div className={cx("mx-auto w-[92%]", className)}>{children}</div>;
+/* ── layout ───────────────────────────────────────────────────────── */
+
+export function Container({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return <div className={cx("container-page", className)}>{children}</div>;
 }
 
-/* ── section heading ──────────────────────────────────────────────── */
+/* ── the ground scale ─────────────────────────────────────────────────
+   Section grounds are one system, defined once in globals.css as
+   `.tone-1` … `.tone-4`:
+
+     tone-1   Warm Ivory        light     the default page ground
+     tone-2   warm half-step    light+
+     tone-3   Champagne Beige   shaded    the weighted step
+     tone-4   Quantum Navy      dark      the one dark chapter
+
+   Every section on the site carries exactly one of them, two adjacent
+   sections never carry the same one, and a page closes on the shaded
+   or the dark step. Cards stay White on all three light grounds, so a
+   card always reads as a surface above its section.
+──────────────────────────────────────────────────────────────────── */
+
+/* ── eyebrow ──────────────────────────────────────────────────────────
+   A numbered label with a short gold rule. This is the one repeated
+   device in the system — it is how a reader knows where they are.
+──────────────────────────────────────────────────────────────────── */
 
 export function Eyebrow({
+  n,
   children,
   tone = "light",
   className,
 }: {
+  n?: string;
   children: ReactNode;
   tone?: "light" | "dark";
   className?: string;
 }) {
+  const dark = tone === "dark";
   return (
-    <span
-      className={cx(
-        "micro inline-flex items-center gap-2.5",
-        tone === "dark" ? "text-sage" : "text-sage-deep",
-        className,
-      )}
-    >
-      <span className={cx("h-px w-6", tone === "dark" ? "bg-sage/50" : "bg-sage-deep/40")} />
-      {children}
+    <span className={cx("flex items-center gap-4", className)}>
+      {n ? (
+        <span className={cx("t-label tnum", dark ? "text-gold-light" : "text-gold-text")}>
+          {n}
+        </span>
+      ) : null}
+      <span aria-hidden className="h-px w-9 shrink-0 bg-gold" />
+      <span className={cx("t-label", dark ? "text-gold-light/80" : "text-gold-text")}>
+        {children}
+      </span>
     </span>
   );
 }
 
-export function Head({
+/* ── breadcrumb ───────────────────────────────────────────────────────
+   §67. Where a route sits below a parent, the trail is stated rather
+   than left to the nav's underline.
+──────────────────────────────────────────────────────────────────── */
+
+export function Breadcrumb({
+  items,
+  tone = "light",
+  className,
+}: {
+  items: { label: string; href?: string }[];
+  tone?: "light" | "dark";
+  className?: string;
+}) {
+  const dark = tone === "dark";
+  return (
+    <nav aria-label="Breadcrumb" className={className}>
+      <ol className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
+        {items.map((c, i) => (
+          <li key={c.label} className="flex items-center gap-2.5">
+            {i > 0 ? (
+              <span aria-hidden className={dark ? "text-cream/25" : "text-border"}>
+                /
+              </span>
+            ) : null}
+            {c.href ? (
+              <Link
+                href={c.href}
+                className={cx(
+                  "t-caption transition-colors",
+                  dark
+                    ? "text-cream/55 hover:text-gold-light"
+                    : "text-muted hover:text-gold-text",
+                )}
+              >
+                {c.label}
+              </Link>
+            ) : (
+              <span
+                className={cx("t-caption", dark ? "text-gold-light" : "text-ink")}
+                aria-current="page"
+              >
+                {c.label}
+              </span>
+            )}
+          </li>
+        ))}
+      </ol>
+    </nav>
+  );
+}
+
+/* ── section header ───────────────────────────────────────────────── */
+
+export function SectionHeader({
+  n,
   eyebrow,
   children,
   sub,
@@ -45,6 +129,7 @@ export function Head({
   action,
   className,
 }: {
+  n?: string;
   eyebrow?: string;
   children: ReactNode;
   sub?: ReactNode;
@@ -54,230 +139,355 @@ export function Head({
   className?: string;
 }) {
   const dark = tone === "dark";
+  const centered = align === "center";
   return (
     <div
       className={cx(
-        align === "center" && "flex flex-col items-center text-center",
-        !!action && "md:flex md:items-end md:justify-between md:gap-12",
+        "flex flex-col gap-6",
+        centered && "items-center text-center",
         className,
       )}
     >
-      <div className={align === "center" ? "flex flex-col items-center" : undefined}>
-        {eyebrow ? <Eyebrow tone={tone}>{eyebrow}</Eyebrow> : null}
+      {eyebrow ? (
+        <Eyebrow n={n} tone={tone} className={centered ? "justify-center" : undefined}>
+          {eyebrow}
+        </Eyebrow>
+      ) : null}
+
+      <div
+        className={cx(
+          "flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between lg:gap-16",
+          centered && "lg:flex-col lg:items-center",
+        )}
+      >
         <h2
           className={cx(
-            "mt-5 max-w-[20ch] text-[clamp(1.9rem,4vw,3.1rem)]",
-            align === "center" && "mx-auto",
-            dark ? "text-chalk" : "text-ink",
+            "t-h2 max-w-[19ch]",
+            centered && "max-w-[24ch]",
+            dark ? "text-cream" : "text-ink",
           )}
         >
           {children}
         </h2>
-        {sub ? (
-          <p
-            className={cx(
-              "mt-5 max-w-[54ch] text-[15.5px] leading-[1.7]",
-              align === "center" && "mx-auto",
-              dark ? "text-chalk/60" : "text-muted",
-            )}
-          >
-            {sub}
-          </p>
-        ) : null}
+        {action ? <div className="shrink-0 lg:pb-2">{action}</div> : null}
       </div>
-      {action ? <div className="mt-8 shrink-0 md:mt-0">{action}</div> : null}
+
+      {sub ? (
+        <p
+          className={cx(
+            "t-body-l measure",
+            centered && "mx-auto text-center",
+            dark ? "text-cream/70" : "text-muted",
+          )}
+        >
+          {sub}
+        </p>
+      ) : null}
     </div>
   );
 }
 
-/* ── status pill ──────────────────────────────────────────────────── */
+/* ── status ───────────────────────────────────────────────────────────
+   §29. Colour never carries the meaning alone — every status is a shape,
+   a colour and a word.
+──────────────────────────────────────────────────────────────────── */
 
-const PILL: Record<Status, string> = {
-  DELIVERED: "bg-sage-soft text-sage-deep",
-  LIVE: "bg-river/40 text-river-deep",
-  "IN PROGRESS": "bg-ink/6 text-muted",
-  OPEN: "bg-sage-wash text-sage-deep",
-  "COMING SOON": "bg-ink/4 text-faint",
+/* Each status owns a colour, and the figure it labels is set in the same
+   colour — so a card reads as one statement rather than a badge stuck on
+   a number. §29: colour never carries the meaning alone. */
+const STATUS: Record<
+  Status,
+  {
+    light: string;
+    dark: string;
+    /** the matching weight for a figure under this status */
+    ink: string;
+    glyph: "check" | "dot" | "line" | "ring" | "outline";
+  }
+> = {
+  DELIVERED: {
+    light: "bg-olive-deep text-cream ring-transparent",
+    dark: "bg-olive/30 text-[#d5d9b4] ring-olive/45",
+    ink: "text-olive-deep",
+    glyph: "check",
+  },
+  LIVE: {
+    light: "bg-navy text-cream ring-transparent",
+    dark: "bg-cream text-navy ring-transparent",
+    ink: "text-navy-ink",
+    glyph: "dot",
+  },
+  "IN PROGRESS": {
+    light: "bg-gold-deep text-cream ring-transparent",
+    dark: "bg-gold/28 text-gold-light ring-gold/45",
+    ink: "text-gold-text",
+    glyph: "line",
+  },
+  OPEN: {
+    light: "bg-transparent text-gold-text ring-gold/70",
+    dark: "bg-transparent text-gold-light ring-gold/55",
+    ink: "text-gold",
+    glyph: "ring",
+  },
+  /* not yet announced — the same restraint as PLANNED, its own word */
+  "COMING SOON": {
+    light: "bg-transparent text-[#5d5343] ring-border",
+    dark: "bg-transparent text-cream/65 ring-cream/25",
+    ink: "text-muted",
+    glyph: "outline",
+  },
+  PLANNED: {
+    light: "bg-transparent text-[#5d5343] ring-border",
+    dark: "bg-transparent text-cream/65 ring-cream/25",
+    ink: "text-muted",
+    glyph: "outline",
+  },
 };
 
-const PILL_DARK: Record<Status, string> = {
-  DELIVERED: "bg-sage/22 text-sage",
-  LIVE: "bg-river/20 text-river",
-  "IN PROGRESS": "bg-white/10 text-white/60",
-  OPEN: "bg-white/10 text-white/70",
-  "COMING SOON": "bg-white/6 text-white/50",
+/** The figure weight that belongs to a status. */
+export function statusInk(status: Status) {
+  return (STATUS[status] ?? STATUS.PLANNED).ink;
+}
+
+/**
+ * The surface that belongs to a status — a wash of its own colour with a
+ * matching border. Keeps a card, its border and its pill saying the same
+ * thing without each one being set by hand.
+ */
+const STATUS_TINT: Record<Status, string> = {
+  DELIVERED: "bg-olive/10 border-olive/40",
+  LIVE: "bg-navy-ink/8 border-navy-ink/28",
+  "IN PROGRESS": "bg-gold/10 border-gold/40",
+  OPEN: "bg-gold/6 border-gold/38",
+  "COMING SOON": "bg-sand/35 border-border",
+  PLANNED: "bg-sand/35 border-border",
 };
 
-export function Pill({ status, tone = "light" }: { status: Status; tone?: "light" | "dark" }) {
+export function statusTint(status: Status) {
+  return STATUS_TINT[status] ?? STATUS_TINT.PLANNED;
+}
+
+function StatusGlyph({ kind }: { kind: string }) {
+  const common = {
+    viewBox: "0 0 12 12",
+    fill: "none" as const,
+    "aria-hidden": true,
+    className: "size-3 shrink-0",
+    stroke: "currentColor",
+    strokeWidth: 1.6,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+  };
+  switch (kind) {
+    case "check":
+      return (
+        <svg {...common}>
+          <path d="M2.5 6.3 4.9 8.7 9.5 3.6" />
+        </svg>
+      );
+    case "dot":
+      return (
+        <svg {...common} stroke="none">
+          <circle cx="6" cy="6" r="3" fill="currentColor" />
+        </svg>
+      );
+    case "line":
+      return (
+        <svg {...common}>
+          <path d="M1.6 6h5.2" />
+          <circle cx="9" cy="6" r="1.6" fill="currentColor" stroke="none" />
+        </svg>
+      );
+    case "ring":
+      return (
+        <svg {...common}>
+          <circle cx="6" cy="6" r="3.6" />
+        </svg>
+      );
+    default:
+      return (
+        <svg {...common} strokeDasharray="2 1.8">
+          <circle cx="6" cy="6" r="3.6" />
+        </svg>
+      );
+  }
+}
+
+/**
+ * One weight, site-wide. There is deliberately no outlined variant —
+ * a status must look identical on the homepage, in a ledger and on a
+ * sub-route, or it stops being a system.
+ */
+export function StatusTag({
+  status,
+  tone = "light",
+  className,
+}: {
+  status: Status;
+  tone?: "light" | "dark";
+  className?: string;
+}) {
+  const s = STATUS[status] ?? STATUS.PLANNED;
+  const skin = tone === "dark" ? s.dark : s.light;
+
   return (
     <span
       className={cx(
-        "micro inline-flex w-fit shrink-0 items-center gap-1.5 self-start rounded-full px-2.5 py-1.5",
-        tone === "dark" ? PILL_DARK[status] : PILL[status],
+        "t-label inline-flex w-fit shrink-0 items-center gap-2 rounded-sm px-2.5 py-1.5 ring-1 ring-inset",
+        skin,
+        className,
       )}
     >
-      <span className="size-1.5 rounded-full bg-current" />
+      <StatusGlyph kind={s.glyph} />
       {status}
     </span>
   );
 }
 
-/* ── buttons ──────────────────────────────────────────────────────── */
+/* ── source ───────────────────────────────────────────────────────────
+   §54. Quiet, but never hidden. Evidence is the point of this site.
+──────────────────────────────────────────────────────────────────── */
 
-export function Btn({
-  href,
+export function Source({
   children,
-  variant = "solid",
+  tone = "light",
   className,
 }: {
-  href: string;
   children: ReactNode;
-  variant?: "solid" | "sage" | "glass" | "quiet";
+  tone?: "light" | "dark";
   className?: string;
 }) {
-  const styles = {
-    solid: "bg-ink text-chalk shadow-[var(--shadow-lift)] hover:brightness-150",
-    sage: "bg-sage text-ink shadow-[var(--shadow-lift)] hover:brightness-105",
-    glass: "bg-white/12 text-chalk backdrop-blur-md hairline-light hover:bg-white/22",
-    quiet: "bg-chalk text-ink hairline hover:bg-bone-deep",
-  }[variant];
-
   return (
-    <Link
-      href={href}
+    <span
       className={cx(
-        "group/btn inline-flex h-12 items-center justify-center gap-2.5 rounded-full px-6 text-[14px] font-medium",
-        "transition-all duration-300 ease-[var(--ease-out-soft)] active:scale-[0.98]",
-        styles,
+        "t-label",
+        tone === "dark" ? "text-cream/40" : "text-faint",
         className,
       )}
     >
       {children}
-      <Arrow className="transition-transform duration-300 group-hover/btn:translate-x-0.5" />
+    </span>
+  );
+}
+
+/* ── buttons ──────────────────────────────────────────────────────────
+   §18. Three weights. Radius 12–14px, never a capsule.
+──────────────────────────────────────────────────────────────────── */
+
+export function Button({
+  href,
+  children,
+  variant = "primary",
+  tone = "light",
+  className,
+  type,
+  onClick,
+}: {
+  href?: string;
+  children: ReactNode;
+  variant?: "primary" | "secondary" | "tertiary";
+  tone?: "light" | "dark";
+  className?: string;
+  type?: "button" | "submit";
+  onClick?: () => void;
+}) {
+  const dark = tone === "dark";
+
+  const base =
+    "group/btn inline-flex items-center justify-center gap-2.5 text-[15px] font-medium transition-colors duration-200 ease-[var(--ease-out-soft)]";
+
+  const shape = "h-[50px] rounded-md px-6";
+
+  const skin = {
+    primary: dark
+      ? "bg-gold text-ink hover:bg-gold-light"
+      : "bg-gold text-cream hover:bg-[#a98b4d]",
+    secondary: dark
+      ? "border border-gold/60 text-cream hover:bg-gold/12 hover:border-gold"
+      : "border border-gold bg-paper/85 text-ink backdrop-blur-sm hover:bg-gold-wash",
+    tertiary: dark
+      ? "text-cream hover:text-gold-light"
+      : "text-ink hover:text-gold-text",
+  }[variant];
+
+  const cls = cx(
+    base,
+    variant === "tertiary" ? "h-auto p-0" : shape,
+    skin,
+    className,
+  );
+
+  const inner = (
+    <>
+      {children}
+      <Arrow
+        className={cx(
+          "size-3.5 transition-transform duration-200 group-hover/btn:translate-x-1",
+          variant === "tertiary" && (dark ? "text-gold-light" : "text-gold-text"),
+        )}
+      />
+    </>
+  );
+
+  if (href) {
+    return (
+      <Link href={href} className={cls}>
+        {inner}
+      </Link>
+    );
+  }
+  return (
+    <button type={type ?? "button"} onClick={onClick} className={cls}>
+      {inner}
+    </button>
+  );
+}
+
+/** §19 — the inline arrow link. The default way one page points at another. */
+export function ArrowLink({
+  href,
+  children,
+  tone = "light",
+  className,
+}: {
+  href: string;
+  children: ReactNode;
+  tone?: "light" | "dark";
+  className?: string;
+}) {
+  const dark = tone === "dark";
+  return (
+    <Link
+      href={href}
+      className={cx(
+        "group/al inline-flex items-center gap-2 text-[15px] font-medium transition-colors duration-200",
+        dark ? "text-cream hover:text-gold-light" : "text-ink hover:text-gold-text",
+        className,
+      )}
+    >
+      {children}
+      <Arrow
+        className={cx(
+          "size-3.5 transition-transform duration-200 group-hover/al:translate-x-1.5",
+          dark ? "text-gold-light" : "text-gold-text",
+        )}
+      />
     </Link>
   );
 }
 
+/* ── glyphs ───────────────────────────────────────────────────────── */
+
 export function Arrow({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 16 16" fill="none" aria-hidden className={cx("size-3.5 shrink-0", className)}>
+    <svg viewBox="0 0 16 16" fill="none" aria-hidden className={className}>
       <path
-        d="M2.5 8h11m0 0L9 3.5M13.5 8 9 12.5"
+        d="M2.5 8h11m0 0-4-4m4 4-4 4"
         stroke="currentColor"
-        strokeWidth="1.5"
+        strokeWidth="1.6"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
     </svg>
   );
-}
-
-export function CircleArrow({
-  tone = "sage",
-  className,
-}: {
-  tone?: "sage" | "ink" | "glass";
-  className?: string;
-}) {
-  const s = {
-    sage: "bg-sage text-ink",
-    ink: "bg-ink text-chalk",
-    glass: "bg-white/16 text-chalk backdrop-blur-md hairline-light",
-  }[tone];
-  return (
-    <span className={cx("grid size-11 shrink-0 place-items-center rounded-full", s, className)}>
-      <Arrow className="size-4" />
-    </span>
-  );
-}
-
-/* ── drawn figures — GFX-01, one per proof metric ─────────────────── */
-
-const SAGE = "#1b8a5a";
-const FAINT = "#dcdfd6";
-const RIVER = "#0e5537";
-
-export function Figure({ kind }: { kind: string }) {
-  const box = "h-12 w-full";
-  switch (kind) {
-    case "cryo":
-      return (
-        <svg viewBox="0 0 200 48" preserveAspectRatio="none" aria-hidden className={box}>
-          <defs>
-            <linearGradient id="cryoF" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor={SAGE} stopOpacity="0.26" />
-              <stop offset="100%" stopColor={SAGE} stopOpacity="0" />
-            </linearGradient>
-          </defs>
-          <path d="M0 5 C44 5 58 18 84 30 S148 46 200 47 L200 48 L0 48Z" fill="url(#cryoF)" />
-          <path
-            d="M0 5 C44 5 58 18 84 30 S148 46 200 47"
-            fill="none"
-            stroke={SAGE}
-            strokeWidth="1.6"
-            vectorEffect="non-scaling-stroke"
-          />
-        </svg>
-      );
-    case "cohort":
-      return (
-        <svg viewBox="0 0 200 48" aria-hidden className={box}>
-          {Array.from({ length: 26 }, (_, i) => {
-            const h = 6 + Math.round(38 * Math.pow(i / 25, 1.8));
-            return (
-              <rect key={i} x={i * 7.8} y={48 - h} width="4.2" height={h} rx="2.1" fill={i > 20 ? SAGE : FAINT} />
-            );
-          })}
-        </svg>
-      );
-    case "pipeline":
-      return (
-        <svg viewBox="0 0 200 48" aria-hidden className={box}>
-          {Array.from({ length: 36 }, (_, i) => (
-            <circle
-              key={i}
-              cx={5 + (i % 18) * 11}
-              cy={14 + Math.floor(i / 18) * 20}
-              r={i < 15 ? 4 : 2.6}
-              fill={i < 15 ? SAGE : FAINT}
-            />
-          ))}
-        </svg>
-      );
-    case "delta":
-      return (
-        <svg viewBox="0 0 200 48" aria-hidden className={box}>
-          <rect x="0" y="9" width="200" height="10" rx="5" fill={FAINT} />
-          <rect x="0" y="29" width="174" height="10" rx="5" fill={SAGE} />
-        </svg>
-      );
-    case "cases":
-      return (
-        <svg viewBox="0 0 200 48" aria-hidden className={box}>
-          {Array.from({ length: 24 }, (_, i) => (
-            <rect key={i} x={i * 8.2} y="13" width="5.2" height="22" rx="2.6" fill={i === 0 ? SAGE : FAINT} />
-          ))}
-        </svg>
-      );
-    case "ring":
-      return (
-        <svg viewBox="0 0 48 48" aria-hidden className="size-12">
-          <circle cx="24" cy="24" r="18" fill="none" stroke={FAINT} strokeWidth="5" />
-          <circle
-            cx="24"
-            cy="24"
-            r="18"
-            fill="none"
-            stroke={RIVER}
-            strokeWidth="5"
-            strokeLinecap="round"
-            strokeDasharray="113"
-            strokeDashoffset="32"
-            transform="rotate(-90 24 24)"
-          />
-        </svg>
-      );
-    default:
-      return null;
-  }
 }

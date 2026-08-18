@@ -33,7 +33,7 @@ export const img = {
   qaic: `${A}/real-photos/qaic-workshop-ibm-group-photo.jpg`,
   isingOpen: `${A}/real-photos/photonic-ising-machine-open-chassis.jpg`,
   river: `${G}/IMG-01.png`,
-  heroLoop: `${G}/VID-01.opt.mp4`,
+  heroLoop: `/media/hero-prakasam-barrage.mp4`,
   heroPoster: `${G}/VID-01-poster.jpg`,
   mapIndia: `${A}/graphics-maps/map-india-andhra-locator.png`,
   mapAp: `${A}/graphics-maps/map-ap-districts-amaravati.png`,
@@ -68,9 +68,9 @@ export type NavGroup = {
   }[];
 };
 
-/* Every child carries a blurb and a glyph — the dropdown rows are then
-   identical in height whatever the label length. Blurbs are drawn from
-   each page's own content, never invented. */
+/* The live site's six groups, verbatim. Every child carries a blurb and
+   a glyph so the dropdown rows are identical in height whatever the
+   label length; the blurbs come from each page's own content. */
 export const nav: NavGroup[] = [
   {
     label: "Why Amaravati",
@@ -78,8 +78,8 @@ export const nav: NavGroup[] = [
     children: [
       { label: "The Thesis", href: "/why-amaravati", icon: "thesis", blurb: "Why a whole valley, and why here" },
       { label: "Promises vs Delivered", href: "/why-amaravati/track-record", icon: "check", blurb: "The Declaration, line by line" },
-      { label: "What AQV Offers", href: "/why-amaravati/global-comparison", icon: "scale", blurb: "How the Valley compares" },
-      { label: "About, Mission & Governance", href: "/about", icon: "org", blurb: "Who runs it, and how" },
+      { label: "What AQV Offers", href: "/why-amaravati/global-comparison", icon: "scale", blurb: "Six pillars, already on the ground" },
+      { label: "About, Mission & Governance", href: "/about", icon: "org", blurb: "Who runs it, under what authority" },
     ],
   },
   {
@@ -130,7 +130,7 @@ export const nav: NavGroup[] = [
       { label: "Newsroom", href: "/news", icon: "news", blurb: "What happened. Dated. Sourced." },
       { label: "KPI Dashboard", href: "/dashboard", icon: "chart", blurb: "Quarterly actuals and status" },
       { label: "Events & Summits", href: "/events", icon: "calendar", blurb: "Workshops, launches, summits" },
-      { label: "Government Orders & Policy", href: "/resources/government-orders", icon: "file", blurb: "11 GOs issued to date" },
+      { label: "Government Orders & Policy Library", href: "/resources/government-orders", icon: "file", blurb: "11 GOs issued to date" },
       { label: "FAQs", href: "/faq", icon: "help", blurb: "Answers by stakeholder" },
       { label: "Downloads & Media Kit", href: "/resources", icon: "download", blurb: "Photo pack and fact sheet" },
     ],
@@ -142,9 +142,11 @@ export const nav: NavGroup[] = [
 export type Status =
   | "DELIVERED"
   | "LIVE"
-  | "OPEN"
   | "IN PROGRESS"
-  | "COMING SOON";
+  | "OPEN"
+  /** announced but not yet published — reads as PLANNED, says its own word */
+  | "COMING SOON"
+  | "PLANNED";
 
 export const liveMetrics: {
   status: Status;
