@@ -75,12 +75,12 @@ const GROUPS: { icon: IconKind; title: string; marks: Mark[] }[] = [
 export function WorkingEconomy() {
   return (
     <section className="tone-1 section relative overflow-hidden">
-      <Prop
+      {/* <Prop
         name="medhaBlock"
         anchor="top-left"
         opacity={45}
         className="hidden w-[26%] max-w-[380px] lg:block"
-      />
+      /> */}
       <Prop
         name="qubitChip"
         anchor="bottom-right"
@@ -229,6 +229,12 @@ export function ApplyConnect() {
               Invest, pilot, establish, research or learn — one intake routes you
               to the right AQV team.
             </p>
+             <Prop
+        name="valleyTowers"
+        anchor="center-left"
+        opacity={50}
+        className="hidden w-[40%]  xl:block"
+      />
           </div>
 
           {/* the place, with what it promises stated across its foot */}

@@ -87,7 +87,7 @@ export function Hero() {
           preload="none"
           aria-hidden
           className={cx(
-            "absolute inset-0 size-full object-cover transition-opacity duration-1000",
+            "absolute inset-0 size-full object-cover left-65 scale-98 md:block hidden  transition-opacity duration-1000",
             playing ? "opacity-100" : "opacity-0",
           )}
           /* §24 — warm the grade so the loop matches the still it sits on */
@@ -184,7 +184,7 @@ export function Hero() {
             drifting up behind the copy. Placeholders — swap the two files
             at these paths for the generated PNGs and nothing moves. */}
         <Prop
-          name="capitalAxis"
+          name="valleyTowers"
           anchor="bottom-left"
           opacity={58}
           className="-z-10 hidden w-[38%] max-w-[560px] lg:block"

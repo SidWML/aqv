@@ -77,10 +77,10 @@ export function QuantumComputing() {
         className="hidden w-[32%] max-w-[500px] lg:block"
       />
       <Prop
-        name="cryostat"
+        name="valleyTowers"
         anchor="bottom-left"
-        opacity={18}
-        className="hidden w-[20%] max-w-[280px] xl:block"
+        opacity={50}
+        className="hidden w-[50%]  xl:block"
       />
 
       <Container className="relative">
@@ -98,7 +98,7 @@ export function QuantumComputing() {
 
         <div className="mt-12 grid gap-4 lg:mt-14 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)]">
           {/* ── live now ── */}
-          <article className="relative flex flex-col overflow-hidden rounded-lg border border-border bg-olive-soft/45 p-7 lg:p-8">
+          <article className="relative flex flex-col overflow-hidden rounded-lg border border-border bg-white/50 p-7 lg:p-8">
             <span className="t-label flex items-center gap-2.5 text-olive-deep">
               <span aria-hidden className="size-2 rounded-full bg-olive-deep" />
               Live now
@@ -114,21 +114,21 @@ export function QuantumComputing() {
                 <img
                   src={`${A}/logos/ibm.png`}
                   alt="IBM"
-                  className="h-6 w-auto object-contain"
+                  className="h-12 w-auto object-contain"
                 />
                 <img
                   src={`${A}/logos/tcs.png`}
                   alt="Tata Consultancy Services"
-                  className="h-6 w-auto object-contain"
+                  className="h-12 w-auto object-contain"
                 />
               </span>
             </div>
 
             <div className="mt-7 flex items-start gap-3.5">
-              <span className="grid size-9 shrink-0 place-items-center rounded-full border border-olive/40 text-olive-deep">
-                <NavIcon kind="chip" className="size-[17px] [stroke-width:1.2]" />
+              <span className="grid size-9 shrink-0 place-items-center rounded-full border border-black/40 text-black-deep">
+                <NavIcon kind="chip" className="size-[17px] [stroke-width:1.2] text-black" />
               </span>
-              <p className="t-body-sm text-muted">
+              <p className="t-body-sm text-black">
                 365 hours of quantum runtime annually — open to researchers,
                 professors and companies.
               </p>
@@ -136,7 +136,7 @@ export function QuantumComputing() {
 
             <span aria-hidden className="my-7 block h-px w-full bg-border" />
 
-            <p className="t-body-sm text-muted">
+            <p className="t-body-sm text-black">
               Bulk access pricing is being finalized.
               <br />
               Register interest to join the queue.

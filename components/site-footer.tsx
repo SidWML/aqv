@@ -92,11 +92,11 @@ export function SiteFooter() {
 
             <span aria-hidden className="mt-8 block h-px w-full max-w-[380px] bg-border" />
 
-            <Prop
-              name="masterplan"
-              opacity={70}
-              className="relative! mt-4 -ml-6 hidden w-[110%] max-w-[440px] lg:block"
-            />
+                         <Prop
+        name="valleyTowers"
+        opacity={50}
+        className="relative! mt-4 -ml-6 hidden w-[110%] max-w-[440px] lg:block"
+      />
           </div>
 
           <nav
