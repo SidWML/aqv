@@ -932,7 +932,7 @@ export const pages: Record<string, PageDef> = {
       sub: "98 AI and 24 quantum use cases identified in AP’s Real Time Governance System and state Data Lake. One is delivered; 23 are waiting for builders.",
       ctas: [
         { label: "Claim a use case", href: "/contact" },
-        { label: "See startup incentives", href: "/incentives" },
+        { label: "Industry & enterprise", href: "/industry" },
       ],
       src: `${A}/real-photos/rtgs-command-center-floor.jpg`,
       alt: "Real Time Governance command center — the demand book lives here",
@@ -1024,7 +1024,7 @@ export const pages: Record<string, PageDef> = {
       sub: "23 quantum use cases remain open, each with real operational data behind it.",
       ctas: [
         { label: "Claim a use case", href: "/contact" },
-        { label: "See startup incentives", href: "/incentives" },
+        { label: "Industry & enterprise", href: "/industry" },
       ],
     },
   },

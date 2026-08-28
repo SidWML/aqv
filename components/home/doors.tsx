@@ -35,7 +35,7 @@ const DOORS: {
     icon: "user",
     ring: "border-gold/50 text-gold",
     rule: "bg-gold",
-    src: "/doors/investor.png",
+    src: "/pillars/investor.png",
     alt: "An AQV office building at dusk",
   },
   {
@@ -46,7 +46,7 @@ const DOORS: {
     icon: "chart-up",
     ring: "border-olive-light/45 text-olive-light",
     rule: "bg-gold",
-    src: "/doors/industry.png",
+    src: "/pillars/industry.png",
     alt: "The AQV campus lit at dusk",
   },
   {
@@ -57,7 +57,7 @@ const DOORS: {
     icon: "rocket",
     ring: "border-rose-light/45 text-rose-light",
     rule: "bg-gold",
-    src: "/doors/startup.png",
+    src: "/pillars/startup.png",
     alt: "The AQV startup hub interior",
   },
   {
@@ -68,7 +68,7 @@ const DOORS: {
     icon: "atom",
     ring: "border-violet-light/45 text-violet-light",
     rule: "bg-gold",
-    src: "/doors/researcher.png",
+    src: "/pillars/research.png",
     alt: "A cryostat in the AQV research facility",
   },
   {
@@ -79,7 +79,7 @@ const DOORS: {
     icon: "cap",
     ring: "border-gold/50 text-gold",
     rule: "bg-gold",
-    src: "/doors/student.png",
+    src: "/pillars/student.png",
     alt: "A quantum lecture in progress at an AQV campus",
   },
 ];

@@ -153,7 +153,7 @@ export function GovernancePage() {
         body="Andhra Pradesh's Real Time Governance System and state Data Lake carry 98 AI and 24 quantum use cases identified for deployment. One quantum use case is already live."
         ctas={[
           { label: "Claim a use case", href: USE_CASE, icon: "clipboard" },
-          { label: "See startup incentives", href: "/incentives", icon: "coins" },
+          { label: "Industry & enterprise", href: "/industry", icon: "briefcase" },
         ]}
         src={`${A}/real-photos/rtgs-command-center-floor.jpg`}
         alt="The RTGS command centre floor, with operators and video walls"
@@ -420,12 +420,12 @@ export function GovernancePage() {
                 Claim a use case
               </Button>
               <Button
-                href="/incentives"
+                href="/industry"
                 variant="secondary"
                 className="gap-2.5 whitespace-nowrap"
               >
-                <NavIcon kind="coins" className="size-[18px]" />
-                See startup incentives
+                <NavIcon kind="briefcase" className="size-[18px]" />
+                Industry & enterprise
               </Button>
             </div>
           </div>
