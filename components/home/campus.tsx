@@ -1,11 +1,10 @@
+import Link from "next/link";
 import { org } from "@/lib/aqv";
 import { Plate } from "../ui/plate";
+import { PlateCarousel, type Slide } from "../ui/plate-carousel";
 import { Prop } from "../ui/overlay";
 import { NavIcon, type IconKind } from "../ui/nav-icon";
-import { ArrowLink, Button, Container, Eyebrow, cx } from "../ui/kit";
-
-const A = "/source-assets/assets";
-const L = `${A}/logos`;
+import { Arrow, ArrowLink, Button, Container, Eyebrow, cx } from "../ui/kit";
 
 /* ════════════════════════════════════════════════════════════════════
    08 · A WORKING ECONOMY ON CAMPUS                     §46 / §81
@@ -20,55 +19,68 @@ const COUNTS: { icon: IconKind; label: string }[] = [
   { icon: "cap", label: "75 people on campus, including DRDO-NSTL" },
 ];
 
-/* §52 — marks in their approved form, never recoloured.
-   The supplied files ship on a plate rather than transparent: the ones
-   exported on white are composited with `multiply`, which drops the
-   plate without touching a pixel of the mark; the ones exported on
-   black were alpha-keyed to file. Anything with no mark on hand is set
-   as type rather than faked. */
-type Mark = { name: string; src?: string; plate?: "white" };
+/* §55 — four views of the same place, cross-fading in one frame: the
+   gateway at dusk, the tower line by day, the towers from the river,
+   and the gateway pavilion at eye level. */
+const VIEWS: Slide[] = [
+  {
+    src: "/pillars/pillars1.png",
+    alt: "The AQV towers and the Quantum Valley gateway at dusk, as masterplanned",
+  },
+  {
+    src: "/pillars/pillar2.png",
+    alt: "The tower line T1 to T8 either side of the Quantum Valley gateway, as masterplanned",
+  },
+  {
+    src: "/pillars/pillar3.png",
+    alt: "The Quantum Valley towers seen across the Krishna river, as masterplanned",
+  },
+  {
+    src: "/pillars/pillar4.png",
+    alt: "The Quantum Valley gateway pavilion at eye level, as masterplanned",
+  },
+];
 
-const GROUPS: { icon: IconKind; title: string; marks: Mark[] }[] = [
+/* §53 — the ecosystem is read as a ledger, not a logo soup. Each row
+   states what that set of organisations is here to do, then names them.
+   Names are set as type: a mark carries a company's own brand into ours,
+   and at this size a row of them reads as noise rather than evidence. */
+type Group = {
+  n: string;
+  icon: IconKind;
+  title: string;
+  body: string;
+  names: string[];
+};
+
+const GROUPS: Group[] = [
   {
+    n: "01",
     icon: "chart",
-    title: "Demand side",
-    marks: [
-      { name: "HDFC Bank", src: `${L}/hdfc-bank.png`, plate: "white" },
-      { name: "Punjab National Bank", src: `${L}/punjab-national-bank.png`, plate: "white" },
-      { name: "BSE" },
-      { name: "RTGS" },
-    ],
+    title: "Demand",
+    body: "Government problems entering the ecosystem.",
+    names: ["BSE", "RTGS", "Punjab National Bank", "HDFC Bank"],
   },
   {
+    n: "02",
     icon: "chip",
-    title: "Hardware & startups",
-    marks: [
-      { name: "Qclairvoyance", src: `${L}/qclairvoyance.png` },
-      { name: "Cybrane", src: `${L}/cybrane.png`, plate: "white" },
-      { name: "FortyTwo Labs", src: `${L}/fortytwo-labs.png` },
-      { name: "CCA", src: `${L}/cca.png`, plate: "white" },
-    ],
+    title: "Build",
+    body: "Hardware, startups and deployment.",
+    names: ["Qclairvoyance", "Cybranex", "Fortytwo Labs", "CCA"],
   },
   {
+    n: "03",
     icon: "scope",
-    title: "Research & National",
-    marks: [
-      { name: "DRDO", src: `${L}/drdo.png`, plate: "white" },
-      { name: "UNICC", src: `${L}/unicc.png`, plate: "white" },
-      { name: "C-DAC" },
-      { name: "C-DOT" },
-      { name: "CSIR" },
-    ],
+    title: "Research",
+    body: "National research and technical capability.",
+    names: ["DRDO", "C-DAC", "C-DOT", "CSIR", "UNICC"],
   },
   {
+    n: "04",
     icon: "network",
-    title: "Global anchors",
-    marks: [
-      { name: "IBM", src: `${L}/ibm.png`, plate: "white" },
-      { name: "TCS", src: `${L}/tcs.png`, plate: "white" },
-      { name: "AstraZeneca", src: `${L}/astrazeneca.png` },
-      { name: "Laurus Labs", src: `${L}/laurus-labs.png` },
-    ],
+    title: "Global",
+    body: "Global partners entering the ecosystem.",
+    names: ["IBM", "TCS", "AstraZeneca", "Laurus Labs"],
   },
 ];
 
@@ -103,14 +115,13 @@ export function WorkingEconomy() {
 
           {/* the facility, with the occupancy stated across its foot */}
           <div className="relative">
-            <Plate
-              src="/media/medha-campus-render.png"
-              alt="Medha Towers and the Quantum Valley gateway, as masterplanned"
+            <PlateCarousel
+              slides={VIEWS}
+              label="Amaravati Quantum Valley, as masterplanned"
               tier="conceptual"
               ratio="aspect-[16/9]"
               sizes="(max-width:1024px) 100vw, 58vw"
               radius="lg"
-              className="hover-zoom"
             />
             <ul className="mt-3 grid grid-cols-1 gap-x-2 gap-y-4 rounded-lg bg-navy-deep px-6 py-5 sm:grid-cols-3 lg:absolute lg:right-0 lg:-bottom-5 lg:mt-0 lg:w-[86%]">
               {COUNTS.map((c, i) => (
@@ -134,47 +145,67 @@ export function WorkingEconomy() {
           </div>
         </div>
 
-        {/* §53 — organised by meaning, on cream */}
-        <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:mt-20 lg:grid-cols-4">
-          {GROUPS.map((g) => (
-            <div
-              key={g.title}
-              className="flex flex-col rounded-lg border lit border-border bg-paper p-6 lg:p-7"
-            >
-              <span className="flex items-center gap-3.5">
-                <NavIcon
-                  kind={g.icon}
-                  className="size-7 shrink-0 text-gold [stroke-width:1.15]"
-                />
-                <span className="t-h4 text-[1.15rem] text-ink">{g.title}</span>
-              </span>
-
-              <span aria-hidden className="mt-4 block h-[2px] w-9 bg-gold" />
-
-              <ul className="mt-7 flex flex-wrap items-center gap-x-7 gap-y-6">
-                {g.marks.map((m) => (
-                  <li key={m.name}>
-                    {m.src ? (
-                      <img
-                        src={m.src}
-                        alt={m.name}
-                        loading="lazy"
-                        className={cx(
-                          "h-8 w-auto max-w-[110px] object-contain object-left",
-                          m.plate === "white" && "mix-blend-multiply",
-                        )}
-                      />
-                    ) : (
-                      /* no mark supplied — set as type, in the house voice */
-                      <span className="text-[15px] font-medium tracking-[0.02em] text-ink/70">
-                        {m.name}
-                      </span>
-                    )}
-                  </li>
-                ))}
-              </ul>
+        {/* §53 — the ledger, on the night ground: one dark panel inside
+            the cream chapter, so the names read as a register rather
+            than four floating cards */}
+        <div className="mt-14 rounded-lg bg-night px-7 py-10 lg:mt-20 lg:px-12 lg:py-12">
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,0.76fr)_minmax(0,2fr)] lg:gap-14">
+            <div className="max-w-[26rem] lg:pt-1">
+              <Eyebrow tone="dark">Who is already here?</Eyebrow>
+              <h3 className="t-h3 mt-6 max-w-[13ch] text-[clamp(1.6rem,2.2vw,2.1rem)] text-cream">
+                A connected ecosystem, already in{" "}
+                <span className="text-gold">motion.</span>
+              </h3>
+              <p className="t-body-sm mt-6 max-w-[36ch] text-cream/60">
+                From government institutions to global partners, a diverse set
+                of organisations are building the quantum future at Amaravati.
+              </p>
             </div>
-          ))}
+
+            <ul className="flex flex-col">
+              {GROUPS.map((g, i) => (
+                <li
+                  key={g.title}
+                  className={cx(i > 0 && "border-t border-night-line")}
+                >
+                  <Link
+                    href="/ecosystem"
+                    className={cx(
+                      "group grid grid-cols-[auto_minmax(0,1fr)] items-start gap-x-5 gap-y-5",
+                      "py-6 lg:grid-cols-[auto_minmax(0,15rem)_minmax(0,1fr)_auto]",
+                      "lg:items-center lg:gap-x-8 lg:py-7",
+                      i === 0 && "pt-0 lg:pt-0",
+                    )}
+                  >
+                    <span className="t-label tnum pt-0.5 text-cream/35 transition-colors duration-300 group-hover:text-gold lg:pt-0">
+                      {g.n}
+                    </span>
+
+                    <span className="flex items-start gap-3.5 lg:border-l lg:border-night-line lg:pl-8">
+                      <NavIcon
+                        kind={g.icon}
+                        className="size-6 shrink-0 text-gold [stroke-width:1.15]"
+                      />
+                      <span className="flex flex-col gap-1.5">
+                        <span className="t-label text-gold">{g.title}</span>
+                        <span className="text-[12.5px] leading-snug text-cream/55">
+                          {g.body}
+                        </span>
+                      </span>
+                    </span>
+
+                    <span className="col-span-2 flex flex-wrap items-center gap-2 lg:col-span-1 lg:justify-end">
+                      {g.names.map((name) => (
+                        <Wordmark key={name} name={name} />
+                      ))}
+                    </span>
+
+                    <Arrow className="hidden size-4 shrink-0 text-gold transition-transform duration-300 group-hover:translate-x-1.5 lg:block" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
 
         <div className="mt-10 flex justify-center lg:mt-12">
@@ -184,6 +215,39 @@ export function WorkingEconomy() {
         </div>
       </Container>
     </section>
+  );
+}
+
+/* §52 — a name set as a mark rather than composited as a logo.
+
+   No supplier's artwork goes onto our ground: at this size a wall of
+   foreign marks reads as noise, several of these have no usable file,
+   and the ones that do arrive on their own plate. So each name is given
+   the two things that make a logo read as one — a plate of its own, and
+   a letter form chosen for it. An initialism is cut in mono and spaced
+   wide, the way it is engraved on a building; a full name is drawn in
+   the display serif, the way a wordmark is set. */
+function Wordmark({ name }: { name: string }) {
+  const initialism = /^[A-Z0-9&-]+$/.test(name);
+  return (
+    <span
+      className={cx(
+        "inline-flex h-11 items-center rounded-md border border-night-line bg-cream/[0.035] px-4",
+        "transition-colors duration-300",
+        "group-hover:border-gold/30 group-hover:bg-cream/[0.06]",
+      )}
+    >
+      <span
+        className={cx(
+          "leading-none text-cream/85 transition-colors duration-300 group-hover:text-cream",
+          initialism
+            ? "-mr-[0.15em] font-mono text-[13px] font-medium tracking-[0.15em] uppercase"
+            : "font-display text-[16.5px] tracking-[-0.005em]",
+        )}
+      >
+        {name}
+      </span>
+    </span>
   );
 }
 
@@ -232,7 +296,7 @@ export function ApplyConnect() {
              <Prop
         name="valleyTowers"
         anchor="center-left"
-        opacity={50}
+        opacity={100}
         className="hidden w-[40%]  xl:block"
       />
           </div>

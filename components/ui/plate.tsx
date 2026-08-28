@@ -58,8 +58,6 @@ export function Plate({
     xl: "rounded-xl",
   }[radius];
 
-  const stamp = STAMP[tier];
-
   return (
     <figure
       className={cx(
@@ -90,14 +88,26 @@ export function Plate({
         <Placeholder label={alt} tone={tone} />
       )}
 
-      {stamp ? (
-        <figcaption className={cx("absolute z-10", stampClass ?? "top-3 left-3")}>
-          <span className="t-label rounded-sm bg-cream/92 px-2.5 py-1.5 text-ink/75 backdrop-blur-sm">
-            {stamp}
-          </span>
-        </figcaption>
-      ) : null}
+      <Stamp tier={tier} className={stampClass} />
     </figure>
+  );
+}
+
+/* ── the provenance stamp ─────────────────────────────────────────────
+   Exported so a frame that holds more than one plate — the carousel —
+   can state the tier once for the whole frame rather than once per
+   slide, where a cross-fade would show it pulse.
+──────────────────────────────────────────────────────────────────── */
+
+export function Stamp({ tier, className }: { tier: Tier; className?: string }) {
+  const label = STAMP[tier];
+  if (!label) return null;
+  return (
+    <figcaption className={cx("absolute z-10", className ?? "top-3 left-3")}>
+      <span className="t-label rounded-sm bg-cream/92 px-2.5 py-1.5 text-ink/75 backdrop-blur-sm">
+        {label}
+      </span>
+    </figcaption>
   );
 }
 

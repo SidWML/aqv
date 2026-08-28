@@ -138,13 +138,12 @@ export function Hero() {
             underway.
           </p>
 
+          {/* one door, not two to the same room — the persistent nav
+              CTA carries "Engage with us" to the intake */}
           <div className="mt-8 flex flex-wrap items-center gap-3.5">
             <Button href="/why-amaravati" className="gap-3">
               <NavIcon kind="campus" className="size-[18px]" />
               Explore the Valley
-            </Button>
-            <Button href="/why-amaravati" variant="secondary">
-              Why Amaravati
             </Button>
           </div>
         </div>

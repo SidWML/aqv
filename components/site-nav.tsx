@@ -140,10 +140,10 @@ export function SiteNav() {
           <div className="ml-auto flex items-center gap-3 xl:ml-0">
             <span className="hidden sm:block">
               <Button
-                href="/why-amaravati"
+                href="/contact"
                 className="t-nav h-11 shrink-0 gap-2.5 px-5 whitespace-nowrap lg:px-6"
               >
-                Explore the Valley
+                Engage with us
               </Button>
             </span>
             <button
@@ -269,8 +269,8 @@ export function SiteNav() {
               </ul>
             </div>
           ))}
-          <Button href="/why-amaravati" className="mt-3 w-full">
-            Explore the Valley
+          <Button href="/contact" className="mt-3 w-full">
+            Engage with us
           </Button>
         </div>
       </div>

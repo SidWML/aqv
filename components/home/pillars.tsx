@@ -28,7 +28,7 @@ const PILLARS: {
     title: "Physical Infrastructure",
     body: "Medha Towers operational today · AQCC campus under construction · Quantum Valley Towers masterplanned.",
     href: "/infrastructure",
-    src: "/pillars/infrastructure.png",
+    src: "/pillars/investor.png",
     alt: "Medha Towers at dusk — operational today",
   },
   {
